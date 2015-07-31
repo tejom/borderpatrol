@@ -51,7 +51,13 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This type represents the value of a user's <span class="extype" name="com.twitter.finagle.httpx.Cookie">Cookie</span>
+The design of this is to act as a cryptographically verifiable identifier for a user</p><p>In <span class="extype" name="String">String</span> form, is a <code>Base64</code> encoded concatenation of the following transformation:
+ expires: <span class="extype" name="Time">Time</span> =&gt; <code>Long</code> =&gt; <code>Array[Byte]</code>
+ entropy: <code>Array[Byte]</code>
+ secret: <a href="SessionTypes$Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret">Secret</a> =&gt; <a href="SessionTypes.html#SecretId=Byte" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretId">SecretId</a>
+ signature: <code>Array[Byte]</code>
+</p></div><dl class="paramcmts block"><dt class="param">expires</dt><dd class="cmt"><p>the time at which this id is expired</p></dd><dt class="param">entropy</dt><dd class="cmt"><p>the random bytes unique to this session id</p></dd><dt class="param">secret</dt><dd class="cmt"><p>the secret used to sign this session id</p></dd><dt class="param">signature</dt><dd class="cmt"><p>the bytes of the signature(expires, entropy, secret.id)</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">scala.Serializable</span>, <span class="extype" name="java.io.Serializable">java.io.Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -90,7 +96,7 @@
         <div id="allMembers">
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
-              <ol><li name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+              <ol><li name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="&lt;init&gt;(expires:com.twitter.util.Time,entropy:SessionTypes.this.Entropy,secret:SessionTypes.this.Secret,signature:SessionTypes.this.Signature):SessionTypes.this.SessionId"></a>
       <a id="&lt;init&gt;:SessionId"></a>
       <h4 class="signature">
@@ -106,7 +112,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">expires</dt><dd class="cmt"><p>the time at which this id is expired</p></dd><dt class="param">entropy</dt><dd class="cmt"><p>the random bytes unique to this session id</p></dd><dt class="param">secret</dt><dd class="cmt"><p>the secret used to sign this session id</p></dd><dt class="param">signature</dt><dd class="cmt"><p>the bytes of the signature(expires, entropy, secret.id)</p></dd></dl></div>
     </li></ol>
             </div>
 
@@ -223,7 +229,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">the random bytes unique to this session id</p>
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -257,7 +263,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">the time at which this id is expired</p>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -382,7 +388,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">the secret used to sign this session id</p>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId#signature" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="signature:SessionTypes.this.Signature"></a>
       <a id="signature:Signature"></a>
@@ -399,7 +405,7 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">the bytes of the signature(expires, entropy, secret.id)</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>

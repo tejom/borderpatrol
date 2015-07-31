@@ -125,8 +125,8 @@
     </span>
       <p class="shortcomment cmt">Memcached backend to <a href="SessionTypeClasses$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">SessionStore</a></p><div class="fullcomment"><div class="comment cmt"><p>Memcached backend to <a href="SessionTypeClasses$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">SessionStore</a></p><pre><span class="kw">val</span> store = MemcachedStore(Memcachedx.newKetamaClient(<span class="lit">"localhost:11211"</span>))
 <span class="kw">val</span> requestSession = store.get[httpx.Request](id) <span class="cmt">// default views from `Buf` %> `Request` are included</span>
-requestSession.onSuccess(s <span class="kw">=&gt;</span> println(s<span class="lit">"Success! you were going to ${s.data.uri}"</span>))
-              .onFailure(println)</pre></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>finagle <span class="extype" name="memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p></dd></dl></div>
+requestSession.onSuccess(s <span class="kw">=&gt;</span> log(s<span class="lit">"Success! you were going to ${s.data.uri}"</span>))
+              .onFailure(log)</pre></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>finagle <span class="extype" name="memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p></dd></dl></div>
     </li></ol>
             </div>
 

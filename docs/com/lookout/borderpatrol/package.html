@@ -383,16 +383,16 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">This package introduces types and functions that enable identifying, fetching, and storing web session data.</p><div class="fullcomment"><div class="comment cmt"><p>This package introduces types and functions that enable identifying, fetching, and storing web session data. This
+      <p class="shortcomment cmt">This crypto introduces types and functions that enable identifying, fetching, and storing web session data.</p><div class="fullcomment"><div class="comment cmt"><p>This crypto introduces types and functions that enable identifying, fetching, and storing web session data. This
 is accomplished by a set of types that will be used by consumers of this library: <code>Session</code>, <code>Store</code>, and <code>Secret</code>.</p><p>A <a href="sessionx/SessionTypes$Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret">Secret</a> is a cryptographically verifiable signing key used to sign a <a href="sessionx/SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a>. Creating a <code>Secret</code> is
-simple. It defaults to expire at <a href="sessionx/SessionTypes$Secret$.html#lifetime:com.twitter.util.Duration" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret#lifetime">Secret.lifetime</a></p><pre><span class="kw">val</span> secret = Secret() <span class="cmt">// default secret expiry</span>
+simple. It defaults to expire at <span class="extype" name="Secret.lifetime">Secret.lifetime</span></p><pre><span class="kw">val</span> secret = Secret() <span class="cmt">// default secret expiry</span>
 <span class="kw">val</span> expiringSecret = Secret(Time.now)
 
 <span class="kw">val</span> randomBytes = EntropyGenerator(<span class="num">16</span>) <span class="cmt">// 16 bytes of randomness</span>
 <span class="kw">val</span> randomId = EntropyGenerator(<span class="num">1</span>).head <span class="cmt">// 1 byte of randomness for an id</span>
 <span class="kw">val</span> expiry = Time.from(<span class="num">0</span>) <span class="cmt">// very expired</span>
 <span class="kw">val</span> constructedSecret = Secret(randomId, randomBytes, expiry)
-println(s<span class="lit">"secret has expired: ${constructedSecret.expired == true}"</span>)
+log(s<span class="lit">"secret has expired: ${constructedSecret.expired == true}"</span>)
 
 <span class="kw">val</span> signedMsg = secret.sign(<span class="lit">"message to by signed"</span>.getBytes)</pre><p>A <a href="sessionx/SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a> is a cryptographically signed identifier for a <a href="sessionx/SessionTypeClasses$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">Session</a>, it consists of entropy, expiry, secret,
 and signature of those items. This is meant to be used as the <span class="extype" name="com.twitter.finagle.httpx.Cookie">com.twitter.finagle.httpx.Cookie</span> value, so we
@@ -409,13 +409,13 @@ injective views from </code>A %&gt; B<code> and </code>B %&gt; Option[A]<code>.<
 <span class="kw">val</span> newSession = Await.result(newSessionFuture)
 
 <span class="cmt">// see if the session expired (checks the [[SessionId.expires]])</span>
-println(s<span class="lit">"Session has expired? ${newSession.expired}"</span>
+log(s<span class="lit">"Session has expired? ${newSession.expired}"</span>)
 
 <span class="cmt">// store the session and then fetch it</span>
-sessionStore.update(newSession).onFailure(println)
+sessionStore.update(newSession).onFailure(log)
 sessionStore.get(newSession.id).onSuccess(s <span class="kw">=&gt;</span> s <span class="kw">match</span> {
-  <span class="kw">case</span> <span class="std">Some</span>(s) <span class="kw">=&gt;</span> println(s<span class="lit">"Same session?: ${newSession == s}"</span>)
-  <span class="kw">case</span> <span class="std">None</span> <span class="kw">=&gt;</span> println(<span class="lit">"hrm, where did the session go?"</span>)
+  <span class="kw">case</span> <span class="std">Some</span>(s) <span class="kw">=&gt;</span> log(s<span class="lit">"Same session?: ${newSession == s}"</span>)
+  <span class="kw">case</span> <span class="std">None</span> <span class="kw">=&gt;</span> log(<span class="lit">"hrm, where did the session go?"</span>)
 })</pre><p>Let's say you have a <a href="sessionx/SessionTypeClasses$Session.html#data:A" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session#data">Session.data</a> type that doesn't have the injective <a href="package$$View.html" class="extype" name="com.lookout.borderpatrol.View">View</a> that you need, that's OK!
 Assuming you are storing it in memcached, which requires a type of <span class="extype" name="Buf">Buf</span> for the value:</p><pre><span class="kw">trait</span> Foo {
   <span class="kw">val</span> value: <span class="std">Int</span>

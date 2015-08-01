@@ -1,22 +1,22 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Signer - com.lookout.borderpatrol.sessionx.crypto.Signer</title>
-          <meta name="description" content="Signer - com.lookout.borderpatrol.sessionx.crypto.Signer" />
-          <meta name="keywords" content="Signer com.lookout.borderpatrol.sessionx.crypto.Signer" />
+          <title>Store - com.lookout.borderpatrol.sessionx.SessionTypes.Store</title>
+          <meta name="description" content="Store - com.lookout.borderpatrol.sessionx.SessionTypes.Store" />
+          <meta name="keywords" content="Store com.lookout.borderpatrol.sessionx.SessionTypes.Store" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
-      <link href="../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
-      <link href="../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
-      <script type="text/javascript" src="../../../../../lib/jquery.js" id="jquery-js"></script>
-      <script type="text/javascript" src="../../../../../lib/jquery-ui.js"></script>
-      <script type="text/javascript" src="../../../../../lib/template.js"></script>
-      <script type="text/javascript" src="../../../../../lib/tools.tooltip.js"></script>
+      <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../lib/tools.tooltip.js"></script>
       
       <script type="text/javascript">
          if(top === self) {
-            var url = '../../../../../index.html';
-            var hash = 'com.lookout.borderpatrol.sessionx.crypto.package$$Signer';
+            var url = '../../../../index.html';
+            var hash = 'com.lookout.borderpatrol.sessionx.SessionTypes$Store';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,13 +28,13 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../../../package.html" class="extype" name="com">com</a>.<a href="../../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto">crypto</a></p>
-        <h1>Signer</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto">package crypto</a>
+        <img alt="Trait" src="../../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a>.<a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></p>
+        <h1>Store</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">package SessionTypes</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       </div>
@@ -45,16 +45,18 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">Signer</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">Store</span><span class="tparams">[<span name="K">K</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="B">B</span>, <span name="M">M</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>A generic interface to a store <code>M</code> (finagle client or <code>Map[K,B]</code>) that for functor <code>F[_]</code> (like <code>Session[A]</code>) and
+a view from <code>F[A] =&gt; F[B]</code> will store <code>B</code> with lookup key <code>K</code>
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>type of lookup key</p></dd><dt class="tparam">F</dt><dd class="cmt"><p>some Functor</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of stored value</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>store</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div><div class="toggleContainer block">
             <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="../SessionTypes$Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret">Secret</a></div>
+            <div class="subClasses hiddenContent"><a href="package$$SessionStores$$InMemoryStore$.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionStores.InMemoryStore">InMemoryStore</a>, <a href="package$$SessionStores$$MemcachedStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionStores.MemcachedStore">MemcachedStore</a>, <a href="SessionTypes$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">SessionStore</a></div>
           </div></div>
         
 
@@ -72,7 +74,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.lookout.borderpatrol.sessionx.crypto.Signer"><span>Signer</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store"><span>Store</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -95,37 +97,54 @@
 
         <div id="values" class="values members">
               <h3>Abstract Value Members</h3>
-              <ol><li name="com.lookout.borderpatrol.sessionx.crypto.Signer#algo" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="algo:String"></a>
-      <a id="algo:String"></a>
+              <ol><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Store#get" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="get[A](key:K)(implicitf:com.lookout.borderpatrol.%&gt;[F[B],Option[F[A]]]):com.twitter.util.Future[Option[F[A]]]"></a>
+      <a id="get[A](K)(%&gt;[F[B],Option[F[A]]]):Future[Option[F[A]]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
-        <span class="kind">val</span>
+        <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">algo</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+        <span class="name">get</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="key">key: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.K">K</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.B">B</span>], <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.get.A">A</span>]]]</span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.get.A">A</span>]]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@algo:String" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@get[A](key:K)(implicitf:com.lookout.borderpatrol.%&gt;[F[B],Option[F[A]]]):com.twitter.util.Future[Option[F[A]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Signer#key" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="key:java.security.Key"></a>
-      <a id="key:Key"></a>
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Store#store" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="store:M"></a>
+      <a id="store:M"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">key</span><span class="result">: <span class="extype" name="java.security.Key">Key</span></span>
+        <span class="name">store</span><span class="result">: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.M">M</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@key:java.security.Key" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@store:M" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Store#update" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="update[A](value:F[A])(implicitf:com.lookout.borderpatrol.%&gt;[F[A],F[B]]):com.twitter.util.Future[Unit]"></a>
+      <a id="update[A](F[A])(%&gt;[F[A],F[B]]):Future[Unit]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">update</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="value">value: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.update.A">A</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.update.A">A</span>], <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.F">F</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store.B">B</span>]]</span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@update[A](value:F[A])(implicitf:com.lookout.borderpatrol.%&gt;[F[A],F[B]]):com.twitter.util.Future[Unit]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
@@ -146,8 +165,8 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@!=(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -163,8 +182,8 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@##():Int" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@##():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -180,8 +199,8 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@==(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -197,8 +216,8 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@asInstanceOf[T0]:T0" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -214,11 +233,11 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@clone():Object" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
@@ -237,8 +256,8 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -254,8 +273,8 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -271,11 +290,11 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@finalize():Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
                 <span class="name">@throws</span><span class="args">(<span>
       
       <span class="symbol">classOf[java.lang.Throwable]</span>
@@ -294,8 +313,8 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -311,28 +330,11 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@hashCode():Int" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@hashCode():Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Signer#hmac" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="hmac:javax.crypto.Mac"></a>
-      <a id="hmac:Mac"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">lazy val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hmac</span><span class="result">: <span class="extype" name="javax.crypto.Mac">Mac</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@hmac:javax.crypto.Mac" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -345,8 +347,8 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
@@ -362,8 +364,8 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -379,8 +381,8 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@notify():Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -396,45 +398,11 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@notifyAll():Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Signer#sign" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.sessionx.Signature"></a>
-      <a id="sign(IndexedSeq[Byte]):sessionx.Signature"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">sign</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span><span class="result">: <a href="../package.html#Signature=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Signature">sessionx.Signature</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.sessionx.Signature" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Signer#sign" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="sign(bytes:Seq[Byte]):com.lookout.borderpatrol.sessionx.Signature"></a>
-      <a id="sign(Seq[Byte]):sessionx.Signature"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">sign</span><span class="params">(<span name="bytes">bytes: <span class="extype" name="scala.Seq">Seq</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>)</span><span class="result">: <a href="../package.html#Signature=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Signature">sessionx.Signature</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@sign(bytes:Seq[Byte]):com.lookout.borderpatrol.sessionx.Signature" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -447,8 +415,8 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
@@ -464,8 +432,8 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@toString():String" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@toString():String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
@@ -481,8 +449,8 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@wait():Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -504,8 +472,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
@@ -527,8 +495,8 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../index.html#com.lookout.borderpatrol.sessionx.crypto.package$$Signer@wait(x$1:Long):Unit" title="Permalink" target="_top">
-        <img src="../../../../../lib/permalink.png" alt="Permalink" />
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes$Store@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>

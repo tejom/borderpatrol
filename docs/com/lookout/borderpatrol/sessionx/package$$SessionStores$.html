@@ -49,7 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Default implementations of <a href="SessionTypes$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">SessionStore</a> with <span class="extype" name="memcachedx">memcachedx</span> and an in-memory store for mocking
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -90,24 +91,7 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.lookout.borderpatrol.sessionx.SessionStores.InMemoryStore" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="InMemoryStoreextendspackage.SessionStore[com.twitter.io.Buf,scala.collection.mutable.Set[com.lookout.borderpatrol.sessionx.package.Session[com.twitter.io.Buf]]]withProductwithSerializable"></a>
-      <a id="InMemoryStore:InMemoryStore"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">case class</span>
-      </span>
-      <span class="symbol">
-        <a href="package$$SessionStores$$InMemoryStore.html"><span class="name">InMemoryStore</span></a><span class="params">(<span name="store">store: <span class="extype" name="scala.collection.mutable.Set">Set</span>[<a href="package.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">sessionx.Session</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]] = <span class="symbol">mutable.Set[Session[Buf]]()</span></span>)</span><span class="result"> extends <a href="package.html#SessionStore[B,M]extendsSessionTypeClasses.this.Store[SessionTypeClasses.this.SessionId,SessionTypeClasses.this.Session,B,M]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">sessionx.SessionStore</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="scala.collection.mutable.Set">Set</span>[<a href="package.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">sessionx.Session</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]]] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionStores$@InMemoryStoreextendspackage.SessionStore[com.twitter.io.Buf,scala.collection.mutable.Set[com.lookout.borderpatrol.sessionx.package.Session[com.twitter.io.Buf]]]withProductwithSerializable" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionStores.MemcachedStore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.lookout.borderpatrol.sessionx.SessionStores.MemcachedStore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MemcachedStoreextendspackage.SessionStore[com.twitter.io.Buf,com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]]withProductwithSerializable"></a>
       <a id="MemcachedStore:MemcachedStore"></a>
       <h4 class="signature">
@@ -116,14 +100,14 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="package$$SessionStores$$MemcachedStore.html"><span class="name">MemcachedStore</span></a><span class="params">(<span name="store">store: <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>)</span><span class="result"> extends <a href="package.html#SessionStore[B,M]extendsSessionTypeClasses.this.Store[SessionTypeClasses.this.SessionId,SessionTypeClasses.this.Session,B,M]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">sessionx.SessionStore</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
+        <a href="package$$SessionStores$$MemcachedStore.html"><span class="name">MemcachedStore</span></a><span class="params">(<span name="store">store: <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>)</span><span class="result"> extends <a href="package.html#SessionStore[B,M]extendsSessionTypes.this.Store[SessionTypes.this.SessionId,com.lookout.borderpatrol.sessionx.Session,B,M]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">sessionx.SessionStore</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionStores$@MemcachedStoreextendspackage.SessionStore[com.twitter.io.Buf,com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]]withProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Memcached backend to <a href="SessionTypeClasses$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">SessionStore</a></p><div class="fullcomment"><div class="comment cmt"><p>Memcached backend to <a href="SessionTypeClasses$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.SessionStore">SessionStore</a></p><pre><span class="kw">val</span> store = MemcachedStore(Memcachedx.newKetamaClient(<span class="lit">"localhost:11211"</span>))
+      <p class="shortcomment cmt">Memcached backend to <a href="SessionTypes$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">SessionStore</a></p><div class="fullcomment"><div class="comment cmt"><p>Memcached backend to <a href="SessionTypes$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">SessionStore</a></p><pre><span class="kw">val</span> store = MemcachedStore(Memcachedx.newKetamaClient(<span class="lit">"localhost:11211"</span>))
 <span class="kw">val</span> requestSession = store.get[httpx.Request](id) <span class="cmt">// default views from `Buf` %> `Request` are included</span>
 requestSession.onSuccess(s <span class="kw">=&gt;</span> log(s<span class="lit">"Success! you were going to ${s.data.uri}"</span>))
               .onFailure(log)</pre></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>finagle <span class="extype" name="memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p></dd></dl></div>
@@ -185,6 +169,28 @@ requestSession.onSuccess(s <span class="kw">=&gt;</span> log(s<span class="lit">
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionStores.InMemoryStore" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="InMemoryStore"></a>
+      <a id="InMemoryStore:InMemoryStore"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$SessionStores$$InMemoryStore$.html"><span class="name">InMemoryStore</span></a><span class="result"> extends <a href="package.html#SessionStore[B,M]extendsSessionTypes.this.Store[SessionTypes.this.SessionId,com.lookout.borderpatrol.sessionx.Session,B,M]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">sessionx.SessionStore</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="scala.collection.mutable.Set">Set</span>[<a href="package.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">sessionx.Session</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]]] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionStores$@InMemoryStore" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An in-memory store for prototyping and testing remote stores
+</p><div class="fullcomment"><div class="comment cmt"><p>An in-memory store for prototyping and testing remote stores
+</p></div><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@SuppressWarnings</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>

@@ -196,7 +196,7 @@
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="SecretextendsSignerwithProductwithSerializable"></a>
+      <a id="Secretextendscrypto.SignerwithProductwithSerializable"></a>
       <a id="Secret:Secret"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -204,10 +204,10 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="SessionTypes$Secret.html"><span class="name">Secret</span></a><span class="params">(<span name="id">id: <a href="#SecretId=Byte" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretId">SecretId</a></span>, <span name="expiry">expiry: <span class="extype" name="com.twitter.util.Time">Time</span></span>, <span name="entropy">entropy: <a href="#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.Entropy">Entropy</a></span>)</span><span class="result"> extends <a href="crypto/package$$Signer.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Signer">Signer</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
+        <a href="SessionTypes$Secret.html"><span class="name">Secret</span></a><span class="params">(<span name="id">id: <a href="#SecretId=Byte" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretId">SecretId</a></span>, <span name="expiry">expiry: <span class="extype" name="com.twitter.util.Time">Time</span></span>, <span name="entropy">entropy: <a href="#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.Entropy">Entropy</a></span>)</span><span class="result"> extends <a href="crypto$$Signer.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Signer">Signer</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">scala.Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes@SecretextendsSignerwithProductwithSerializable" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes@Secretextendscrypto.SignerwithProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -308,6 +308,25 @@ The design of this is to act as a cryptographically verifiable identifier for a 
       </a>
     </span>
       
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="SessionStore[B,M]extendsSessionTypes.this.Store[SessionTypes.this.SessionId,com.lookout.borderpatrol.sessionx.Session,B,M]"></a>
+      <a id="SessionStore[B,M]:SessionStore[B,M]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SessionTypes$SessionStore.html"><span class="name">SessionStore</span></a><span class="tparams">[<span name="B">B</span>, <span name="M">M</span>]</span><span class="result"> extends <a href="SessionTypes$Store.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Store">Store</a>[<a href="SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a>, <a href="package.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">sessionx.Session</a>, <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore.B">B</span>, <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore.M">M</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes@SessionStore[B,M]extendsSessionTypes.this.Store[SessionTypes.this.SessionId,com.lookout.borderpatrol.sessionx.Session,B,M]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Session store that will store a <code>Session[_]</code> data into <code>M</code>
+</p><div class="fullcomment"><div class="comment cmt"><p>Session store that will store a <code>Session[_]</code> data into <code>M</code>
+</p></div><dl class="paramcmts block"><dt class="tparam">B</dt><dd class="cmt"><p>type of stored value</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>store</p></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Signature" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="Signature=IndexedSeq[Byte]"></a>
       <a id="Signature:Signature"></a>
@@ -342,6 +361,27 @@ The design of this is to act as a cryptographically verifiable identifier for a 
       </a>
     </span>
       
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Store" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Store[K,F[_],B,M]extendsAnyRef"></a>
+      <a id="Store[K,F[_],B,M]:Store[K,F,B,M]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SessionTypes$Store.html"><span class="name">Store</span></a><span class="tparams">[<span name="K">K</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>, <span name="B">B</span>, <span name="M">M</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypes@Store[K,F[_],B,M]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A generic interface to a store <code>M</code> (finagle client or <code>Map[K,B]</code>) that for functor <code>F[_]</code> (like <code>Session[A]</code>) and
+a view from <code>F[A] =&gt; F[B]</code> will store <code>B</code> with lookup key <code>K</code>
+</p><div class="fullcomment"><div class="comment cmt"><p>A generic interface to a store <code>M</code> (finagle client or <code>Map[K,B]</code>) that for functor <code>F[_]</code> (like <code>Session[A]</code>) and
+a view from <code>F[A] =&gt; F[B]</code> will store <code>B</code> with lookup key <code>K</code>
+</p></div><dl class="paramcmts block"><dt class="tparam">K</dt><dd class="cmt"><p>type of lookup key</p></dd><dt class="tparam">F</dt><dd class="cmt"><p>some Functor</p></dd><dt class="tparam">B</dt><dd class="cmt"><p>type of stored value</p></dd><dt class="tparam">M</dt><dd class="cmt"><p>store</p></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.TimeBytes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TimeBytes=IndexedSeq[Byte]"></a>
       <a id="TimeBytes:TimeBytes"></a>

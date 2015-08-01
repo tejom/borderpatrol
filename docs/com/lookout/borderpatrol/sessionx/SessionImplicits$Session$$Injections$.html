@@ -49,7 +49,8 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Set of implicit injections for <code>Session[A]</code> where <code>A =&gt; B</code> and <code>B =&gt; Option[A]</code>
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -151,7 +152,7 @@
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
         <span class="name">ByteCodecJson</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>
@@ -168,7 +169,7 @@
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
         <span class="name">HttpRequestCodecJson</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<span class="extype" name="org.jboss.netty.handler.codec.http.HttpRequest">HttpRequest</span>]</span>
@@ -180,18 +181,18 @@
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.Injections#HttpSessionCodecJson" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="HttpSessionCodecJson(implicitstore:SessionImplicits.this.SecretStoreApi):argonaut.CodecJson[SessionImplicits.this.RequestSession]"></a>
-      <a id="HttpSessionCodecJson(SessionImplicits.SecretStoreApi):CodecJson[SessionImplicits.RequestSession]"></a>
+      <a id="HttpSessionCodecJson(implicitstore:SessionImplicits.this.SecretStoreApi):argonaut.CodecJson[SessionImplicits.this.Session[com.twitter.finagle.httpx.Request]]"></a>
+      <a id="HttpSessionCodecJson(SessionImplicits.SecretStoreApi):CodecJson[Session[Request]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">HttpSessionCodecJson</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <a href="SessionImplicits.html#SecretStoreApiextendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretStoreApi">SessionImplicits.SecretStoreApi</a></span>)</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<a href="SessionImplicits.html#RequestSessionextendsSessionTypeClasses.this.Session[com.twitter.finagle.httpx.Request]withProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.RequestSession">SessionImplicits.RequestSession</a>]</span>
+        <span class="name">HttpSessionCodecJson</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <a href="SessionImplicits.html#SecretStoreApiextendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretStoreApi">SessionImplicits.SecretStoreApi</a></span>)</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$$Injections$@HttpSessionCodecJson(implicitstore:SessionImplicits.this.SecretStoreApi):argonaut.CodecJson[SessionImplicits.this.RequestSession]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$$Injections$@HttpSessionCodecJson(implicitstore:SessionImplicits.this.SecretStoreApi):argonaut.CodecJson[SessionImplicits.this.Session[com.twitter.finagle.httpx.Request]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -202,7 +203,7 @@
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
         <span class="name">HttpxRequestCodecJson</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]</span>
@@ -236,7 +237,7 @@
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
-        <span class="kind">def</span>
+        <span class="kind">val</span>
       </span>
       <span class="symbol">
         <span class="name">TimeCodecJson</span><span class="result">: <span class="extype" name="argonaut.CodecJson">CodecJson</span>[<span class="extype" name="com.twitter.util.Time">Time</span>]</span>

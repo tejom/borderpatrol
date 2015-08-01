@@ -28,10 +28,12 @@
         </head>
         <body class="value">
       <div id="definition">
-        <img alt="Object" src="../../../../lib/object_big.png" />
+        <a href="SessionImplicits$Session.html" title="See companion trait"><img alt="Object/Trait" src="../../../../lib/object_to_trait_big.png" /></a>
         <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a>.<a href="SessionImplicits.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits">SessionImplicits</a></p>
-        <h1>Session</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="SessionImplicits.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits">package SessionImplicits</a>
+        <h1><a href="SessionImplicits$Session.html" title="See companion trait">Session</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="SessionImplicits$Session.html" title="See companion trait">trait Session</a>
+            | <a href="SessionImplicits.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits">package SessionImplicits</a>
           </div></span></h3><span class="permalink">
       <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
@@ -161,41 +163,56 @@
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Set of implicit injections for <code>Session[A]</code> where <code>A =&gt; B</code> and <code>B =&gt; Option[A]</code>
+</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply[A](data:A)(implicitstore:SessionImplicits.this.SecretStoreApi):com.twitter.util.Future[SessionImplicits.this.Session[A]]"></a>
-      <a id="apply[A](A)(SessionImplicits.SecretStoreApi):Future[SessionImplicits.Session[A]]"></a>
+      <a id="apply[A](A)(SessionImplicits.SecretStoreApi):Future[Session[A]]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="data">data: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <a href="SessionImplicits.html#SecretStoreApiextendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretStoreApi">SessionImplicits.SecretStoreApi</a></span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span>]]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="data">data: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <a href="SessionImplicits.html#SecretStoreApiextendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretStoreApi">SessionImplicits.SecretStoreApi</a></span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span>]]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@apply[A](data:A)(implicitstore:SessionImplicits.this.SecretStoreApi):com.twitter.util.Future[SessionImplicits.this.Session[A]]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">Primary mechanism for generating new <a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>, returning a <code>Future</code> of the <code>Session[A]</code></p><div class="fullcomment"><div class="comment cmt"><p>Primary mechanism for generating new <a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>, returning a <code>Future</code> of the <code>Session[A]</code></p><pre><span class="kw">val</span> data = <span class="num">1</span>
+<span class="kw">val</span> sessionFuture = <span class="kw">for</span> {
+ s <span class="kw">&lt;-</span> Session(data)
+ _ <span class="kw">&lt;-</span> SessionStores.InMemoryStore.update(s)
+} <span class="kw">yield</span> s</pre></div><dl class="paramcmts block"><dt class="param">data</dt><dd class="cmt"><p>value you want to store</p></dd><dt class="param">store</dt><dd class="cmt"><p>the secret store to fetch current secret</p></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="apply[A](i:SessionImplicits.this.SessionId,d:A):SessionImplicits.this.Session[A]"></a>
-      <a id="apply[A](SessionImplicits.SessionId,A):SessionImplicits.Session[A]"></a>
+      <a id="apply[A](SessionImplicits.SessionId,A):Session[A]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="i">i: <a href="SessionImplicits.html#SessionIdextendsProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionImplicits.SessionId</a></span>, <span name="d">d: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span></span>)</span><span class="result">: <a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="i">i: <a href="SessionImplicits.html#SessionIdextendsProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionImplicits.SessionId</a></span>, <span name="d">d: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span></span>)</span><span class="result">: <a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.apply.A">A</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@apply[A](i:SessionImplicits.this.SessionId,d:A):SessionImplicits.this.Session[A]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Primary method of recreating <code>Session[A]</code> from a given <code>SessionId</code> and data type <code>A</code></p><div class="fullcomment"><div class="comment cmt"><p>Primary method of recreating <code>Session[A]</code> from a given <code>SessionId</code> and data type <code>A</code></p><pre><span class="kw">case</span> <span class="kw">class</span> Foo(i: <span class="std">Int</span>)
+
+<span class="kw">val</span> id = Await.result(SessionId.next)
+<span class="kw">val</span> data = Foo(<span class="num">42</span>)
+<span class="kw">val</span> s = Session(id, data)
+<span class="kw">val</span> s2 = Session(id, data)
+s == s2 <span class="cmt">// true</span>
+s === s2</pre></div><dl class="paramcmts block"><dt class="param">i</dt><dd class="cmt"><p>the SessionId</p></dd><dt class="param">d</dt><dd class="cmt"><p>an arbitrary data value</p></dd><dt>returns</dt><dd class="cmt"><p>a Session</p></dd></dl><dl class="attributes block"> <dt>Annotations</dt><dd>
+                <span class="name">@SuppressWarnings</span><span class="args">()</span>
+              
+        </dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -214,35 +231,35 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#buf2OReq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="buf2OReq:com.lookout.borderpatrol.%&gt;[com.twitter.io.Buf,Option[com.twitter.finagle.httpx.Request]]"></a>
-      <a id="buf2OReq:%&gt;[Buf,Option[Request]]"></a>
+      <a id="buf2OReq:com.twitter.io.Buf=&gt;Option[com.twitter.finagle.httpx.Request]"></a>
+      <a id="buf2OReq:(Buf)⇒Option[Request]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">buf2OReq</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]]</span>
+        <span class="name">buf2OReq</span><span class="result">: (<span class="extype" name="com.twitter.io.Buf">Buf</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@buf2OReq:com.lookout.borderpatrol.%&gt;[com.twitter.io.Buf,Option[com.twitter.finagle.httpx.Request]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@buf2OReq:com.twitter.io.Buf=&gt;Option[com.twitter.finagle.httpx.Request]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#buf2OStr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="buf2OStr:com.lookout.borderpatrol.%&gt;[com.twitter.io.Buf,Option[String]]"></a>
-      <a id="buf2OStr:%&gt;[Buf,Option[String]]"></a>
+      <a id="buf2OStr:com.twitter.io.Buf=&gt;Option[String]"></a>
+      <a id="buf2OStr:(Buf)⇒Option[String]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">buf2OStr</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]]</span>
+        <span class="name">buf2OStr</span><span class="result">: (<span class="extype" name="com.twitter.io.Buf">Buf</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@buf2OStr:com.lookout.borderpatrol.%&gt;[com.twitter.io.Buf,Option[String]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@buf2OStr:com.twitter.io.Buf=&gt;Option[String]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -327,23 +344,6 @@
     </span>)</span>
               
         </dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#from" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="from[A](a:A)(implicitf:A=&gt;scala.util.Try[SessionImplicits.this.PSession]):scala.util.Try[SessionImplicits.this.PSession]"></a>
-      <a id="from[A](A)((A)⇒Try[SessionImplicits.PSession]):Try[SessionImplicits.PSession]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">from</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="a">a: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.from.A">A</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: (<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.from.A">A</span>) ⇒ <span class="extype" name="scala.util.Try">Try</span>[<a href="SessionImplicits.html#PSession=SessionTypeClasses.this.Session[_]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionImplicits.PSession">SessionImplicits.PSession</a>]</span>)</span><span class="result">: <span class="extype" name="scala.util.Try">Try</span>[<a href="SessionImplicits.html#PSession=SessionTypeClasses.this.Session[_]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionImplicits.PSession">SessionImplicits.PSession</a>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@from[A](a:A)(implicitf:A=&gt;scala.util.Try[SessionImplicits.this.PSession]):scala.util.Try[SessionImplicits.this.PSession]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -396,56 +396,94 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#json2Buf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="json2Buf:com.lookout.borderpatrol.%&gt;[argonaut.Json,com.twitter.io.Buf]"></a>
-      <a id="json2Buf:%&gt;[Json,Buf]"></a>
+      <a id="json2Buf:argonaut.Json=&gt;com.twitter.io.Buf"></a>
+      <a id="json2Buf:(Json)⇒Buf"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">json2Buf</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="argonaut.Json">Json</span>, <span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+        <span class="name">json2Buf</span><span class="result">: (<span class="extype" name="argonaut.Json">Json</span>) ⇒ <span class="extype" name="com.twitter.io.Buf">Buf</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2Buf:com.lookout.borderpatrol.%&gt;[argonaut.Json,com.twitter.io.Buf]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2Buf:argonaut.Json=&gt;com.twitter.io.Buf" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#json2OReq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="json2OReq:com.lookout.borderpatrol.%&gt;[argonaut.Json,Option[com.twitter.finagle.httpx.Request]]"></a>
-      <a id="json2OReq:%&gt;[Json,Option[Request]]"></a>
+      <a id="json2OReq:argonaut.Json=&gt;Option[com.twitter.finagle.httpx.Request]"></a>
+      <a id="json2OReq:(Json)⇒Option[Request]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">json2OReq</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="argonaut.Json">Json</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]]</span>
+        <span class="name">json2OReq</span><span class="result">: (<span class="extype" name="argonaut.Json">Json</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2OReq:com.lookout.borderpatrol.%&gt;[argonaut.Json,Option[com.twitter.finagle.httpx.Request]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2OReq:argonaut.Json=&gt;Option[com.twitter.finagle.httpx.Request]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#json2String" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="json2String:com.lookout.borderpatrol.%&gt;[argonaut.Json,String]"></a>
-      <a id="json2String:%&gt;[Json,String]"></a>
+      <a id="json2String:argonaut.Json=&gt;String"></a>
+      <a id="json2String:(Json)⇒String"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">json2String</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="argonaut.Json">Json</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>
+        <span class="name">json2String</span><span class="result">: (<span class="extype" name="argonaut.Json">Json</span>) ⇒ <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2String:com.lookout.borderpatrol.%&gt;[argonaut.Json,String]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@json2String:argonaut.Json=&gt;String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#liftAtoB" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="liftAtoB[A,B](implicitf:A=&gt;B):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[A],SessionImplicits.this.Session[B]]"></a>
+      <a id="liftAtoB[A,B]((A)⇒B):%&gt;[Session[A],Session[B]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">liftAtoB</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: (<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftAtoB.A">A</span>) ⇒ <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftAtoB.B">B</span></span>)</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftAtoB.A">A</span>], <a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftAtoB.B">B</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@liftAtoB[A,B](implicitf:A=&gt;B):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[A],SessionImplicits.this.Session[B]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">helper view for SessionStore to lift <code>A =&gt; B</code> into <code>View[Session[A], Session[B]]</code>
+useful for <a href="SessionTypes$SessionStore.html#update[A](session:com.lookout.borderpatrol.sessionx.Session[A])(implicitf:com.lookout.borderpatrol.%&gt;[com.lookout.borderpatrol.sessionx.Session[A],com.lookout.borderpatrol.sessionx.Session[B]]):com.twitter.util.Future[Unit]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore#update">SessionStore.update</a>
+</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#liftBtoOptA" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="liftBtoOptA[A,B](implicitf:B=&gt;Option[A]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[B],Option[SessionImplicits.this.Session[A]]]"></a>
+      <a id="liftBtoOptA[A,B]((B)⇒Option[A]):%&gt;[Session[B],Option[Session[A]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">liftBtoOptA</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: (<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftBtoOptA.B">B</span>) ⇒ <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftBtoOptA.A">A</span>]</span>)</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftBtoOptA.B">B</span>], <span class="extype" name="scala.Option">Option</span>[<a href="SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.liftBtoOptA.A">A</span>]]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@liftBtoOptA[A,B](implicitf:B=&gt;Option[A]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[B],Option[SessionImplicits.this.Session[A]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">helper view to lift <code>B =&gt; Option[A]</code> into <code>View[Session[B], Option[Session[A]]]</code>
+useful for <a href="SessionTypes$SessionStore.html#get[A](key:SessionTypes.this.SessionId)(implicitf:com.lookout.borderpatrol.%&gt;[com.lookout.borderpatrol.sessionx.Session[B],Option[com.lookout.borderpatrol.sessionx.Session[A]]]):com.twitter.util.Future[Option[com.lookout.borderpatrol.sessionx.Session[A]]]" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore#get">SessionStore.get</a>
+</p>
     </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a>
       <a id="ne(AnyRef):Boolean"></a>
@@ -498,86 +536,52 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#req2Buf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="req2Buf:com.lookout.borderpatrol.%&gt;[com.twitter.finagle.httpx.Request,com.twitter.io.Buf]"></a>
-      <a id="req2Buf:%&gt;[Request,Buf]"></a>
+      <a id="req2Buf:com.twitter.finagle.httpx.Request=&gt;com.twitter.io.Buf"></a>
+      <a id="req2Buf:(Request)⇒Buf"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">req2Buf</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>, <span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+        <span class="name">req2Buf</span><span class="result">: (<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>) ⇒ <span class="extype" name="com.twitter.io.Buf">Buf</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@req2Buf:com.lookout.borderpatrol.%&gt;[com.twitter.finagle.httpx.Request,com.twitter.io.Buf]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@req2Buf:com.twitter.finagle.httpx.Request=&gt;com.twitter.io.Buf" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#req2Json" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="req2Json:com.lookout.borderpatrol.%&gt;[com.twitter.finagle.httpx.Request,argonaut.Json]"></a>
-      <a id="req2Json:%&gt;[Request,Json]"></a>
+      <a id="req2Json:com.twitter.finagle.httpx.Request=&gt;argonaut.Json"></a>
+      <a id="req2Json:(Request)⇒Json"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">req2Json</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>, <span class="extype" name="argonaut.Json">Json</span>]</span>
+        <span class="name">req2Json</span><span class="result">: (<span class="extype" name="com.twitter.finagle.httpx.Request">Request</span>) ⇒ <span class="extype" name="argonaut.Json">Json</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@req2Json:com.lookout.borderpatrol.%&gt;[com.twitter.finagle.httpx.Request,argonaut.Json]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#s2os" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="s2os[A,B](implicitf:com.lookout.borderpatrol.%&gt;[B,Option[A]]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[B],Option[SessionImplicits.this.Session[A]]]"></a>
-      <a id="s2os[A,B](%&gt;[B,Option[A]]):%&gt;[SessionImplicits.Session[B],Option[SessionImplicits.Session[A]]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">s2os</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2os.B">B</span>, <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2os.A">A</span>]]</span>)</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2os.B">B</span>], <span class="extype" name="scala.Option">Option</span>[<a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2os.A">A</span>]]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@s2os[A,B](implicitf:com.lookout.borderpatrol.%&gt;[B,Option[A]]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[B],Option[SessionImplicits.this.Session[A]]]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#s2s" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="s2s[A,B](implicitf:com.lookout.borderpatrol.%&gt;[A,B]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[A],SessionImplicits.this.Session[B]]"></a>
-      <a id="s2s[A,B](%&gt;[A,B]):%&gt;[SessionImplicits.Session[A],SessionImplicits.Session[B]]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">s2s</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2s.A">A</span>, <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2s.B">B</span>]</span>)</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2s.A">A</span>], <a href="SessionImplicits.html#Session[+A]extendsAnyRef" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Session">SessionImplicits.Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session.s2s.B">B</span>]]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@s2s[A,B](implicitf:com.lookout.borderpatrol.%&gt;[A,B]):com.lookout.borderpatrol.%&gt;[SessionImplicits.this.Session[A],SessionImplicits.this.Session[B]]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@req2Json:com.twitter.finagle.httpx.Request=&gt;argonaut.Json" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#str2Buf" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="str2Buf:com.lookout.borderpatrol.%&gt;[String,com.twitter.io.Buf]"></a>
-      <a id="str2Buf:%&gt;[String,Buf]"></a>
+      <a id="str2Buf:String=&gt;com.twitter.io.Buf"></a>
+      <a id="str2Buf:(String)⇒Buf"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">implicit </span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">str2Buf</span><span class="result">: <a href="../package.html#%&gt;[A,B]=com.lookout.borderpatrol.package.View[A,B]" class="extmbr" name="com.lookout.borderpatrol.%&gt;">%&gt;</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+        <span class="name">str2Buf</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="com.twitter.io.Buf">Buf</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@str2Buf:com.lookout.borderpatrol.%&gt;[String,com.twitter.io.Buf]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionImplicits$Session$@str2Buf:String=&gt;com.twitter.io.Buf" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -47,7 +47,10 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This is the root package of borderpatrol-core which provides a functional approach to web sessions and
+authentication built on top of <span class="extype" name="com.twitter.finagle">Finagle</span>. It contains two main packages:
+<a href="sessionx/package.html" class="extype" name="com.lookout.borderpatrol.sessionx">com.lookout.borderpatrol.sessionx</a> and <a href="auth/package.html" class="extype" name="com.lookout.borderpatrol.auth">com.lookout.borderpatrol.auth</a> which contain types and functions to
+interact with HTTP services.</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -104,8 +107,8 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
-    </li><li name="com.lookout.borderpatrol.AnyOps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <p class="shortcomment cmt">shorthand notation Thing %&gt; Other</p>
+    </li><li name="com.lookout.borderpatrol.AnyOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnyOps[A]extendsAnyVal"></a>
       <a id="AnyOps[A]:AnyOps[A]"></a>
       <h4 class="signature">
@@ -121,7 +124,9 @@
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Wraps any object with a <code>toFuture</code> method
+</p><div class="fullcomment"><div class="comment cmt"><p>Wraps any object with a <code>toFuture</code> method
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p>object type</p></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.IdxByteSeqOps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="IdxByteSeqOpsextendsAnyVal"></a>
       <a id="IdxByteSeqOps:IdxByteSeqOps"></a>
@@ -156,6 +161,23 @@
       </a>
     </span>
       
+    </li><li name="com.lookout.borderpatrol.ThrowableOps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ThrowableOpsextendsAnyVal"></a>
+      <a id="ThrowableOps:ThrowableOps"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="package$$ThrowableOps.html"><span class="name">ThrowableOps</span></a><span class="result"> extends <span class="extype" name="scala.AnyVal">AnyVal</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.lookout.borderpatrol.package@ThrowableOpsextendsAnyVal" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Wraps any <code>Throwable</code> with a <code>toFutureException</code> method</p>
     </li></ol>
             </div>
 
@@ -328,7 +350,8 @@ sessionStore.update(fooSession)</pre></div></div>
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt">Contains the trait and companion object for explicit &quot;views&quot; from <code>A =&gt; B</code>
+</p>
     </li></ol>
             </div>
 

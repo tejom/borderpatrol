@@ -49,7 +49,9 @@
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>More object-style accessors on SessionId, implementation defined in
+<a href="SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a>
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyVal">AnyVal</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
@@ -89,7 +91,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(id:com.lookout.borderpatrol.sessionx.package.SessionId):com.lookout.borderpatrol.sessionx.package.SessionIdOps"></a>
+      <a id="&lt;init&gt;(id:com.lookout.borderpatrol.sessionx.SessionId):com.lookout.borderpatrol.sessionx.package.SessionIdOps"></a>
       <a id="&lt;init&gt;:SessionIdOps"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +99,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">SessionIdOps</span><span class="params">(<span name="id">id: <a href="package.html#SessionIdextendsProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">sessionx.SessionId</a></span>)</span>
+        <span class="name">SessionIdOps</span><span class="params">(<span name="id">id: <a href="SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@&lt;init&gt;(id:com.lookout.borderpatrol.sessionx.package.SessionId):com.lookout.borderpatrol.sessionx.package.SessionIdOps" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@&lt;init&gt;(id:com.lookout.borderpatrol.sessionx.SessionId):com.lookout.borderpatrol.sessionx.package.SessionIdOps" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -165,40 +167,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#as" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="as[A](implicitf:com.lookout.borderpatrol.sessionx.package.SessionId=&gt;A):A"></a>
-      <a id="as[A]((sessionx.SessionId)⇒A):A"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">as</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="f">f: (<a href="package.html#SessionIdextendsProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">sessionx.SessionId</a>) ⇒ <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionIdOps.as.A">A</span></span>)</span><span class="result">: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionIdOps.as.A">A</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@as[A](implicitf:com.lookout.borderpatrol.sessionx.package.SessionId=&gt;A):A" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#asArray" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="asArray:Array[Byte]"></a>
-      <a id="asArray:Array[Byte]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">asArray</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@asArray:Array[Byte]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#asBase64" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="asBase64:String"></a>
       <a id="asBase64:String"></a>
@@ -212,6 +180,23 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@asBase64:String" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#asCookie" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="asCookie:com.twitter.finagle.httpx.Cookie"></a>
+      <a id="asCookie:Cookie"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asCookie</span><span class="result">: <span class="extype" name="com.twitter.finagle.httpx.Cookie">Cookie</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@asCookie:com.twitter.finagle.httpx.Cookie" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -233,23 +218,6 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#asSeq" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="asSeq:IndexedSeq[Byte]"></a>
-      <a id="asSeq:IndexedSeq[Byte]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">asSeq</span><span class="result">: <span class="extype" name="scala.IndexedSeq">IndexedSeq</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@asSeq:IndexedSeq[Byte]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#expired" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="expired:Boolean"></a>
       <a id="expired:Boolean"></a>
@@ -285,18 +253,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyVal → Any</dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#id" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="id:com.lookout.borderpatrol.sessionx.package.SessionId"></a>
-      <a id="id:sessionx.SessionId"></a>
+      <a id="id:com.lookout.borderpatrol.sessionx.SessionId"></a>
+      <a id="id:SessionId"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">id</span><span class="result">: <a href="package.html#SessionIdextendsProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">sessionx.SessionId</a></span>
+        <span class="name">id</span><span class="result">: <a href="SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@id:com.lookout.borderpatrol.sessionx.package.SessionId" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@id:com.lookout.borderpatrol.sessionx.SessionId" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -318,36 +286,19 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#payload" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="payload:com.lookout.borderpatrol.sessionx.package.Payload"></a>
-      <a id="payload:sessionx.Payload"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">payload</span><span class="result">: <a href="package.html#Payload=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Payload">sessionx.Payload</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@payload:com.lookout.borderpatrol.sessionx.package.Payload" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.lookout.borderpatrol.sessionx.SessionIdOps#signWith" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="signWith(s:com.lookout.borderpatrol.sessionx.package.Secret):com.lookout.borderpatrol.sessionx.package.Signature"></a>
-      <a id="signWith(sessionx.Secret):sessionx.Signature"></a>
+      <a id="signWith(s:com.lookout.borderpatrol.sessionx.Secret):com.lookout.borderpatrol.sessionx.package.Signature"></a>
+      <a id="signWith(Secret):sessionx.Signature"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">signWith</span><span class="params">(<span name="s">s: <a href="package.html#Secretextendscrypto.SignerwithProductwithSerializable" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret">sessionx.Secret</a></span>)</span><span class="result">: <a href="package.html#Signature=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Signature">sessionx.Signature</a></span>
+        <span class="name">signWith</span><span class="params">(<span name="s">s: <a href="Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.Secret">Secret</a></span>)</span><span class="result">: <a href="package.html#Signature=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Signature">sessionx.Signature</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@signWith(s:com.lookout.borderpatrol.sessionx.package.Secret):com.lookout.borderpatrol.sessionx.package.Signature" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package$$SessionIdOps@signWith(s:com.lookout.borderpatrol.sessionx.Secret):com.lookout.borderpatrol.sessionx.package.Signature" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

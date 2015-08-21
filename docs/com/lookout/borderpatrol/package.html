@@ -91,24 +91,7 @@ interact with HTTP services.</p></div><div class="toggleContainer block">
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.lookout.borderpatrol.%&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]"></a>
-      <a id="%&gt;[A,B]:%&gt;[A,B]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span title="gt4s: $percent$greater" class="name">%&gt;</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="result"> = <a href="package$$view$$View.html" class="extype" name="com.lookout.borderpatrol.view.View">View</a>[<span class="extype" name="com.lookout.borderpatrol.%&gt;.A">A</span>, <span class="extype" name="com.lookout.borderpatrol.%&gt;.B">B</span>]</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.lookout.borderpatrol.package@%&gt;[A,B]=com.lookout.borderpatrol.package.view.View[A,B]" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">shorthand notation Thing %&gt; Other</p>
-    </li><li name="com.lookout.borderpatrol.AnyOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.lookout.borderpatrol.AnyOps" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="AnyOps[A]extendsAnyVal"></a>
       <a id="AnyOps[A]:AnyOps[A]"></a>
       <h4 class="signature">
@@ -253,23 +236,6 @@ interact with HTTP services.</p></div><div class="toggleContainer block">
       </a>
     </span>
       
-    </li><li name="com.lookout.borderpatrol.routers" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="routers"></a>
-      <a id="routers:routers"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">package</span>
-      </span>
-      <span class="symbol">
-        <a href="routers/package.html"><span class="name">routers</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.lookout.borderpatrol.package@routers" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li><li name="com.lookout.borderpatrol.security" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="security"></a>
       <a id="security:security"></a>
@@ -283,6 +249,23 @@ interact with HTTP services.</p></div><div class="toggleContainer block">
       </span>
       </h4><span class="permalink">
       <a href="../../../index.html#com.lookout.borderpatrol.package@security" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.lookout.borderpatrol.server" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="server"></a>
+      <a id="server:server"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="server/package.html"><span class="name">server</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.lookout.borderpatrol.package@server" title="Permalink" target="_top">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -303,9 +286,9 @@ interact with HTTP services.</p></div><div class="toggleContainer block">
         <img src="../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">This crypto introduces types and functions that enable identifying, fetching, and storing web session data.</p><div class="fullcomment"><div class="comment cmt"><p>This crypto introduces types and functions that enable identifying, fetching, and storing web session data. This
-is accomplished by a set of types that will be used by consumers of this library: <code>Session</code>, <code>Store</code>, and <code>Secret</code>.</p><p>A <a href="sessionx/SessionTypes$Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.Secret">Secret</a> is a cryptographically verifiable signing key used to sign a
-<a href="sessionx/SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a>. Creating a <code>Secret</code> is * simple. It defaults to expire at
+      <p class="shortcomment cmt">This introduces types and functions that enable identifying, fetching, and storing web session data.</p><div class="fullcomment"><div class="comment cmt"><p>This introduces types and functions that enable identifying, fetching, and storing web session data. This
+is accomplished by a set of types that will be used by consumers of this library: <code>Session</code>, <code>Store</code>, and <code>Secret</code>.</p><p>A <a href="sessionx/Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.Secret">Secret</a> is a cryptographically verifiable signing key used to sign a
+<a href="sessionx/SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a>. Creating a <code>Secret</code> is simple. It defaults to expire at
 <span class="extype" name="com.lookout.borderpatrol.sessionx.Secret.lifetime">Secret.lifetime</span></p><pre><span class="kw">val</span> secret = Secret() <span class="cmt">// default secret expiry</span>
 <span class="kw">val</span> expiringSecret = Secret(Time.now)
 
@@ -315,17 +298,17 @@ is accomplished by a set of types that will be used by consumers of this library
 <span class="kw">val</span> constructedSecret = Secret(randomId, randomBytes, expiry)
 log(s<span class="lit">"secret has expired: ${constructedSecret.expired == true}"</span>)
 
-<span class="kw">val</span> signedMsg = secret.sign(<span class="lit">"message to by signed"</span>.getBytes)</pre><p>A <a href="sessionx/SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a> is a cryptographically signed identifier for a
-<a href="sessionx/SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a>, it consists of entropy, expiry, secret,and signature of those
+<span class="kw">val</span> signedMsg = secret.sign(<span class="lit">"message to by signed"</span>.getBytes)</pre><p>A <a href="sessionx/SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a> is a cryptographically signed identifier for a
+<a href="sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>, it consists of entropy, expiry, secret,and signature of those
 items. This is meant to be used as the <span class="extype" name="com.twitter.finagle.httpx.Cookie">com.twitter.finagle.httpx.Cookie</span> value, so we provide serializing to
 <span class="extype" name="String">String</span>.</p><pre><span class="kw">val</span> id: SessionId = Await.result(SessionId.next)
 <span class="kw">val</span> cookieValue: <span class="std">String</span> = id.asBase64
-SessionId.from[<span class="std">String</span>](cookieValue) == id</pre><p>A <a href="sessionx/SessionImplicits$Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session">Session</a> is product type of a cryptographically verifiable
-identifier <a href="sessionx/SessionTypes$SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionId">SessionId</a> and an arbitrary data type
-A<code>. The only requirement for a <a href="sessionx/SessionTypes$SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes.SessionStore">SessionStore</a>[B,M] to store/fetch
-a </code>Session[A]<code> is that there be some implicit injective views from </code>A %&gt; B<code> and </code>B %&gt; Option[A]<code>.</code></p><p>We have provided default views for: <code>httpx.Request %&gt; Buf</code>, <code>Json %&gt; Buf</code> and their injective views.</p><pre><span class="cmt">// set up secret/session stores</span>
+SessionId.from[<span class="std">String</span>](cookieValue) == id</pre><p>A <a href="sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a> is product type of a cryptographically verifiable
+identifier <a href="sessionx/SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a> and an arbitrary data type
+A<code>. The only requirement for a <a href="sessionx/SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionStore">SessionStore</a>[B,M] to store/fetch
+a </code>Session[A]<code> is that there be some implicit injective views from </code>A =&gt; B<code> and </code>B =&gt; Try[A]<code>.</code></p><p>We have provided default encodings for: <code>httpx.Request =&gt; Buf</code>, <code>String =&gt; Buf</code> and their injective views.</p><pre><span class="cmt">// set up secret/session stores</span>
 <span class="kw">implicit</span> <span class="kw">val</span> secretStore = SecretStores.InMemorySecretStore(Secrets(Secret(), Secret()))
-<span class="kw">val</span> sessionStore = SessionStores.InMemoryStore()
+<span class="kw">val</span> sessionStore = SessionStore.InMemoryStore()
 
 <span class="cmt">// create a Session[httpx.Request]</span>
 <span class="kw">val</span> newSessionFuture = Session(Request(<span class="lit">"http://localhost/api/stuff"</span>)) <span class="cmt">// entropy is blocking on the JVM</span>
@@ -339,14 +322,16 @@ sessionStore.update(newSession).onFailure(log)
 sessionStore.get(newSession.id).onSuccess(s <span class="kw">=&gt;</span> s <span class="kw">match</span> {
   <span class="kw">case</span> <span class="std">Some</span>(s) <span class="kw">=&gt;</span> log(s<span class="lit">"Same session?: ${newSession == s}"</span>)
   <span class="kw">case</span> <span class="std">None</span> <span class="kw">=&gt;</span> log(<span class="lit">"hrm, where did the session go?"</span>)
-})</pre><p>Let's say you have a <a href="sessionx/SessionImplicits$Session.html#data:A" class="extmbr" name="com.lookout.borderpatrol.sessionx.SessionImplicits.Session#data">Session.data</a> type that doesn't have the
-injective <a href="package$$view$$View.html" class="extype" name="com.lookout.borderpatrol.view.View">View</a> that you need, that's OK!
+})</pre><p>Let's say you have a <a href="sessionx/Session.html#data:A" class="extmbr" name="com.lookout.borderpatrol.sessionx.Session#data">Session.data</a> type that doesn't have the
+injective that you need, that's OK!
 Assuming you are storing it in memcached, which requires a type of <span class="extype" name="com.twitter.io.Buf">Buf</span> for the value:</p><pre><span class="kw">trait</span> Foo {
   <span class="kw">val</span> value: <span class="std">Int</span>
 }
 
-<span class="kw">implicit</span> <span class="kw">val</span> foo2Int: Foo %&gt; Buf = View(f <span class="kw">=&gt;</span> Buf.U32BE(f.value))
-<span class="kw">implicit</span> <span class="kw">val</span> int2OptFoo: Buf %&gt; <span class="std">Option</span>[Foo] = View(b <span class="kw">=&gt;</span> <span class="kw">new</span> Foo { <span class="kw">override</span> <span class="kw">val</span> value = Buf.U32BE.unapply(b) })
+<span class="kw">implicit</span> <span class="kw">val</span> enc = SessionDataEncoder[Foo](
+  foo <span class="kw">=&gt;</span> Buf.U32BE(f.value),
+  buf <span class="kw">=&gt;</span> <span class="kw">new</span> Foo { <span class="kw">override</span> <span class="kw">val</span> value = Buf.U32BE.unapply(b) }
+)
 
 <span class="kw">val</span> foo1 = <span class="kw">new</span> Foo { <span class="kw">override</span> <span class="kw">val</span> value = <span class="num">1</span> }
 <span class="kw">val</span> fooSession = Session(foo1)
@@ -368,24 +353,6 @@ sessionStore.update(fooSession)</pre></div></div>
       </a>
     </span>
       
-    </li><li name="com.lookout.borderpatrol.view" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="view"></a>
-      <a id="view:view"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="package$$view$.html"><span class="name">view</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../index.html#com.lookout.borderpatrol.package@view" title="Permalink" target="_top">
-        <img src="../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">Contains the trait and companion object for explicit &quot;views&quot; from <code>A =&gt; B</code>
-</p>
     </li></ol>
             </div>
 

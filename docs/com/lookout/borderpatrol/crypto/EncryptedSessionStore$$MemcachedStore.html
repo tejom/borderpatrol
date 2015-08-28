@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>Encryptable - com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable</title>
-          <meta name="description" content="Encryptable - com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable" />
-          <meta name="keywords" content="Encryptable com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable" />
+          <title>MemcachedStore - com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore</title>
+          <meta name="description" content="MemcachedStore - com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore" />
+          <meta name="keywords" content="MemcachedStore com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable';
+            var hash = 'com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -28,12 +28,12 @@
         </head>
         <body class="type">
       <div id="definition">
-        <img alt="Trait" src="../../../../lib/trait_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a>.<a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a></p>
-        <h1>Encryptable</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">package SessionTypeClasses</a>
+        <img alt="Class" src="../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.crypto">crypto</a>.<a href="EncryptedSessionStore$.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></p>
+        <h1>MemcachedStore</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="EncryptedSessionStore$.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">package EncryptedSessionStore</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,16 +42,19 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">Encryptable</span><span class="tparams">[<span name="A">A</span>, <span name="Key">Key</span>, <span name="E">E</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">MemcachedStore</span><span class="params">(<span name="store">store: <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>)</span><span class="result"> extends <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Memcached backend to <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></p><pre><span class="kw">val</span> store = MemcachedStore(Memcachedx.newKetamaClient(<span class="lit">"localhost:11211"</span>))
+<span class="kw">val</span> requestSession = store.get[httpx.Request](id)
+requestSession.onSuccess(s <span class="kw">=&gt;</span> log(s<span class="lit">"Success! you were going to ${s.data.uri}"</span>))
+              .onFailure(log)</pre></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>finagle <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -69,7 +72,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable"><span>Encryptable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore"><span>MemcachedStore</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore"><span>EncryptedSessionStore</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -86,34 +89,34 @@
 
       <div id="template">
         <div id="allMembers">
-        
-
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable#apply" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="apply(a:A)(key:Key):E"></a>
-      <a id="apply(A)(Key):E"></a>
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(store:com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]):com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore"></a>
+      <a id="&lt;init&gt;:MemcachedStore"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="a">a: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable.A">A</span></span>)</span><span class="params">(<span name="key">key: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable.Key">Key</span></span>)</span><span class="result">: <span class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable.E">E</span></span>
+        <span class="name">MemcachedStore</span><span class="params">(<span name="store">store: <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@apply(a:A)(key:Key):E" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@&lt;init&gt;(store:com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]):com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>finagle <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p></dd></dl></div>
     </li></ol>
             </div>
 
+        
+
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -126,7 +129,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -143,7 +146,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -160,7 +163,7 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -177,7 +180,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -194,7 +197,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -217,28 +220,11 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="equals(x$1:Any):Boolean"></a>
-      <a id="equals(Any):Boolean"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@equals(x$1:Any):Boolean" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <a id="finalize():Unit"></a>
@@ -251,7 +237,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -262,6 +248,42 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore#flag" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="flag:Int"></a>
+      <a id="flag:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">flag</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@flag:Int" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore#get" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="get[A](key:com.lookout.borderpatrol.sessionx.SessionId)(implicitev:com.lookout.borderpatrol.sessionx.EncryptedDataEncoder[A]):com.twitter.util.Future[Option[com.lookout.borderpatrol.sessionx.Session[A]]]"></a>
+      <a id="get[A](SessionId)(EncryptedDataEncoder[A]):Future[Option[Session[A]]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">get</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="key">key: <a href="../sessionx/SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ev">ev: <a href="../sessionx/EncryptedDataEncoder.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder">EncryptedDataEncoder</a>[<span class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore.get.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<span class="extype" name="scala.Option">Option</span>[<a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore.get.A">A</span>]]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@get[A](key:com.lookout.borderpatrol.sessionx.SessionId)(implicitev:com.lookout.borderpatrol.sessionx.EncryptedDataEncoder[A]):com.twitter.util.Future[Option[com.lookout.borderpatrol.sessionx.Session[A]]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Fetches a <a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a> if one exists otherwise <code>None</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Fetches a <a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a> if one exists otherwise <code>None</code>. On failure
+will make a <span class="extype" name="com.twitter.util.Future.exception">Future.exception</span>.
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p><span class="extype" name="Session.data">Session.data</span> type that must be decryptable</p></dd><dt class="param">key</dt><dd class="cmt"><p>lookup key</p></dd><dt class="param">ev</dt><dd class="cmt"><p>evidence for converting the Buf to the type of A</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore">MemcachedStore</a> → <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></dd></dl></div>
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -274,24 +296,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@getClass():Class[_]" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="hashCode():Int"></a>
-      <a id="hashCode():Int"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -308,7 +313,7 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -325,7 +330,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -342,7 +347,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -359,11 +364,28 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore#store" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="store:com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]"></a>
+      <a id="store:BaseClient[Buf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">store</span><span class="result">: <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">BaseClient</span>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@store:com.twitter.finagle.memcachedx.BaseClient[com.twitter.io.Buf]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">finagle <span class="extype" name="com.twitter.finagle.memcachedx.BaseClient">memcachedx.BaseClient</span> memcached backend</p>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -376,28 +398,30 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="toString():String"></a>
-      <a id="toString():String"></a>
+    </li><li name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore#update" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="update[A](session:com.lookout.borderpatrol.sessionx.Session[A])(implicitev:com.lookout.borderpatrol.sessionx.EncryptedDataEncoder[A]):com.twitter.util.Future[Unit]"></a>
+      <a id="update[A](Session[A])(EncryptedDataEncoder[A]):Future[Unit]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+        <span class="name">update</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="session">session: <a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore.update.A">A</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ev">ev: <a href="../sessionx/EncryptedDataEncoder.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder">EncryptedDataEncoder</a>[<span class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore.update.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="com.twitter.util.Future">Future</span>[<span class="extype" name="scala.Unit">Unit</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@update[A](session:com.lookout.borderpatrol.sessionx.Session[A])(implicitev:com.lookout.borderpatrol.sessionx.EncryptedDataEncoder[A]):com.twitter.util.Future[Unit]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+      <p class="shortcomment cmt">Stores a <a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Stores a <a href="../sessionx/Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>. On failure returns a
+<span class="extype" name="com.twitter.util.Future.exception">Future.exception</span>
+</p></div><dl class="paramcmts block"><dt class="tparam">A</dt><dd class="cmt"><p><span class="extype" name="Session.data">Session.data</span> type that must have be encryptable</p></dd><dt class="param">ev</dt><dd class="cmt"><p>evidence for the conversion to <code>Buf</code></p></dd><dt>returns</dt><dd class="cmt"><p>a <span class="extype" name="com.twitter.util.Future">Future</span></p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore.MemcachedStore">MemcachedStore</a> → <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
@@ -410,7 +434,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -433,7 +457,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -456,7 +480,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses$Encryptable@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.crypto.EncryptedSessionStore$$MemcachedStore@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -476,7 +500,17 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">
+              <h3>Inherited from <a href="EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

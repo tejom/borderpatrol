@@ -185,6 +185,24 @@ interact with HTTP services.</p></div><div class="toggleContainer block">
       </a>
     </span>
       
+    </li><li name="com.lookout.borderpatrol.crypto" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="crypto"></a>
+      <a id="crypto:crypto"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <a href="crypto/package.html"><span class="name">crypto</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../index.html#com.lookout.borderpatrol.package@crypto" title="Permalink" target="_top">
+        <img src="../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">The <code>crypto</code> module includes primitives for:</p><div class="fullcomment"><div class="comment cmt"><p>The <code>crypto</code> module includes primitives for:</p><ul><li>generating random data <a href="crypto/Generator.html" class="extype" name="com.lookout.borderpatrol.crypto.Generator">Generator</a></li><li>creating cryptographic signers <a href="crypto/Signer.html" class="extype" name="com.lookout.borderpatrol.crypto.Signer">Signer</a></li><li>an implementation of encryption for session data <a href="crypto/CryptKey.html" class="extype" name="com.lookout.borderpatrol.crypto.CryptKey">CryptKey</a></li><li>an encrypted session store <a href="crypto/EncryptedSessionStore.html" class="extype" name="com.lookout.borderpatrol.crypto.EncryptedSessionStore">EncryptedSessionStore</a></li></ul><p>It also includes Type Classes for interfacing with backends that would like to encrypt data at rest.
+</p></div></div>
     </li><li name="com.lookout.borderpatrol.errors" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="errors"></a>
       <a id="errors:errors"></a>
@@ -329,7 +347,7 @@ Assuming you are storing it in memcached, which requires a type of <span class="
 }
 
 <span class="kw">implicit</span> <span class="kw">val</span> enc = SessionDataEncoder[Foo](
-  foo <span class="kw">=&gt;</span> Buf.U32BE(f.value),
+  foo <span class="kw">=&gt;</span> Buf.U32BE(toBytes.value),
   buf <span class="kw">=&gt;</span> <span class="kw">new</span> Foo { <span class="kw">override</span> <span class="kw">val</span> value = Buf.U32BE.unapply(b) }
 )
 

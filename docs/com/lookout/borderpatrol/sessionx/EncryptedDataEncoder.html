@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>EntropyGenerator - com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator</title>
-          <meta name="description" content="EntropyGenerator - com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator" />
-          <meta name="keywords" content="EntropyGenerator com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator" />
+          <title>EncryptedDataEncoder - com.lookout.borderpatrol.sessionx.EncryptedDataEncoder</title>
+          <meta name="description" content="EncryptedDataEncoder - com.lookout.borderpatrol.sessionx.EncryptedDataEncoder" />
+          <meta name="keywords" content="EncryptedDataEncoder com.lookout.borderpatrol.sessionx.EncryptedDataEncoder" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../index.html';
-            var hash = 'com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$';
+            var hash = 'com.lookout.borderpatrol.sessionx.EncryptedDataEncoder';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,16 @@
    	  </script>
     
         </head>
-        <body class="value">
+        <body class="type">
       <div id="definition">
-        <img alt="Object" src="../../../../lib/object_big.png" />
-        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a>.<a href="crypto$.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto">crypto</a>.<a href="crypto$$Generator$.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a></p>
-        <h1>EntropyGenerator</h1><h3><span class="morelinks"><div>Related Doc:
-            <a href="crypto$$Generator$.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">package Generator</a>
+        <a href="EncryptedDataEncoder$.html" title="See companion object"><img alt="Trait/Object" src="../../../../lib/trait_to_object_big.png" /></a>
+        <p id="owner"><a href="../../../package.html" class="extype" name="com">com</a>.<a href="../../package.html" class="extype" name="com.lookout">lookout</a>.<a href="../package.html" class="extype" name="com.lookout.borderpatrol">borderpatrol</a>.<a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">sessionx</a></p>
+        <h1><a href="EncryptedDataEncoder$.html" title="See companion object">EncryptedDataEncoder</a></h1><h3><span class="morelinks"><div>
+            Related Docs:
+            <a href="EncryptedDataEncoder$.html" title="See companion object">object EncryptedDataEncoder</a>
+            | <a href="package.html" class="extype" name="com.lookout.borderpatrol.sessionx">package sessionx</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -41,18 +43,24 @@
 
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
-        <span class="modifier">implicit </span>
-        <span class="kind">object</span>
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">EntropyGenerator</span><span class="result"> extends <a href="crypto$$Generator.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a>[<a href="package.html#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a>]</span>
+        <span class="name">EncryptedDataEncoder</span><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This type uses the <a href="SessionDataEncoder.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionDataEncoder">SessionDataEncoder</a> to encode
+generic types to <span class="extype" name="com.twitter.io.Buf">com.twitter.io.Buf</span>, then the <span class="extype" name="Encryptable">Encryptable</span> and <span class="extype" name="Decryptable">Decryptable</span> types will unwrap the <code>Buf</code>
+encrypt/decrypt it, and then rewrap it.
+</p></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="crypto$$Generator.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a>[<a href="package.html#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">Known Subclasses</span>
+            <div class="subClasses hiddenContent"><a href="EncryptedDataEncoder$$EncryptedBytesEncoder$.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.EncryptedBytesEncoder">EncryptedBytesEncoder</a>, <a href="EncryptedDataEncoder$$EncryptedIntEncoder$.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.EncryptedIntEncoder">EncryptedIntEncoder</a>, <a href="EncryptedDataEncoder$$EncryptedReqEncoder$.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.EncryptedReqEncoder">EncryptedReqEncoder</a>, <a href="EncryptedDataEncoder$$EncryptedStringEncoder$.html" class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.EncryptedStringEncoder">EncryptedStringEncoder</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -69,7 +77,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator"><span>EntropyGenerator</span></li><li class="in" name="com.lookout.borderpatrol.sessionx.crypto.Generator"><span>Generator</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder"><span>EncryptedDataEncoder</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -90,10 +98,30 @@
 
         
 
-        
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#encoder" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="encoder:com.lookout.borderpatrol.sessionx.SessionDataEncoder[A]"></a>
+      <a id="encoder:SessionDataEncoder[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encoder</span><span class="result">: <a href="SessionDataEncoder.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionDataEncoder">SessionDataEncoder</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.A">A</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@encoder:com.lookout.borderpatrol.sessionx.SessionDataEncoder[A]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li></ol>
+            </div>
 
         <div id="values" class="values members">
-              <h3>Value Members</h3>
+              <h3>Concrete Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -106,7 +134,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -123,7 +151,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@##():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@##():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -140,28 +168,11 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator#apply" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="apply(n:Int):com.lookout.borderpatrol.sessionx.Entropy"></a>
-      <a id="apply(Int):sessionx.Entropy"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">apply</span><span class="params">(<span name="n">n: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="package.html#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@apply(n:Int):com.lookout.borderpatrol.sessionx.Entropy" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator.EntropyGenerator">EntropyGenerator</a> → <a href="crypto$$Generator.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a></dd></dl></div>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -174,7 +185,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -191,7 +202,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@clone():Object" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -202,6 +213,76 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#decrypted" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decrypted(id:com.lookout.borderpatrol.sessionx.SessionId,buf:com.twitter.io.Buf):scala.util.Try[com.lookout.borderpatrol.sessionx.Session[A]]"></a>
+      <a id="decrypted(SessionId,Buf):Try[Session[A]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">decrypted</span><span class="params">(<span name="id">id: <a href="SessionId.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionId">SessionId</a></span>, <span name="buf">buf: <span class="extype" name="com.twitter.io.Buf">Buf</span></span>)</span><span class="result">: <span class="extype" name="scala.util.Try">Try</span>[<a href="Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.A">A</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@decrypted(id:com.lookout.borderpatrol.sessionx.SessionId,buf:com.twitter.io.Buf):scala.util.Try[com.lookout.borderpatrol.sessionx.Session[A]]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Wrap <a href="Encoder.html#encode(a:A):B" class="extmbr" name="com.lookout.borderpatrol.sessionx.Encoder#encode">com.lookout.borderpatrol.sessionx.Encoder.encode</a> with decryption
+</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#decrypter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="decrypter:com.lookout.borderpatrol.crypto.Decryptable[com.twitter.io.Buf]"></a>
+      <a id="decrypter:Decryptable[Buf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">decrypter</span><span class="result">: <a href="../crypto/Decryptable.html" class="extype" name="com.lookout.borderpatrol.crypto.Decryptable">Decryptable</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@decrypter:com.lookout.borderpatrol.crypto.Decryptable[com.twitter.io.Buf]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#encrypted" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encrypted(session:com.lookout.borderpatrol.sessionx.Session[A]):com.twitter.io.Buf"></a>
+      <a id="encrypted(Session[A]):Buf"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encrypted</span><span class="params">(<span name="session">session: <a href="Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a>[<span class="extype" name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder.A">A</span>]</span>)</span><span class="result">: <span class="extype" name="com.twitter.io.Buf">Buf</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@encrypted(session:com.lookout.borderpatrol.sessionx.Session[A]):com.twitter.io.Buf" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Wrap <a href="Encoder.html#encode(a:A):B" class="extmbr" name="com.lookout.borderpatrol.sessionx.Encoder#encode">com.lookout.borderpatrol.sessionx.Encoder.encode</a> with encryption
+</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#encrypter" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="encrypter:com.lookout.borderpatrol.crypto.Encryptable[com.twitter.io.Buf]"></a>
+      <a id="encrypter:Encryptable[Buf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">encrypter</span><span class="result">: <a href="../crypto/Encryptable.html" class="extype" name="com.lookout.borderpatrol.crypto.Encryptable">Encryptable</a>[<span class="extype" name="com.twitter.io.Buf">Buf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@encrypter:com.lookout.borderpatrol.crypto.Encryptable[com.twitter.io.Buf]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -214,7 +295,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -231,7 +312,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -248,7 +329,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -259,6 +340,23 @@
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#fromArr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="fromArr:Array[Byte]=&gt;com.twitter.io.Buf"></a>
+      <a id="fromArr:(Array[Byte])⇒Buf"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromArr</span><span class="result">: (<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]) ⇒ <span class="extype" name="com.twitter.io.Buf">Buf</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@fromArr:Array[Byte]=&gt;com.twitter.io.Buf" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getClass():Class[_]"></a>
       <a id="getClass():Class[_]"></a>
@@ -271,7 +369,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -288,7 +386,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -305,7 +403,7 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -322,7 +420,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -339,7 +437,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -356,28 +454,11 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto.Generator#random" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="random:scala.util.Random"></a>
-      <a id="random:Random"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">val</span>
-      </span>
-      <span class="symbol">
-        <span class="name">random</span><span class="result">: <span class="extype" name="scala.util.Random">Random</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@random:scala.util.Random" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="crypto$$Generator.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a></dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -390,11 +471,28 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder#toArr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="toArr:com.twitter.io.Buf=&gt;Array[Byte]"></a>
+      <a id="toArr:(Buf)⇒Array[Byte]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toArr</span><span class="result">: (<span class="extype" name="com.twitter.io.Buf">Buf</span>) ⇒ <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@toArr:com.twitter.io.Buf=&gt;Array[Byte]" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
@@ -407,7 +505,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@toString():String" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@toString():String" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -424,7 +522,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -447,7 +545,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -470,7 +568,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.crypto$$Generator$$EntropyGenerator$@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.EncryptedDataEncoder@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -490,9 +588,7 @@
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.lookout.borderpatrol.sessionx.crypto.Generator">
-              <h3>Inherited from <a href="crypto$$Generator.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Generator">Generator</a>[<a href="package.html#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a>]</h3>
-            </div><div class="parent" name="scala.AnyRef">
+        <div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">
               <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>

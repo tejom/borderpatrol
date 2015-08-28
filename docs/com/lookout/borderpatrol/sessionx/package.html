@@ -90,7 +90,7 @@ Assuming you are storing it in memcached, which requires a type of <span class="
 }
 
 <span class="kw">implicit</span> <span class="kw">val</span> enc = SessionDataEncoder[Foo](
-  foo <span class="kw">=&gt;</span> Buf.U32BE(f.value),
+  foo <span class="kw">=&gt;</span> Buf.U32BE(toBytes.value),
   buf <span class="kw">=&gt;</span> <span class="kw">new</span> Foo { <span class="kw">override</span> <span class="kw">val</span> value = Buf.U32BE.unapply(b) }
 )
 
@@ -98,7 +98,7 @@ Assuming you are storing it in memcached, which requires a type of <span class="
 <span class="kw">val</span> fooSession = Session(foo1)
 sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a>, <a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -116,7 +116,7 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="com.lookout.borderpatrol.sessionx"><span>sessionx</span></li><li class="in" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses"><span>SessionTypeClasses</span></li><li class="in" name="com.lookout.borderpatrol.sessionx.SessionTypes"><span>SessionTypes</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="com.lookout.borderpatrol.sessionx"><span>sessionx</span></li><li class="in" name="com.lookout.borderpatrol.sessionx.Types"><span>Types</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -155,40 +155,6 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
     </span>
       <p class="shortcomment cmt">Wraps any object with a <code>toFuture</code> method
 </p>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Crypto" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="Crypto[A,Key,E]extendsAnyRef"></a>
-      <a id="Crypto[A,Key,E]:Crypto[A,Key,E]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="SessionTypeClasses$Crypto.html"><span class="name">Crypto</span></a><span class="tparams">[<span name="A">A</span>, <span name="Key">Key</span>, <span name="E">E</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses@Crypto[A,Key,E]extendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Decryptable" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="Decryptable[E,Key,A]extendsAnyRef"></a>
-      <a id="Decryptable[E,Key,A]:Decryptable[E,Key,A]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="SessionTypeClasses$Decryptable.html"><span class="name">Decryptable</span></a><span class="tparams">[<span name="E">E</span>, <span name="Key">Key</span>, <span name="A">A</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses@Decryptable[E,Key,A]extendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.Encoder" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="Encoder[A,B]extendsAnyRef"></a>
       <a id="Encoder[A,B]:Encoder[A,B]"></a>
@@ -205,26 +171,9 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Typeclass for Encoding data within sessions
+      <p class="shortcomment cmt">Typeclasses for Encoding data within sessions
 </p>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypeClasses.Encryptable" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="Encryptable[A,Key,E]extendsAnyRef"></a>
-      <a id="Encryptable[A,Key,E]:Encryptable[A,Key,E]"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="SessionTypeClasses$Encryptable.html"><span class="name">Encryptable</span></a><span class="tparams">[<span name="A">A</span>, <span name="Key">Key</span>, <span name="E">E</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.SessionTypeClasses@Encryptable[A,Key,E]extendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Encrypted" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Encrypted" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Encrypted=Array[Byte]"></a>
       <a id="Encrypted:Encrypted"></a>
       <h4 class="signature">
@@ -240,8 +189,27 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Entropy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EncryptedDataEncoder[A]extendsAnyRef"></a>
+      <a id="EncryptedDataEncoder[A]:EncryptedDataEncoder[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="EncryptedDataEncoder.html"><span class="name">EncryptedDataEncoder</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@EncryptedDataEncoder[A]extendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">This type uses the <a href="SessionDataEncoder.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionDataEncoder">SessionDataEncoder</a> to encode
+generic types to <span class="extype" name="com.twitter.io.Buf">com.twitter.io.Buf</span>, then the <span class="extype" name="Encryptable">Encryptable</span> and <span class="extype" name="Decryptable">Decryptable</span> types will unwrap the <code>Buf</code>
+encrypt/decrypt it, and then rewrap it.</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Entropy" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Entropy=IndexedSeq[Byte]"></a>
       <a id="Entropy:Entropy"></a>
       <h4 class="signature">
@@ -257,8 +225,8 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Payload" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Payload" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Payload=IndexedSeq[Byte]"></a>
       <a id="Payload:Payload"></a>
       <h4 class="signature">
@@ -274,8 +242,8 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Seconds" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Seconds" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Seconds=Long"></a>
       <a id="Seconds:Seconds"></a>
       <h4 class="signature">
@@ -291,9 +259,9 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.Secret" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Secretextendscrypto.SignerwithProductwithSerializable"></a>
+      <a id="SecretextendsSignerwithProductwithSerializable"></a>
       <a id="Secret:Secret"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -301,17 +269,17 @@ sessionStore.update(fooSession)</pre></div><div class="toggleContainer block">
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a href="Secret.html"><span class="name">Secret</span></a><span class="params">(<span name="id">id: <a href="#SecretId=Byte" class="extmbr" name="com.lookout.borderpatrol.sessionx.SecretId">sessionx.SecretId</a></span>, <span name="expiry">expiry: <span class="extype" name="com.twitter.util.Time">Time</span></span>, <span name="entropy">entropy: <a href="#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a></span>)</span><span class="result"> extends <a href="crypto$$Signer.html" class="extype" name="com.lookout.borderpatrol.sessionx.crypto.Signer">Signer</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a href="Secret.html"><span class="name">Secret</span></a><span class="params">(<span name="id">id: <a href="#SecretId=Byte" class="extmbr" name="com.lookout.borderpatrol.sessionx.SecretId">sessionx.SecretId</a></span>, <span name="expiry">expiry: <span class="extype" name="com.twitter.util.Time">Time</span></span>, <span name="entropy">entropy: <a href="#Entropy=IndexedSeq[Byte]" class="extmbr" name="com.lookout.borderpatrol.sessionx.Entropy">sessionx.Entropy</a></span>)</span><span class="result"> extends <a href="../crypto/Signer.html" class="extype" name="com.lookout.borderpatrol.crypto.Signer">Signer</a> with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@Secretextendscrypto.SignerwithProductwithSerializable" title="Permalink" target="_top">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@SecretextendsSignerwithProductwithSerializable" title="Permalink" target="_top">
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">Creates a new <a href="Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.Secret">Secret</a> that can
-be used to <a href="crypto$$Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.sessionx.Signature" class="extmbr" name="com.lookout.borderpatrol.sessionx.crypto.Signer#sign">com.lookout.borderpatrol.sessionx.crypto.Signer.sign</a>
+be used to <a href="../crypto/Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.crypto.Signature" class="extmbr" name="com.lookout.borderpatrol.crypto.Signer#sign">Signer.sign</a>
 </p><div class="fullcomment"><div class="comment cmt"><p>Creates a new <a href="Secret.html" class="extype" name="com.lookout.borderpatrol.sessionx.Secret">Secret</a> that can
-be used to <a href="crypto$$Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.sessionx.Signature" class="extmbr" name="com.lookout.borderpatrol.sessionx.crypto.Signer#sign">com.lookout.borderpatrol.sessionx.crypto.Signer.sign</a>
+be used to <a href="../crypto/Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout.borderpatrol.crypto.Signature" class="extmbr" name="com.lookout.borderpatrol.crypto.Signer#sign">Signer.sign</a>
 </p></div><dl class="paramcmts block"><dt class="param">id</dt><dd class="cmt"><p>unique identifier for this secret</p></dd><dt class="param">expiry</dt><dd class="cmt"><p>how long this signer is valid</p></dd><dt class="param">entropy</dt><dd class="cmt"><p>the random bytes for this key</p></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SecretDecodeError" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SecretDecodeErrorextendsSessionErrorwithProductwithSerializable"></a>
@@ -347,7 +315,7 @@ be used to <a href="crypto$$Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout
       </a>
     </span>
       
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.SecretId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.SecretId" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="SecretId=Byte"></a>
       <a id="SecretId:SecretId"></a>
       <h4 class="signature">
@@ -363,7 +331,7 @@ be used to <a href="crypto$$Signer.html#sign(bytes:IndexedSeq[Byte]):com.lookout
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.SecretOps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SecretOpsextendsAnyVal"></a>
       <a id="SecretOps:SecretOps"></a>
@@ -619,42 +587,7 @@ The design of this is to act as a cryptographically verifiable identifier for a 
       </a>
     </span>
       
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypeClasses" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="SessionTypeClassesextendsSessionTypes"></a>
-      <a id="SessionTypeClasses:SessionTypeClasses"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="SessionTypeClasses.html"><span class="name">SessionTypeClasses</span></a><span class="result"> extends <a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@SessionTypeClassesextendsSessionTypes" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="SessionTypesextendsAnyRef"></a>
-      <a id="SessionTypes:SessionTypes"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">trait</span>
-      </span>
-      <span class="symbol">
-        <a href="SessionTypes.html"><span class="name">SessionTypes</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@SessionTypesextendsAnyRef" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A collection of type aliases to aide in more readable code
-</p>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Signature" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Signature" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Signature=IndexedSeq[Byte]"></a>
       <a id="Signature:Signature"></a>
       <h4 class="signature">
@@ -670,8 +603,8 @@ The design of this is to act as a cryptographically verifiable identifier for a 
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.Size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.Size" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Size=Int"></a>
       <a id="Size:Size"></a>
       <h4 class="signature">
@@ -687,7 +620,7 @@ The design of this is to act as a cryptographically verifiable identifier for a 
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
     </li><li name="com.lookout.borderpatrol.sessionx.ThrowableOps" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ThrowableOpsextendsAnyVal"></a>
       <a id="ThrowableOps:ThrowableOps"></a>
@@ -706,7 +639,7 @@ The design of this is to act as a cryptographically verifiable identifier for a 
     </span>
       <p class="shortcomment cmt">Wraps any <code>Throwable</code> with a <code>toFutureException</code> method
 </p>
-    </li><li name="com.lookout.borderpatrol.sessionx.SessionTypes.TimeBytes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.lookout.borderpatrol.sessionx.Types.TimeBytes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="TimeBytes=IndexedSeq[Byte]"></a>
       <a id="TimeBytes:TimeBytes"></a>
       <h4 class="signature">
@@ -722,7 +655,24 @@ The design of this is to act as a cryptographically verifiable identifier for a 
         <img src="../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></dd></dl></div>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></dd></dl></div>
+    </li><li name="com.lookout.borderpatrol.sessionx.Types" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TypesextendsAnyRef"></a>
+      <a id="Types:Types"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Types.html"><span class="name">Types</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@TypesextendsAnyRef" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 
@@ -748,6 +698,46 @@ The design of this is to act as a cryptographically verifiable identifier for a 
     </span>
       <p class="shortcomment cmt">Helper for Byte -&gt; Json
 </p>
+    </li><li name="com.lookout.borderpatrol.sessionx.Encoder" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Encoder"></a>
+      <a id="Encoder:Encoder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Encoder$.html"><span class="name">Encoder</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@Encoder" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Create instances of Encoder
+</p>
+    </li><li name="com.lookout.borderpatrol.sessionx.EncryptedDataEncoder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EncryptedDataEncoder"></a>
+      <a id="EncryptedDataEncoder:EncryptedDataEncoder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="EncryptedDataEncoder$.html"><span class="name">EncryptedDataEncoder</span></a>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@EncryptedDataEncoder" title="Permalink" target="_top">
+        <img src="../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Instances of EncryptedDataEncoder only need to contain a SessionDataEncoder
+TODO: remove this whole concept of an EncryptedDataEncoder type class, it's worthless.</p><div class="fullcomment"><div class="comment cmt"><p>Instances of EncryptedDataEncoder only need to contain a SessionDataEncoder
+TODO: remove this whole concept of an EncryptedDataEncoder type class, it's worthless.
+We can treat <a href="Session.html" class="extype" name="com.lookout.borderpatrol.sessionx.Session">Session</a> as a <code>Functor</code> and apply the encryption/decryption
+via mixins to the base <a href="SessionStore.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionStore">SessionStore</a>
+</p></div></div>
     </li><li name="com.lookout.borderpatrol.sessionx.Secret" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Secret"></a>
       <a id="Secret:Secret"></a>
@@ -909,23 +899,6 @@ The design of this is to act as a cryptographically verifiable identifier for a 
     </span>
       <p class="shortcomment cmt">Time -&gt; Long -&gt; Json
 </p>
-    </li><li name="com.lookout.borderpatrol.sessionx.crypto" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="crypto"></a>
-      <a id="crypto:crypto"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">object</span>
-      </span>
-      <span class="symbol">
-        <a href="crypto$.html"><span class="name">crypto</span></a>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../index.html#com.lookout.borderpatrol.sessionx.package@crypto" title="Permalink" target="_top">
-        <img src="../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
     </li></ol>
             </div>
 
@@ -935,10 +908,8 @@ The design of this is to act as a cryptographically verifiable identifier for a 
         </div>
 
         <div id="inheritedMembers">
-        <div class="parent" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">
-              <h3>Inherited from <a href="SessionTypeClasses.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypeClasses">SessionTypeClasses</a></h3>
-            </div><div class="parent" name="com.lookout.borderpatrol.sessionx.SessionTypes">
-              <h3>Inherited from <a href="SessionTypes.html" class="extype" name="com.lookout.borderpatrol.sessionx.SessionTypes">SessionTypes</a></h3>
+        <div class="parent" name="com.lookout.borderpatrol.sessionx.Types">
+              <h3>Inherited from <a href="Types.html" class="extype" name="com.lookout.borderpatrol.sessionx.Types">Types</a></h3>
             </div><div class="parent" name="scala.AnyRef">
               <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
             </div><div class="parent" name="scala.Any">

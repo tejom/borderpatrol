@@ -32,6 +32,7 @@ val baseSettings = Seq(
   resolvers += "twitter-repo" at "http://maven.twttr.com",
   libraryDependencies ++= Seq(
     "com.twitter" %% "finagle-httpx" % "6.27.0",
+    "com.twitter" %% "finagle-http" % "6.27.0",
     "com.twitter" %% "finagle-memcachedx" % "6.27.0",
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     "com.twitter" %% "bijection-core" % "0.8.1",

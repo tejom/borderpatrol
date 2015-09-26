@@ -1,5 +1,11 @@
 package com.lookout.borderpatrol.sessionx
 
+import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
+import com.twitter.finagle.Service
+import com.twitter.finagle.builder.ClientBuilder
+import com.twitter.finagle.http._
+
+
 /**
  * Two secrets must be in rotation at any given time:
  *  - Current: used for creating new sessions and validating incoming non-expired sessions
@@ -45,6 +51,45 @@ object SecretStores {
       if (f(current)) Some(current)
       else if (f(previous)) Some(previous)
       else None
+  }
+
+  class ConsulSecretStore(consul: Service[HttpRequest,HttpResponse]) extends SecretStoreApi {
+    
+    
+    
+    def current: Secret = {
+      Secret()
+    }
+
+    def previous: Secret = {
+      Secret()
+    }
+
+    def find(f: Secret => Boolean): Option[Secret] = {
+      None
+    }
+
+    def update(newSecret: Secret): Boolean ={
+      true
+
+    }
+  }
+
+  object ConsulSecretStore{
+
+    def apply(consulUrl: String, consulPort: String):ConsulSecretStore = {
+      var apiUrl = s"http://$consulUrl:$consulPort/v1/kv/secretStore/"
+      println(apiUrl)
+      val client: Service[HttpRequest, HttpResponse] = ClientBuilder()
+        .codec(Http())
+        .hosts(apiUrl) // If >1 host, client does simple load-balancing
+        .hostConnectionLimit(5)
+        .build()
+
+      val c = new ConsulSecretStore(client)
+      c
+    }
+    
   }
 
 }

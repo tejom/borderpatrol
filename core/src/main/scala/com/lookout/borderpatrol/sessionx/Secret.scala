@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit
 import javax.crypto.spec.SecretKeySpec
 import com.lookout.borderpatrol.crypto.{Generator, Signer}
 import com.twitter.util.{Duration, Time}
-import argonaut._, Argonaut._
 
 /**
  * Creates a new [[com.lookout.borderpatrol.sessionx.Secret Secret]] that can

@@ -198,6 +198,7 @@ object SecretEncoder {
         e => Failure(SecretDecodeError(e._1)),
         s => Success(s)
       )
+
   }
 
 

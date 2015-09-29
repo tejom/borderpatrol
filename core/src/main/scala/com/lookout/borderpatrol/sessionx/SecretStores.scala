@@ -1,11 +1,18 @@
 package com.lookout.borderpatrol.sessionx
 
-import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
+//import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
 import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http._
 import com.twitter.io.Charsets
 import org.jboss.netty.buffer.ChannelBuffers
+import java.util.Base64.Decoder._
+import java.nio.charset._
+import argonaut._, Argonaut._
+import com.twitter.util.Future
+import com.twitter.finagle.{Httpx, Service}
+import com.twitter.finagle.httpx
+
 
 
 /**
@@ -58,36 +65,58 @@ object SecretStores {
   class ConsulSecretStore(consul: Service[HttpRequest,HttpResponse]) extends SecretStoreApi {
     
     
-    
-    def current: Secret = {
-      val req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/v1/kv/?recurse")
-      val f = consul(req) // Client, send the request
+    def current: Future[Option[Secret]] = {
+      val req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/v1/kv/secretStore/current")
+      val f = consul(req) 
 
-    // Handle the response:
+    
       f onSuccess { res =>
-       println("got response" + res.getContent.toString(Charsets.Utf8) )
+       println("got response" );
+       val jsonReponse = res.getContent.toString(Charsets.Utf8) ;
+       val decodedJSONList = jsonReponse.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil)
+       val decodedString = base64Decode(decodedJSONList.headOption.get.Value)
+       val json: Option[Json] = Parse.parseOption(decodedString)
+      Some(SecretEncoder.EncodeJson.decode(json.get) )
+
+
       } onFailure { exc =>
-        println("failed :-(" + exc)
+        println("failed :-(" + exc);
+        //Secret()
+
       }
-      Secret()
+     
+      
+    }
+
+    def base64Decode(s: String): String ={
+      val decodedArray = java.util.Base64.getDecoder().decode(s);
+      new String(decodedArray, StandardCharsets.UTF_8)
     }
 
     def previous: Secret = {
+       /*
+      TODO
+      */
       Secret()
     }
 
     def find(f: Secret => Boolean): Option[Secret] = {
+      /*
+      TODO
+      */
       None
     }
 
     def update(newSecret: Secret): Boolean ={
-       val data = ChannelBuffers.copiedBuffer("String from borderpatrol", Charsets.Utf8)
+      val encodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
+      println(encodedSecret)
+      val data = ChannelBuffers.copiedBuffer(encodedSecret.nospaces, Charsets.Utf8)
       val req: HttpRequest= RequestBuilder()
-        .url("http://localhost:8500/v1/kv/web/key2")
+        .url("http://localhost:8500/v1/kv/secretStore/current")
         .buildPut(data)
-      //val req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, "/v1/kv/secretStore/current")
+      
     
-     val f = consul(req)
+      val f = consul(req)
       f onSuccess { res =>
        println("got response" + res.getContent.toString(Charsets.Utf8) )
       } onFailure { exc =>
@@ -112,6 +141,13 @@ object SecretStores {
       c
     }
     
+    case class ConsulResponse(CreateIndex: Int, ModifyIndex: Int,LockIndex: Int,Key: String, Flags: Int, Value: String)
+    object ConsulResponse {
+      implicit def ConsulResponseCodec: CodecJson[ConsulResponse] = 
+      casecodec6(ConsulResponse.apply, ConsulResponse.unapply)( "CreateIndex","ModifyIndex","LockIndex","Key","Flags","Value")
+    }
   }
+
+  
 
 }

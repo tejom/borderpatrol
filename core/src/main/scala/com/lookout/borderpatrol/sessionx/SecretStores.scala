@@ -3,7 +3,6 @@ package com.lookout.borderpatrol.sessionx
 import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
 import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
-import com.twitter.finagle.http._
 import com.twitter.io.{Charsets, Buf}
 import org.jboss.netty.buffer.ChannelBuffers
 import java.util.Base64.Decoder._

@@ -1,10 +1,10 @@
 package com.lookout.borderpatrol.sessionx
 
-//import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
+import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
 import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http._
-import com.twitter.io.Charsets
+import com.twitter.io.{Charsets, Buf}
 import org.jboss.netty.buffer.ChannelBuffers
 import java.util.Base64.Decoder._
 import java.nio.charset._
@@ -62,31 +62,25 @@ object SecretStores {
       else None
   }
 
-  class ConsulSecretStore(consul: Service[HttpRequest,HttpResponse]) extends SecretStoreApi {
+  class ConsulSecretStore(consul: Service[httpx.Request, httpx.Response]) {
     
     
-    def current: Future[Option[Secret]] = {
-      val req = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.GET, "/v1/kv/secretStore/current")
-      val f = consul(req) 
-
-    
-      f onSuccess { res =>
-       println("got response" );
-       val jsonReponse = res.getContent.toString(Charsets.Utf8) ;
-       val decodedJSONList = jsonReponse.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil)
-       val decodedString = base64Decode(decodedJSONList.headOption.get.Value)
-       val json: Option[Json] = Parse.parseOption(decodedString)
-      Some(SecretEncoder.EncodeJson.decode(json.get) )
-
-
-      } onFailure { exc =>
-        println("failed :-(" + exc);
-        //Secret()
-
-      }
-     
+    def current: Option[Secret] = {
       
+      
+      val req = httpx.Request(httpx.Method.Get, "/v1/kv/secretStore/current")
+      req.host = "localhost:"
+      val r = consul(req) 
+      val jsonReponse = r.map(a => a.getContentString)
+      val decodedJSONList = jsonReponse.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
+      val decodedString = decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
+      val json: Future[Option[Json]] = decodedString.map( a=> Parse.parseOption(a))
+      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
+      tryResponse.toOption
+
+
     }
+
 
     def base64Decode(s: String): String ={
       val decodedArray = java.util.Base64.getDecoder().decode(s);
@@ -107,22 +101,18 @@ object SecretStores {
       None
     }
 
-    def update(newSecret: Secret): Boolean ={
+    def update(newSecret: Secret): Future[String] ={
       val encodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(encodedSecret)
-      val data = ChannelBuffers.copiedBuffer(encodedSecret.nospaces, Charsets.Utf8)
-      val req: HttpRequest= RequestBuilder()
-        .url("http://localhost:8500/v1/kv/secretStore/current")
-        .buildPut(data)
+      
+      val data = Buf.Utf8(encodedSecret.nospaces)
+      val req :httpx.Request = httpx.RequestBuilder()
+         .url("http://localhost:8500/v1/kv/secretStore/current")
+         .buildPut(data)
       
     
-      val f = consul(req)
-      f onSuccess { res =>
-       println("got response" + res.getContent.toString(Charsets.Utf8) )
-      } onFailure { exc =>
-        println("failed :-(" + exc)
-      }
-      true
+       val f = consul(req)
+      f.map(a => a.getContentString)
     }
   }
 
@@ -131,11 +121,7 @@ object SecretStores {
     def apply(consulUrl: String, consulPort: String):ConsulSecretStore = {
       var apiUrl = s"$consulUrl:$consulPort"
       println(apiUrl)
-      val client: Service[HttpRequest, HttpResponse] = ClientBuilder()
-        .codec(Http())
-        .hosts(apiUrl) 
-        .hostConnectionLimit(5)
-        .build()
+      val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
 
       val c = new ConsulSecretStore(client)
       c

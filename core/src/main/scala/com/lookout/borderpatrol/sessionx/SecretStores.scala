@@ -85,18 +85,24 @@ object SecretStores {
     }
 
     def update(newSecret: Secret): Future[String] ={
-      val secretHolder = previous.getOrElse( Secret() )
+      val currentDataString = getValue("/v1/kv/secretStore/current").get
       val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(newEncodedSecret)
 
+      val currentData = Buf.Utf8(currentDataString)
+      val updatePrevious :httpx.Request = httpx.RequestBuilder()
+         .url("http://localhost:8500/v1/kv/secretStore/previous")
+         .buildPut(currentData)
+     consul(updatePrevious)
+
       
-      val data = Buf.Utf8(newEncodedSecret.nospaces)
-      val req :httpx.Request = httpx.RequestBuilder()
+      val newData = Buf.Utf8(newEncodedSecret.nospaces)
+      val updateCurrent :httpx.Request = httpx.RequestBuilder()
          .url("http://localhost:8500/v1/kv/secretStore/current")
-         .buildPut(data)
+         .buildPut(newData)
       
     
-       val f = consul(req)
+      val f = consul(updateCurrent)
       f.map(a => a.getContentString)
     }
     /**
@@ -125,7 +131,7 @@ object SecretStores {
       consul(req).map(a => a.getContentString)
     }
     /**
-    *Get just the value for a key from consul as Future[String]. To get the full json response from Consul
+    *Get just the decoded value for a key from consul as Future[String]. To get the full json response from Consul
     *use getConsulRepsonse
     **/
     private def getValue(k: String): Future[String] = {

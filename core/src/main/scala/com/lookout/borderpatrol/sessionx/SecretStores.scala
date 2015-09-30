@@ -83,13 +83,18 @@ object SecretStores {
       */
       None
     }
-
-    def update(newSecret: Secret): Future[String] ={
-      val currentDataString = getValue("/v1/kv/secretStore/current").get
+    /**
+    * Updates the consul keys  and returns an InMemorySecretStore containing the new Secrets
+    * Updates the consul server as a side effect. Im not sure if this is a good idea or not
+    * the intention of the function is update the consul server. Returning an in memory secret store would let 
+    * whoever is using the function use the inmemorysecret store as a cache and avoid the serialization concern
+    **/
+    def update(newSecret: Secret): InMemorySecretStore ={
+      val currentDataString = getValue("/v1/kv/secretStore/current")
       val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(newEncodedSecret)
 
-      val currentData = Buf.Utf8(currentDataString)
+      val currentData = Buf.Utf8(currentDataString.get)
       val updatePrevious :httpx.Request = httpx.RequestBuilder()
          .url("http://localhost:8500/v1/kv/secretStore/previous")
          .buildPut(currentData)
@@ -102,11 +107,12 @@ object SecretStores {
          .buildPut(newData)
       
     
-      val f = consul(updateCurrent)
-      f.map(a => a.getContentString)
+      consul(updateCurrent)
+      val oldSecret = secretTryFromFutureString(currentDataString).get
+      InMemorySecretStore( Secrets(newSecret,oldSecret))
     }
     /**
-    *Returns a Try[Secret] from json a Futrue[String]
+    *Returns a Try[Secret] from json a Future[String]
     **/
     private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
       

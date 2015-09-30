@@ -66,38 +66,16 @@ object SecretStores {
     
     
     def current: Option[Secret] = {
-      val req = httpx.Request(httpx.Method.Get, "/v1/kv/secretStore/current")
-      req.host = host
-      val r = consul(req) 
-      val tryResponse = secretTryFromFutureHttpxReponse(r)
+      val r = getValue("/v1/kv/secretStore/current")
+      val tryResponse = secretTryFromFutureString(r)
       tryResponse.toOption
     }
 
      def previous: Option[Secret] = {
-      val req = httpx.Request(httpx.Method.Get, "/v1/kv/secretStore/previous")
-      req.host = host
-      val r = consul(req) 
-      val tryResponse = secretTryFromFutureHttpxReponse(r)
+      val r = getValue("/v1/kv/secretStore/previous") 
+      val tryResponse = secretTryFromFutureString(r)
       tryResponse.toOption
     }
-
-    def secretTryFromFutureHttpxReponse(r: Future[httpx.Response]): Try[Secret] = {
-      val jsonReponse = r.map(a => a.getContentString)
-      val decodedJSONList = jsonReponse.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
-      val decodedString = decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
-      val json: Future[Option[Json]] = decodedString.map( a=> Parse.parseOption(a))
-      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
-      tryResponse
-
-    }
-
-
-    private def base64Decode(s: String): String ={
-      val decodedArray = java.util.Base64.getDecoder().decode(s);
-      new String(decodedArray, StandardCharsets.UTF_8)
-    }
-
-   
 
     def find(f: Secret => Boolean): Option[Secret] = {
       /*
@@ -107,10 +85,12 @@ object SecretStores {
     }
 
     def update(newSecret: Secret): Future[String] ={
-      val encodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
-      println(encodedSecret)
+      val secretHolder = previous.getOrElse( Secret() )
+      val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
+      println(newEncodedSecret)
+
       
-      val data = Buf.Utf8(encodedSecret.nospaces)
+      val data = Buf.Utf8(newEncodedSecret.nospaces)
       val req :httpx.Request = httpx.RequestBuilder()
          .url("http://localhost:8500/v1/kv/secretStore/current")
          .buildPut(data)
@@ -119,12 +99,48 @@ object SecretStores {
        val f = consul(req)
       f.map(a => a.getContentString)
     }
+    /**
+    *Returns a Try[Secret] from json a Futrue[String]
+    **/
+    private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
+      
+      val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
+      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
+      tryResponse
+
+    }
+    /**
+    *Decode consul base64 response to a readable String
+    **/
+    private def base64Decode(s: String): String ={
+      val decodedArray = java.util.Base64.getDecoder().decode(s);
+      new String(decodedArray, StandardCharsets.UTF_8)
+    }
+    /**
+    *Return a json String from a consul key URL
+    **/
+    private def getConsulResponse(k: String): Future[String] = {
+      val req = httpx.Request(httpx.Method.Get, k)
+      req.host = host
+      consul(req).map(a => a.getContentString)
+    }
+    /**
+    *Get just the value for a key from consul as Future[String]. To get the full json response from Consul
+    *use getConsulRepsonse
+    **/
+    private def getValue(k: String): Future[String] = {
+      val s = getConsulResponse(k)
+      val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
+      decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
+    }
+
+    
   }
 
   object ConsulSecretStore{
 
     def apply(consulUrl: String, consulPort: String):ConsulSecretStore = {
-      var apiUrl = s"$consulUrl:$consulPort"
+      val apiUrl = s"$consulUrl:$consulPort"
       println(apiUrl)
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
 

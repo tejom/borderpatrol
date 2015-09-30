@@ -11,6 +11,7 @@ import argonaut._, Argonaut._
 import com.twitter.util.Future
 import com.twitter.finagle.{Httpx, Service}
 import com.twitter.finagle.httpx
+import scala.util.{Success, Failure, Try}
 
 
 
@@ -61,37 +62,42 @@ object SecretStores {
       else None
   }
 
-  class ConsulSecretStore(consul: Service[httpx.Request, httpx.Response]) {
+  class ConsulSecretStore(consul: Service[httpx.Request, httpx.Response],host: String) {
     
     
     def current: Option[Secret] = {
-      
-      
       val req = httpx.Request(httpx.Method.Get, "/v1/kv/secretStore/current")
-      req.host = "localhost:"
+      req.host = host
       val r = consul(req) 
+      val tryResponse = secretTryFromFutureHttpxReponse(r)
+      tryResponse.toOption
+    }
+
+     def previous: Option[Secret] = {
+      val req = httpx.Request(httpx.Method.Get, "/v1/kv/secretStore/previous")
+      req.host = host
+      val r = consul(req) 
+      val tryResponse = secretTryFromFutureHttpxReponse(r)
+      tryResponse.toOption
+    }
+
+    def secretTryFromFutureHttpxReponse(r: Future[httpx.Response]): Try[Secret] = {
       val jsonReponse = r.map(a => a.getContentString)
       val decodedJSONList = jsonReponse.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
       val decodedString = decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
       val json: Future[Option[Json]] = decodedString.map( a=> Parse.parseOption(a))
       val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
-      tryResponse.toOption
-
+      tryResponse
 
     }
 
 
-    def base64Decode(s: String): String ={
+    private def base64Decode(s: String): String ={
       val decodedArray = java.util.Base64.getDecoder().decode(s);
       new String(decodedArray, StandardCharsets.UTF_8)
     }
 
-    def previous: Secret = {
-       /*
-      TODO
-      */
-      Secret()
-    }
+   
 
     def find(f: Secret => Boolean): Option[Secret] = {
       /*
@@ -122,7 +128,7 @@ object SecretStores {
       println(apiUrl)
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
 
-      val c = new ConsulSecretStore(client)
+      val c = new ConsulSecretStore(client,consulUrl)
       c
     }
     

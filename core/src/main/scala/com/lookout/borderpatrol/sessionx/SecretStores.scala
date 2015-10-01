@@ -62,7 +62,7 @@ object SecretStores {
       else None
   }
 
-  class ConsulSecretStore(consul: ConsulConnection ,poll: Int) {
+  class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
     val cache = new ConsulSecretCache(poll,consul)
     
     def startPolling: Unit ={
@@ -87,7 +87,7 @@ object SecretStores {
     * Updates the consul keys  and returns an InMemorySecretStore containing the new Secrets
     * Updates the consul server as a side effect. Im not sure if this is a good idea or not
     * the intention of the function is update the consul server. Returning an in memory secret store would let 
-    * whoever is using the function use the inmemorysecret store as a cache and avoid the serialization concern
+    * whoever is using the function use the inmemorysecret store
     **/
     def update(newSecret: Secret): InMemorySecretStore ={
       val currentDataString = consul.getValue("/v1/kv/secretStore/current")
@@ -109,7 +109,9 @@ object SecretStores {
     }
     
   }
-
+  /**
+  *Polls the consul server and updates an inmemory cache for SecretStore
+  **/
   class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
     val cache = scala.collection.mutable.HashMap.empty[String,Secret]
     //polls for updates and updates cache
@@ -152,7 +154,9 @@ object SecretStores {
 
 
   }
-  //class to interface with consul kv store
+  /**
+  *class to interface with consul kv store
+  **/
   class ConsulConnection(consul: Service[httpx.Request, httpx.Response],host: String) {
      
     /**

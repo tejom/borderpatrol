@@ -65,16 +65,16 @@ object SecretStores {
   class ConsulSecretStore(consul: ConsulConnection ,poll: Int) {
     val cache = new ConsulSecretCache(poll,consul)
     
-    def current: Option[Secret] = {
-      val r = consul.getValue("/v1/kv/secretStore/current")
-      val tryResponse = secretTryFromFutureString(r)
-      tryResponse.toOption
+    def startPolling: Unit ={
+      new Thread( cache ).start
+    }
+    
+    def current: Secret = {
+      cache.getCurrent
     }
 
-     def previous: Option[Secret] = {
-      val r = consul.getValue("/v1/kv/secretStore/previous") 
-      val tryResponse = secretTryFromFutureString(r)
-      tryResponse.toOption
+     def previous: Secret = {
+      cache.getPrevious
     }
 
     def find(f: Secret => Boolean): Option[Secret] = {
@@ -93,22 +93,8 @@ object SecretStores {
       val currentDataString = consul.getValue("/v1/kv/secretStore/current")
       val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(newEncodedSecret)
-
       consul.setValue("secretStore/previous",currentDataString.get)
-     //  val currentData = Buf.Utf8(currentDataString.get)
-     //  val updatePrevious :httpx.Request = httpx.RequestBuilder()
-     //     .url("http://localhost:8500/v1/kv/secretStore/previous")
-     //     .buildPut(currentData)
-     // consul(updatePrevious)
-
       consul.setValue("secretStore/current",newEncodedSecret.nospaces)
-      // val newData = Buf.Utf8(newEncodedSecret.nospaces)
-      // val updateCurrent :httpx.Request = httpx.RequestBuilder()
-      //    .url("http://localhost:8500/v1/kv/secretStore/current")
-      //    .buildPut(newData)
-      
-    
-      // consul(updateCurrent)
       val oldSecret = secretTryFromFutureString(currentDataString).get
       InMemorySecretStore( Secrets(newSecret,oldSecret))
     }
@@ -125,15 +111,43 @@ object SecretStores {
   }
 
   class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
-    val cache = scala.collection.mutable.Map
+    val cache = scala.collection.mutable.HashMap.empty[String,Secret]
     //polls for updates and updates cache
     def run() = {
       while(true){
-        println("polling for update")
+        //println("polling for update")
+        cache+=("current"-> pollCurrent.get , "previous"->pollPrevious.get)
         Thread.sleep( poll * 1000)
       }
     }
 
+    def getCurrent: Secret = {
+      cache("current")
+    }
+     def getPrevious: Secret = {
+      cache("previous")
+    }
+
+    private def pollCurrent: Option[Secret] = {
+      val r = consul.getValue("/v1/kv/secretStore/current")
+      val tryResponse = secretTryFromFutureString(r)
+      tryResponse.toOption
+    }
+
+    private def pollPrevious: Option[Secret] = {
+      val r = consul.getValue("/v1/kv/secretStore/previous") 
+      val tryResponse = secretTryFromFutureString(r)
+      tryResponse.toOption
+    }
+    /**
+    *Returns a Try[Secret] from json a Future[String]
+    **/
+    private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
+      
+      val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
+      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
+      tryResponse
+    }
 
 
 
@@ -165,13 +179,15 @@ object SecretStores {
       val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
       decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
     }
-
+    /**
+    *Set the given key to the given Value. Both are strings
+    **/
     def setValue(k: String, v: String): Unit = {
       val currentData = Buf.Utf8(v)
       val update :httpx.Request = httpx.RequestBuilder()
          .url(s"http://$host:8500/v1/kv/$k")
          .buildPut(currentData)
-       consul(update)
+      consul(update)
 
     }
 

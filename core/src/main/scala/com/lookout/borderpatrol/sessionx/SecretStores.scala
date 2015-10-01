@@ -62,17 +62,17 @@ object SecretStores {
       else None
   }
 
-  class ConsulSecretStore(consul: Service[httpx.Request, httpx.Response],host: String) {
-    
+  class ConsulSecretStore(consul: ConsulConnection ,poll: Int) {
+    val cache = new ConsulSecretCache(poll,consul)
     
     def current: Option[Secret] = {
-      val r = getValue("/v1/kv/secretStore/current")
+      val r = consul.getValue("/v1/kv/secretStore/current")
       val tryResponse = secretTryFromFutureString(r)
       tryResponse.toOption
     }
 
      def previous: Option[Secret] = {
-      val r = getValue("/v1/kv/secretStore/previous") 
+      val r = consul.getValue("/v1/kv/secretStore/previous") 
       val tryResponse = secretTryFromFutureString(r)
       tryResponse.toOption
     }
@@ -90,24 +90,25 @@ object SecretStores {
     * whoever is using the function use the inmemorysecret store as a cache and avoid the serialization concern
     **/
     def update(newSecret: Secret): InMemorySecretStore ={
-      val currentDataString = getValue("/v1/kv/secretStore/current")
+      val currentDataString = consul.getValue("/v1/kv/secretStore/current")
       val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(newEncodedSecret)
 
-      val currentData = Buf.Utf8(currentDataString.get)
-      val updatePrevious :httpx.Request = httpx.RequestBuilder()
-         .url("http://localhost:8500/v1/kv/secretStore/previous")
-         .buildPut(currentData)
-     consul(updatePrevious)
+      consul.setValue("secretStore/previous",currentDataString.get)
+     //  val currentData = Buf.Utf8(currentDataString.get)
+     //  val updatePrevious :httpx.Request = httpx.RequestBuilder()
+     //     .url("http://localhost:8500/v1/kv/secretStore/previous")
+     //     .buildPut(currentData)
+     // consul(updatePrevious)
 
-      
-      val newData = Buf.Utf8(newEncodedSecret.nospaces)
-      val updateCurrent :httpx.Request = httpx.RequestBuilder()
-         .url("http://localhost:8500/v1/kv/secretStore/current")
-         .buildPut(newData)
+      consul.setValue("secretStore/current",newEncodedSecret.nospaces)
+      // val newData = Buf.Utf8(newEncodedSecret.nospaces)
+      // val updateCurrent :httpx.Request = httpx.RequestBuilder()
+      //    .url("http://localhost:8500/v1/kv/secretStore/current")
+      //    .buildPut(newData)
       
     
-      consul(updateCurrent)
+      // consul(updateCurrent)
       val oldSecret = secretTryFromFutureString(currentDataString).get
       InMemorySecretStore( Secrets(newSecret,oldSecret))
     }
@@ -119,8 +120,27 @@ object SecretStores {
       val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
       val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
       tryResponse
-
     }
+    
+  }
+
+  class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
+    val cache = scala.collection.mutable.Map
+    //polls for updates and updates cache
+    def run() = {
+      while(true){
+        println("polling for update")
+        Thread.sleep( poll * 1000)
+      }
+    }
+
+
+
+
+  }
+  //class to interface with consul kv store
+  class ConsulConnection(consul: Service[httpx.Request, httpx.Response],host: String) {
+     
     /**
     *Decode consul base64 response to a readable String
     **/
@@ -140,23 +160,33 @@ object SecretStores {
     *Get just the decoded value for a key from consul as Future[String]. To get the full json response from Consul
     *use getConsulRepsonse
     **/
-    private def getValue(k: String): Future[String] = {
+    def getValue(k: String): Future[String] = {
       val s = getConsulResponse(k)
       val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
       decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
     }
 
-    
+    def setValue(k: String, v: String): Unit = {
+      val currentData = Buf.Utf8(v)
+      val update :httpx.Request = httpx.RequestBuilder()
+         .url(s"http://$host:8500/v1/kv/$k")
+         .buildPut(currentData)
+       consul(update)
+
+    }
+
   }
+
 
   object ConsulSecretStore{
 
-    def apply(consulUrl: String, consulPort: String):ConsulSecretStore = {
+    def apply(consulUrl: String, consulPort: String,poll: Int):ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
       println(apiUrl)
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
+      val consulConnection = new ConsulConnection(client,consulUrl)
 
-      val c = new ConsulSecretStore(client,consulUrl)
+      val c = new ConsulSecretStore(consulConnection,poll)
       c
     }
     

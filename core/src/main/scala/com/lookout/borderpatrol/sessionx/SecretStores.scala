@@ -5,10 +5,10 @@ import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.io.{Charsets, Buf}
 import org.jboss.netty.buffer.ChannelBuffers
-import java.util.Base64.Decoder._
+//import java.util.Base64.Decoder._
 import java.nio.charset._
 import argonaut._, Argonaut._
-import com.twitter.util.Future
+import com.twitter.util.{Future , Await }
 import com.twitter.finagle.{Httpx, Service}
 import com.twitter.finagle.httpx
 import scala.util.{Success, Failure, Try}
@@ -65,23 +65,24 @@ object SecretStores {
   class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
     val cache = new ConsulSecretCache(poll,consul)
     
-    def startPolling: Unit ={
+    def startPolling() ={
       new Thread( cache ).start
     }
     
     def current: Secret = {
-      cache.getCurrent
+      cache.getCurrent.getOrElse( cache.pollCurrent.getOrElse({ 
+        throw new Exception("Failed getting current secret from cache and consul Server")}))
     }
 
      def previous: Secret = {
-      cache.getPrevious
+      cache.getPrevious.getOrElse( cache.pollPrevious.getOrElse({ 
+        throw new Exception("Failed getting previous secret from cache and consul Server")}))
     }
-
+    //this probbaly will have the same implementation as the inmemorystore
     def find(f: Secret => Boolean): Option[Secret] = {
-      /*
-      TODO
-      */
-      None
+      if (f(current)) Some(current)
+      else if (f(previous)) Some(previous)
+      else None
     }
     /**
     * Updates the consul keys  and returns an InMemorySecretStore containing the new Secrets
@@ -89,14 +90,15 @@ object SecretStores {
     * the intention of the function is update the consul server. Returning an in memory secret store would let 
     * whoever is using the function use the inmemorysecret store
     **/
-    def update(newSecret: Secret): InMemorySecretStore ={
-      val currentDataString = consul.getValue("/v1/kv/secretStore/current")
+    def update(newSecret: Secret): Unit ={
+      val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
       val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
       println(newEncodedSecret)
-      consul.setValue("secretStore/previous",currentDataString.get)
+      currentDataString match {
+        case Success(s) => consul.setValue("secretStore/previous",currentDataString.get)
+        case Failure(e) => println(" Failed trying to get Current Secret from consul. Exception: " + e)
+      }
       consul.setValue("secretStore/current",newEncodedSecret.nospaces)
-      val oldSecret = secretTryFromFutureString(currentDataString).get
-      InMemorySecretStore( Secrets(newSecret,oldSecret))
     }
     /**
     *Returns a Try[Secret] from json a Future[String]
@@ -106,8 +108,7 @@ object SecretStores {
       val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
       val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
       tryResponse
-    }
-    
+    }   
   }
   /**
   *Polls the consul server and updates an inmemory cache for SecretStore
@@ -117,41 +118,48 @@ object SecretStores {
     //polls for updates and updates cache
     def run() = {
       while(true){
-        //println("polling for update")
-        cache+=("current"-> pollCurrent.get , "previous"->pollPrevious.get)
+        for {
+          c <- pollCurrent
+          p <- pollPrevious
+        } yield cache+=("current" -> c, "previous" -> p)
         Thread.sleep( poll * 1000)
       }
     }
 
-    def getCurrent: Secret = {
-      cache("current")
+    def getCurrent: Option[Secret] = {
+      cache.get("current") 
     }
-     def getPrevious: Secret = {
-      cache("previous")
+     def getPrevious: Option[Secret] = {
+      cache.get("previous")
     }
 
-    private def pollCurrent: Option[Secret] = {
+    def pollCurrent: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/current")
-      val tryResponse = secretTryFromFutureString(r)
-      tryResponse.toOption
+      r.get match {
+        case Success(a) => secretTryFromString(a).toOption
+        case Failure(e)=> None
+      }
+      //val tryResponse = secretTryFromFutureString(r)
+      //tryResponse.toOption
     }
 
-    private def pollPrevious: Option[Secret] = {
+    def pollPrevious: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/previous") 
-      val tryResponse = secretTryFromFutureString(r)
-      tryResponse.toOption
+      r.get match {
+        case Success(a) => secretTryFromString(a).toOption
+        case Failure(e)=> None
+      }
     }
     /**
-    *Returns a Try[Secret] from json a Future[String]
+    *Returns a Try[Secret] from json a [String]
     **/
-    private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
+
+    private def secretTryFromString(s: String): Try[Secret] = {
       
-      val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
-      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
+      val json: Option[Json] = Parse.parseOption(s)
+      val tryResponse = SecretEncoder.EncodeJson.decode(json.get)
       tryResponse
     }
-
-
 
   }
   /**
@@ -178,15 +186,16 @@ object SecretStores {
     *Get just the decoded value for a key from consul as Future[String]. To get the full json response from Consul
     *use getConsulRepsonse
     **/
-    def getValue(k: String): Future[String] = {
+    def getValue[A,B](k: String): Future[Try[String]] = {
       val s = getConsulResponse(k)
-      val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil))
-      decodedJSONList.map(a=> base64Decode(a.headOption.get.Value))
+      val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse( List() ))
+       decodedJSONList.map(a=> Try(base64Decode(a.headOption.get.Value) ) )
+      
     }
     /**
     *Set the given key to the given Value. Both are strings
     **/
-    def setValue(k: String, v: String): Unit = {
+    def setValue(k: String, v: String): Future[httpx.Response] = {
       val currentData = Buf.Utf8(v)
       val update :httpx.Request = httpx.RequestBuilder()
          .url(s"http://$host:8500/v1/kv/$k")

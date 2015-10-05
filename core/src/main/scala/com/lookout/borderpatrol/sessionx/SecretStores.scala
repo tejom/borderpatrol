@@ -106,15 +106,20 @@ object SecretStores {
     private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
       
       val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
-      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get)).get
-      tryResponse
+      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get))
+      Await.result(tryResponse)
     }   
   }
   /**
   *Polls the consul server and updates an inmemory cache for SecretStore
   **/
   class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
-    val cache = scala.collection.mutable.HashMap.empty[String,Secret]
+    val cache = scala.collection.mutable.HashMap.empty[String,Secret] 
+    /**scala.collection.mutable package is disabled is the warning this gives
+    *Im not sure how to implement this without this. Everything ive read on cache and memoization(not sure that completly applies
+    *but its simmilar)
+    **/
+
     //polls for updates and updates cache
     def run() = {
       while(true){
@@ -135,7 +140,7 @@ object SecretStores {
 
     def pollCurrent: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/current")
-      r.get match {
+      Await.result(r) match {
         case Success(a) => secretTryFromString(a).toOption
         case Failure(e)=> None
       }
@@ -145,7 +150,7 @@ object SecretStores {
 
     def pollPrevious: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/previous") 
-      r.get match {
+      Await.result(r) match {
         case Success(a) => secretTryFromString(a).toOption
         case Failure(e)=> None
       }

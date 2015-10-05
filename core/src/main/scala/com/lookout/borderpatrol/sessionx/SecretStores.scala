@@ -64,16 +64,27 @@ object SecretStores {
 
   class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
     val cache = new ConsulSecretCache(poll,consul)
-    
+    /**
+    *Create a new thread that will check the consul server for updates
+    **/
     def startPolling() ={
       new Thread( cache ).start
     }
     
+    /**
+    *Get the current secret from the cache then tries to get a secret from the server it self. 
+    * Im not sure if the or else is neccesary since startPolling would be doing this anyway
+    *Throws and exception if the cache is empty and
+    **/
     def current: Secret = {
       cache.getCurrent.getOrElse( cache.pollCurrent.getOrElse({ 
         throw new Exception("Failed getting current secret from cache and consul Server")}))
     }
-
+    /**
+    *Get the previous secret from the cache then tries to get a secret from the server it self. 
+    * Im not sure if the or else is neccesary since startPolling would be doing this anyway
+    *Throws and exception if the cache is empty and
+    **/
      def previous: Secret = {
       cache.getPrevious.getOrElse( cache.pollPrevious.getOrElse({ 
         throw new Exception("Failed getting previous secret from cache and consul Server")}))
@@ -85,10 +96,7 @@ object SecretStores {
       else None
     }
     /**
-    * Updates the consul keys  and returns an InMemorySecretStore containing the new Secrets
-    * Updates the consul server as a side effect. Im not sure if this is a good idea or not
-    * the intention of the function is update the consul server. Returning an in memory secret store would let 
-    * whoever is using the function use the inmemorysecret store
+    * Roattes the current to previous, Updates the current secret to the paramater on the consul server and returns Unit
     **/
     def update(newSecret: Secret): Unit ={
       val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
@@ -100,15 +108,6 @@ object SecretStores {
       }
       consul.setValue("secretStore/current",newEncodedSecret.nospaces)
     }
-    /**
-    *Returns a Try[Secret] from json a Future[String]
-    **/
-    private def secretTryFromFutureString(s: Future[String]): Try[Secret] = {
-      
-      val json: Future[Option[Json]] = s.map( a=> Parse.parseOption(a))
-      val tryResponse = json.map(a => SecretEncoder.EncodeJson.decode(a.get))
-      Await.result(tryResponse)
-    }   
   }
   /**
   *Polls the consul server and updates an inmemory cache for SecretStore
@@ -117,10 +116,14 @@ object SecretStores {
     val cache = scala.collection.mutable.HashMap.empty[String,Secret] 
     /**scala.collection.mutable package is disabled is the warning this gives
     *Im not sure how to implement this without this. Everything ive read on cache and memoization(not sure that completly applies
-    *but its simmilar)
+    *but its simmilar) uses a mutable map
     **/
 
-    //polls for updates and updates cache
+    /**
+    *Continously poll the consul server at the interval passed to the Class when it was created
+    *updates the cache based on what it finds
+    *Calling this using the function in consul secret store will put this in a new thread
+    **/
     def run() = {
       while(true){
         for {
@@ -130,24 +133,31 @@ object SecretStores {
         Thread.sleep( poll * 1000)
       }
     }
-
+    /**
+    *Get the secret at current from the cache or returns None
+    **/
     def getCurrent: Option[Secret] = {
       cache.get("current") 
     }
+    /**
+    *Get the secret at previous from the cache or returns None
+    **/
      def getPrevious: Option[Secret] = {
       cache.get("previous")
     }
-
+    /**
+    *Get the secret at current from the consul server or returns None
+    **/
     def pollCurrent: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/current")
       Await.result(r) match {
         case Success(a) => secretTryFromString(a).toOption
         case Failure(e)=> None
       }
-      //val tryResponse = secretTryFromFutureString(r)
-      //tryResponse.toOption
     }
-
+     /**
+    *Get the secret at previous from the consul server or returns None
+    **/
     def pollPrevious: Option[Secret] = {
       val r = consul.getValue("/v1/kv/secretStore/previous") 
       Await.result(r) match {
@@ -156,13 +166,13 @@ object SecretStores {
       }
     }
     /**
-    *Returns a Try[Secret] from json a [String]
+    *Returns a Try[Secret] from json as a [String]
     **/
-
     private def secretTryFromString(s: String): Try[Secret] = {
       
       val json: Option[Json] = Parse.parseOption(s)
       val tryResponse = SecretEncoder.EncodeJson.decode(json.get)
+      //compiler warns about get here. Not sure what the best way to fail is though
       tryResponse
     }
 
@@ -194,8 +204,8 @@ object SecretStores {
     def getValue[A,B](k: String): Future[Try[String]] = {
       val s = getConsulResponse(k)
       val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse( List() ))
-       decodedJSONList.map(a=> Try(base64Decode(a.headOption.get.Value) ) )
-      
+       decodedJSONList.map(a=> Try(base64Decode(a.headOption.get.Value) ) ) 
+       //compiler warns about get here. Not sure what the best way to fail is though     
     }
     /**
     *Set the given key to the given Value. Both are strings
@@ -206,12 +216,8 @@ object SecretStores {
          .url(s"http://$host:8500/v1/kv/$k")
          .buildPut(currentData)
       consul(update)
-
     }
-
   }
-
-
   object ConsulSecretStore{
 
     def apply(consulUrl: String, consulPort: String,poll: Int):ConsulSecretStore = {
@@ -229,8 +235,5 @@ object SecretStores {
       implicit def ConsulResponseCodec: CodecJson[ConsulResponse] = 
       casecodec6(ConsulResponse.apply, ConsulResponse.unapply)( "CreateIndex","ModifyIndex","LockIndex","Key","Flags","Value")
     }
-  }
-
-  
-
+  } 
 }

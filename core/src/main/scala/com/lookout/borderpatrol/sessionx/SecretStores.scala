@@ -96,7 +96,7 @@ object SecretStores {
       else None
     }
     /**
-    * Roattes the current to previous, Updates the current secret to the paramater on the consul server and returns Unit
+    * Roates the current to previous, Updates the current secret to the paramater on the consul server and returns Unit
     **/
     def update(newSecret: Secret): Unit ={
       val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )

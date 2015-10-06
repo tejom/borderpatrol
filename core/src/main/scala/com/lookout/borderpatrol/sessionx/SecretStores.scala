@@ -5,7 +5,6 @@ import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.io.{Charsets, Buf}
 import org.jboss.netty.buffer.ChannelBuffers
-//import java.util.Base64.Decoder._
 import java.nio.charset._
 import argonaut._, Argonaut._
 import com.twitter.util.{Future , Await }

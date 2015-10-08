@@ -60,11 +60,17 @@ object SecretStores {
       else if (f(previous)) Some(previous)
       else None
   }
-
+  /**
+  *A store to access the current and previous [[com.lookout.borderpatrol.sessionx.Secret]] stored in the consul server.
+  * It will use a in memory cache before making a request to the server
+  *
+  *@param consul An instance of [[com.lookout.borderpatrol.sessionx.ConsulConnection]] to make requests to the consul server
+  *@param poll How often in seconds to check for updated Secrets on the consul server
+  **/
   class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
     val cache = new ConsulSecretCache(poll,consul)
     /**
-    *Create a new thread that will check the consul server for updates
+    *Create a new Thread that will check the consul server for updates
     **/
     def startPolling() ={
       new Thread( cache ).start
@@ -73,7 +79,7 @@ object SecretStores {
     /**
     *Get the current secret from the cache then tries to get a secret from the server it self. 
     * Im not sure if the or else is neccesary since startPolling would be doing this anyway
-    *Throws and exception if the cache is empty and
+    *Throws an exception if the cache is empty
     **/
     def current: Secret = {
       cache.getCurrent.getOrElse( cache.pollCurrent.getOrElse({ 
@@ -82,7 +88,7 @@ object SecretStores {
     /**
     *Get the previous secret from the cache then tries to get a secret from the server it self. 
     * Im not sure if the or else is neccesary since startPolling would be doing this anyway
-    *Throws and exception if the cache is empty and
+    *Throws an exception if the cache is empty
     **/
      def previous: Secret = {
       cache.getPrevious.getOrElse( cache.pollPrevious.getOrElse({ 
@@ -95,7 +101,9 @@ object SecretStores {
       else None
     }
     /**
-    * Roates the current to previous, Updates the current secret to the paramater on the consul server and returns Unit
+    *Roates the current Secret to previous, Updates the current secret to the paramater on the consul server and returns Unit
+    *
+    *@param newSecret the new Secret to be stored on the consul server
     **/
     def update(newSecret: Secret): Unit ={
       val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
@@ -109,7 +117,12 @@ object SecretStores {
     }
   }
   /**
+  *Stores the secrets stored on the consul server.
   *Polls the consul server and updates an inmemory cache for SecretStore
+  *Uses a [[scala.collection.mutable.HashMap]]
+  *
+  *@param poll How often in seconds to check for updates
+  *@param consul An instance on ConsulConnection to make connections with the consul server
   **/
   class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
     val cache = scala.collection.mutable.HashMap.empty[String,Secret] 

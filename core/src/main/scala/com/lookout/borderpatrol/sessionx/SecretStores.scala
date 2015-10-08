@@ -167,7 +167,7 @@ object SecretStores {
         case Failure(e)=> None
       }
     }
-     /**
+    /**
     *Get the secret at previous from the consul server or returns None
     **/
     def pollPrevious: Option[Secret] = {
@@ -179,6 +179,8 @@ object SecretStores {
     }
     /**
     *Returns a Try[Secret] from json as a [String]
+    *
+    *@param s A json string with information to create a Secret
     **/
     private def secretTryFromString(s: String): Try[Secret] = {
       
@@ -191,11 +193,16 @@ object SecretStores {
   }
   /**
   *class to interface with consul kv store
+  *
+  *@param consul Finagle server to send and get requests to the server
+  *@param host host name of the consul server to connect to ex: "localhost"
   **/
   class ConsulConnection(consul: Service[httpx.Request, httpx.Response],host: String) {
      
     /**
     *Decode consul base64 response to a readable String
+    *
+    *@param s decodes consul value response from base64 to a String
     **/
     private def base64Decode(s: String): String ={
       val decodedArray = java.util.Base64.getDecoder().decode(s);
@@ -203,6 +210,8 @@ object SecretStores {
     }
     /**
     *Return a json String from a consul key URL
+    *
+    *@param k key to get a consul json response from
     **/
     private def getConsulResponse(k: String): Future[String] = {
       val req = httpx.Request(httpx.Method.Get, k)
@@ -212,6 +221,8 @@ object SecretStores {
     /**
     *Get just the decoded value for a key from consul as Future[String]. To get the full json response from Consul
     *use getConsulRepsonse
+    *
+    *@param k the key to get the value for
     **/
     def getValue[A,B](k: String): Future[Try[String]] = {
       val s = getConsulResponse(k)
@@ -221,6 +232,9 @@ object SecretStores {
     }
     /**
     *Set the given key to the given Value. Both are strings
+    *
+    *@param k the key to set
+    *@param v the value of the key
     **/
     def setValue(k: String, v: String): Future[httpx.Response] = {
       val currentData = Buf.Utf8(v)
@@ -231,7 +245,13 @@ object SecretStores {
     }
   }
   object ConsulSecretStore{
-
+    /**
+    *Create a ConsulSecretStore to use.
+    *
+    *@param consulUrl the host name of the server
+    *@param the port the kv store is listening on. Consul default is 8500
+    *@param poll How often to check for updates on the consul server
+    **/
     def apply(consulUrl: String, consulPort: String,poll: Int):ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
       println(apiUrl)
@@ -241,7 +261,9 @@ object SecretStores {
       val c = new ConsulSecretStore(consulConnection,poll)
       c
     }
-    
+    /**
+    *Argonaut lets you use the response from consul as a class to get attributes from.
+    **/
     case class ConsulResponse(CreateIndex: Int, ModifyIndex: Int,LockIndex: Int,Key: String, Flags: Int, Value: String)
     object ConsulResponse {
       implicit def ConsulResponseCodec: CodecJson[ConsulResponse] = 

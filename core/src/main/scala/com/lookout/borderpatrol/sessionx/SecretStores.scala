@@ -1,10 +1,8 @@
 package com.lookout.borderpatrol.sessionx
 
-import org.jboss.netty.handler.codec.http.{DefaultHttpRequest, HttpRequest, HttpResponse, HttpVersion, HttpMethod}
 import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.io.{Charsets, Buf}
-import org.jboss.netty.buffer.ChannelBuffers
 import java.nio.charset._
 import argonaut._, Argonaut._
 import com.twitter.util.{Future , Await }

@@ -79,9 +79,14 @@ object SecretStores {
     *Get the previous secret from the cache layer
     **/
     def previous: Secret = {
-       cache.secrets.previous
+      cache.secrets.previous
     }
-    //this probbaly will have the same implementation as the inmemorystore
+    /**
+    *Look for the Secret being checked in the function. Checks if this exists in the cache layer
+    *If it is found only existing in consul and not in current or previous a cache rotation will be triggered
+    *Returning None suggests the servers are extremely out of sync with each other or the connection to consul has
+    *failed
+    **/
     def find(f: Secret => Boolean): Option[Secret] = {
       cache.find(f)
     }
@@ -100,6 +105,10 @@ object SecretStores {
       }
       consul.setValue("secretStore/current",newEncodedSecret.nospaces)
     }
+    def setconsul(newSecret: Secret): Unit ={
+      val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
+      consul.setValue("secretStore/current",newEncodedSecret.nospaces)
+    }
   }
   /**
   *Stores the secrets stored on the consul server.
@@ -110,38 +119,31 @@ object SecretStores {
   *@param consul An instance on ConsulConnection to make connections with the consul server
   **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
-    var cacheStream: Stream[Secrets] =  Stream()
-    val newStream: Stream[Secret] = Stream()
+    var cacheStream: Stream[Secrets] =  Stream( Secrets(Secret(),Secret() ) )
+    var newStream: Stream[Secret] = Stream()
 
 
     def secrets: Secrets ={
-      lazy val s = cacheStream.lastOption.get
+      lazy val s = cacheStream.last
       Secrets(s.current,s.previous)
     }
 
     def current = {
-      lazy val lastSecrets = cacheStream.lastOption.get
+      lazy val lastSecrets = cacheStream.last
       if(lastSecrets.current.expired) rotateSecret
       cacheStream.lastOption.get.current
     }
 
     def find(f: Secret=>Boolean): Option[Secret] = {
-      lazy val lastSecrets = cacheStream.lastOption
-      lazy val lastNew = newStream.lastOption
-      (lastSecrets,lastNew) match {
-        case (Some(s),_) if f(s.current) => Some(s.current)
-        case (Some(s),_) if f(s.previous) => Some(s.previous)
-        case (_,Some(n)) if f(n) => rotateSecret ; Some(n)
-        case (_,_) => None
-      }
-    }
-    def rotateSecret ={
-      lazy val s = cacheStream.lastOption.get.current
-      lazy val n = newStream.lastOption.get
-      cacheStream = cacheStream :+ Secrets(n,s)
+      lazy val lastSecrets = cacheStream.last
+      val lastNew = newStream.last
+
+      if( f(lastSecrets.current)) Some(lastSecrets.current)
+      else if( f(lastSecrets.previous)) Some(lastSecrets.previous)
+      else if( f(lastNew)) {rotateSecret; Some(lastNew)}
+      else None
 
     }
-
     /**
     *Continously poll the consul server at the interval passed to the Class when it was created
     *updates the store for a possibly new Secret to be used
@@ -150,9 +152,14 @@ object SecretStores {
       while(true){
         for {
           n <- pollCurrent
-        } yield newStream :+ n
+        } yield ( {newStream = newStream :+ n.get})
         Thread.sleep( poll * 1000)
       }
+    }
+    private def rotateSecret ={
+      lazy val s = cacheStream.last.current
+      lazy val n = newStream.last
+      cacheStream = cacheStream :+ Secrets(n,s)
     }
     /**
     *Get the secret at current from the consul server or returns None
@@ -183,7 +190,6 @@ object SecretStores {
       val json: Option[Json] = Parse.parseOption(s)
       SecretEncoder.EncodeJson.decode(json.get)
     }
-
   }
   /**
   *class to interface with consul kv store

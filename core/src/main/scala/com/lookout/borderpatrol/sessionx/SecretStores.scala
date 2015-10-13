@@ -68,35 +68,22 @@ object SecretStores {
   **/
   class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
     val cache = new ConsulSecretCache(poll,consul)
+    new Thread( cache ).start
     /**
-    *Create a new Thread that will check the consul server for updates
+    *Get the current secret from the cache layer
     **/
-    def startPolling: Unit ={
-      new Thread( cache ).start
+     def current: Secret = {
+      cache.current
     }
     /**
-    *Get the current secret from the cache then tries to get a secret from the server it self.
-    * Im not sure if the or else is neccesary since startPolling would be doing this anyway
-    *Throws an exception if the cache is empty
+    *Get the previous secret from the cache layer
     **/
-    def current: Secret = {
-      cache.getCurrent.getOrElse( cache.pollCurrent.getOrElse({
-        throw new Exception("Failed getting current secret from cache and consul Server")}))
-    }
-    /**
-    *Get the previous secret from the cache then tries to get a secret from the server it self.
-    * Im not sure if the or else is neccesary since startPolling would be doing this anyway
-    *Throws an exception if the cache is empty
-    **/
-     def previous: Secret = {
-      cache.getPrevious.getOrElse( cache.pollPrevious.getOrElse({
-        throw new Exception("Failed getting previous secret from cache and consul Server")}))
+    def previous: Secret = {
+       cache.secrets.previous
     }
     //this probbaly will have the same implementation as the inmemorystore
     def find(f: Secret => Boolean): Option[Secret] = {
-      if (f(current)) Some(current)
-      else if (f(previous)) Some(previous)
-      else None
+      cache.find(f)
     }
     /**
     *Roates the current Secret to previous, Updates the current secret to the paramater on the consul server and
@@ -122,59 +109,70 @@ object SecretStores {
   *@param poll How often in seconds to check for updates
   *@param consul An instance on ConsulConnection to make connections with the consul server
   **/
-  class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
-    val cache = scala.collection.mutable.HashMap.empty[String,Secret]
-    /**scala.collection.mutable package is disabled is the warning this gives
-    *Im not sure how to implement this without this. Everything ive read on cache and memoization(not sure that
-    *completly applies
-    *but its simmilar) uses a mutable map
-    **/
+  case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
+    var cacheStream: Stream[Secrets] =  Stream()
+    val newStream: Stream[Secret] = Stream()
+
+
+    def secrets: Secrets ={
+      lazy val s = cacheStream.lastOption.get
+      Secrets(s.current,s.previous)
+    }
+
+    def current = {
+      lazy val lastSecrets = cacheStream.lastOption.get
+      if(lastSecrets.current.expired) rotateSecret
+      cacheStream.lastOption.get.current
+    }
+
+    def find(f: Secret=>Boolean): Option[Secret] = {
+      lazy val lastSecrets = cacheStream.lastOption
+      lazy val lastNew = newStream.lastOption
+      (lastSecrets,lastNew) match {
+        case (Some(s),_) if f(s.current) => Some(s.current)
+        case (Some(s),_) if f(s.previous) => Some(s.previous)
+        case (_,Some(n)) if f(n) => rotateSecret ; Some(n)
+        case (_,_) => None
+      }
+    }
+    def rotateSecret ={
+      lazy val s = cacheStream.lastOption.get.current
+      lazy val n = newStream.lastOption.get
+      cacheStream = cacheStream :+ Secrets(n,s)
+
+    }
 
     /**
     *Continously poll the consul server at the interval passed to the Class when it was created
-    *updates the cache based on what it finds
-    *Calling this using the function in consul secret store will put this in a new thread
+    *updates the store for a possibly new Secret to be used
     **/
     def run: Unit = {
       while(true){
         for {
-          c <- pollCurrent
-          p <- pollPrevious
-        } yield cache+=("current" -> c, "previous" -> p)
+          n <- pollCurrent
+        } yield newStream :+ n
         Thread.sleep( poll * 1000)
       }
     }
     /**
-    *Get the secret at current from the cache or returns None
-    **/
-    def getCurrent: Option[Secret] = {
-      cache.get("current")
-    }
-    /**
-    *Get the secret at previous from the cache or returns None
-    **/
-     def getPrevious: Option[Secret] = {
-      cache.get("previous")
-    }
-    /**
     *Get the secret at current from the consul server or returns None
     **/
-    def pollCurrent: Option[Secret] = {
+    private def pollCurrent: Future[Option[Secret]] = {
       val r = consul.getValue("/v1/kv/secretStore/current")
-      Await.result(r) match {
+      r.map( {
         case Success(a) => secretTryFromString(a).toOption
-        case Failure(e)=> None
-      }
+        case Failure(e) => None
+      })
     }
     /**
     *Get the secret at previous from the consul server or returns None
     **/
-    def pollPrevious: Option[Secret] = {
+    private def pollPrevious: Future[Option[Secret]] = {
       val r = consul.getValue("/v1/kv/secretStore/previous")
-      Await.result(r) match {
+      r.map({
         case Success(a) => secretTryFromString(a).toOption
         case Failure(e)=> None
-      }
+      })
     }
     /**
     *Returns a Try[Secret] from json as a [String]
@@ -183,9 +181,7 @@ object SecretStores {
     **/
     private def secretTryFromString(s: String): Try[Secret] = {
       val json: Option[Json] = Parse.parseOption(s)
-      val tryResponse = SecretEncoder.EncodeJson.decode(json.get)
-      //compiler warns about get here. Not sure what the best way to fail is though
-      tryResponse
+      SecretEncoder.EncodeJson.decode(json.get)
     }
 
   }
@@ -236,8 +232,8 @@ object SecretStores {
     def setValue(k: String, v: String): Future[httpx.Response] = {
       val currentData = Buf.Utf8(v)
       val update :httpx.Request = httpx.RequestBuilder()
-         .url(s"http://$host:8500/v1/kv/$k")
-         .buildPut(currentData)
+        .url(s"http://$host:8500/v1/kv/$k")
+        .buildPut(currentData)
       consul(update)
     }
   }

@@ -5,7 +5,7 @@ import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.io.{Charsets, Buf}
 import java.nio.charset._
 import argonaut._, Argonaut._
-import com.twitter.util.{Future , Await }
+import com.twitter.util._
 import com.twitter.finagle.{Httpx, Service}
 import com.twitter.finagle.httpx
 import scala.util.{Success, Failure, Try}
@@ -103,9 +103,11 @@ object SecretStores {
       }
       consul.setValue("secretStore/current",newEncodedSecret.nospaces)
     }
-    def setconsul(newSecret: Secret): Unit ={
-      val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
-      consul.setValue("secretStore/current",newEncodedSecret.nospaces)
+    def startconsul(aSecret: Secret, bSecret: Secret): Unit ={
+      val aEncodedSecret = SecretEncoder.EncodeJson.encode(aSecret)
+      val bEncodedSecret = SecretEncoder.EncodeJson.encode(bSecret)
+      consul.setValue("secretStore/current",aEncodedSecret.nospaces)
+      consul.setValue("secretStore/previous",bEncodedSecret.nospaces)
     }
   }
   /**
@@ -198,7 +200,7 @@ object SecretStores {
     *@param s decodes consul value response from base64 to a String
     **/
     private def base64Decode(s: String): String ={
-      val decodedArray = java.util.Base64.getDecoder().decode(s);
+      val decodedArray = Base64StringEncoder.decode(s);
       new String(decodedArray, StandardCharsets.UTF_8)
     }
     /**

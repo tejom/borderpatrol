@@ -73,7 +73,7 @@ object SecretStores {
     *Get the current secret from the cache layer
     **/
      def current: Secret = {
-      cache.current
+      cache.secrets.current
     }
     /**
     *Get the previous secret from the cache layer
@@ -91,9 +91,7 @@ object SecretStores {
       cache.find(f)
     }
     /**
-    *Roates the current Secret to previous, Updates the current secret to the paramater on the consul server and
-    *returns Unit
-    *
+    *These are for testing. Going to remove them
     *@param newSecret the new Secret to be stored on the consul server
     **/
     def update(newSecret: Secret): Unit ={
@@ -112,8 +110,7 @@ object SecretStores {
   }
   /**
   *Stores the secrets stored on the consul server.
-  *Polls the consul server and updates an inmemory cache for SecretStore
-  *Uses a [[scala.collection.mutable.HashMap]]
+  *Polls the consul server and keeps an inmemory cache of Secrets
   *
   *@param poll How often in seconds to check for updates
   *@param consul An instance on ConsulConnection to make connections with the consul server
@@ -125,13 +122,8 @@ object SecretStores {
 
     def secrets: Secrets ={
       lazy val s = cacheStream.last
-      Secrets(s.current,s.previous)
-    }
-
-    def current = {
-      lazy val lastSecrets = cacheStream.last
-      if(lastSecrets.current.expired) rotateSecret
-      cacheStream.lastOption.get.current
+      if(s.current.expired) rotateSecret
+      else Secrets(s.current,s.previous)
     }
 
     def find(f: Secret=>Boolean): Option[Secret] = {
@@ -156,10 +148,12 @@ object SecretStores {
         Thread.sleep( poll * 1000)
       }
     }
-    private def rotateSecret ={
+    private def rotateSecret: Secrets ={
       lazy val s = cacheStream.last.current
       lazy val n = newStream.last
-      cacheStream = cacheStream :+ Secrets(n,s)
+      val newSecrets = Secrets(n,s)
+      cacheStream = cacheStream :+ newSecrets
+      newSecrets
     }
     /**
     *Get the secret at current from the consul server or returns None

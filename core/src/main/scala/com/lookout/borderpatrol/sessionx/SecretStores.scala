@@ -133,8 +133,8 @@ object SecretStores {
       val lastNew = newBuffer.last
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
-      else if( f(lastSecrets.previous)) Some(lastSecrets.previous)
-      else if( f(lastNew) && lastNew!=lastSecrets.current) {rotateSecret; Some(lastNew)}
+      else if ( f(lastSecrets.previous)) Some(lastSecrets.previous)
+      else if ( f(lastNew) && lastNew!=lastSecrets.current) {rotateSecret; Some(lastNew)}
       else None
 
     }

@@ -3,7 +3,7 @@ import scoverage.ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages
 
 lazy val buildSettings = Seq(
   organization := "com.lookout",
-  version := "0.1.0",
+  version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.11.7",
   crossScalaVersions := Seq("2.10.5", "2.11.7")
 )
@@ -31,8 +31,8 @@ val testDependencies = Seq(
 val baseSettings = Seq(
   resolvers += "twitter-repo" at "http://maven.twttr.com",
   libraryDependencies ++= Seq(
-    "com.twitter" %% "finagle-httpx" % "6.27.0",
-    "com.twitter" %% "finagle-memcachedx" % "6.27.0",
+    "com.twitter" %% "finagle-httpx" % "6.28.0",
+    "com.twitter" %% "finagle-memcached" % "6.28.0",
     "org.scala-lang" % "scala-reflect" % scalaVersion.value,
     "com.twitter" %% "bijection-core" % "0.8.1",
     "com.twitter" %% "bijection-util" % "0.8.1",
@@ -87,24 +87,23 @@ lazy val root = project.in(file("."))
   .settings(
     initialCommands in console :=
       """
+        |import com.lookout.borderpatrol._
         |import com.lookout.borderpatrol.sessionx._
         |import com.lookout.borderpatrol.auth._
       """.stripMargin
     )
-  .aggregate(core, example, security, auth)
-  .dependsOn(core)
+  .aggregate(core, example, security, auth, test)
+  .dependsOn(core, auth)
 
 lazy val core = project
   .settings(moduleName := "borderpatrol-core")
   .settings(allSettings)
-  .settings(coverageExcludedPackages := "com\\.lookout\\.borderpatrol\\.auth\\..*")
-  .dependsOn(test % "test")
 
 lazy val test = project
-    .settings(moduleName := "borderpatrol-test")
-    .settings(allSettings)
-    .settings(coverageExcludedPackages := "com\\.lookout\\.borderpatrol\\.test\\..*")
-    .settings(libraryDependencies ++= testDependencies)
+  .settings(moduleName := "borderpatrol-test")
+  .settings(allSettings)
+  .settings(libraryDependencies ++= testDependencies)
+  .dependsOn(core)
 
 lazy val example = project
   .settings(resolvers += Resolver.sonatypeRepo("snapshots"))
@@ -118,24 +117,22 @@ lazy val example = project
     )
   )
   .disablePlugins(JmhPlugin)
-  .dependsOn(core)
+  .dependsOn(core, auth, test % "test")
 
 lazy val security = project
   .settings(moduleName := "borderpatrol-security")
   .settings(allSettings)
-  .dependsOn(core, test % "test")
+  .dependsOn(core % "test->test;compile->compile")
 
 lazy val auth = project
   .settings(moduleName := "borderpatrol-auth")
   .settings(allSettings)
-  .dependsOn(core, test % "test")
-
-lazy val server = project
-  .settings(moduleName := "borderpatrol-server")
-  .settings(allSettings)
   .settings(
     libraryDependencies ++= Seq(
-      "com.github.finagle" %% "finch-core" % "0.8.0"
+      "io.circe" %% "circe-core" % "0.1.1",
+      "io.circe" %% "circe-generic" % "0.1.1",
+      "io.circe" %% "circe-jawn" % "0.1.1"
     )
   )
-  .dependsOn(core, test % "test")
+  .dependsOn(core % "test->test;compile->compile")
+

@@ -2,7 +2,7 @@ package com.lookout.borderpatrol.sessionx
 
 import com.twitter.io.Buf
 import com.twitter.util.Future
-import com.twitter.finagle.memcachedx
+import com.twitter.finagle.memcached
 
 import scala.collection.mutable
 import scala.util.{Success, Failure}
@@ -13,26 +13,27 @@ import scala.util.{Success, Failure}
 trait SessionStore {
   def update[A](session: Session[A])(implicit ev: SessionDataEncoder[A]): Future[Unit]
   def get[A](key: SessionId)(implicit ev: SessionDataEncoder[A]): Future[Option[Session[A]]]
+  def delete(key: SessionId): Future[Unit]
 }
 
 /**
  * Default implementations of [[com.lookout.borderpatrol.sessionx.SessionStore SessionStore]] with
- * [[com.twitter.finagle.memcachedx memcachedx]] and an in-memory store for mocking
+ * [[com.twitter.finagle.memcached memcached]] and an in-memory store for mocking
  */
-object SessionStore {
+object SessionStores {
 
   /**
    * Memcached backend to [[com.lookout.borderpatrol.sessionx.SessionStore SessionStore]]
    *
    * {{{
-   *   val store = MemcachedStore(Memcachedx.newKetamaClient("localhost:11211"))
+   *   val store = MemcachedStore(Memcached.newKetamaClient("localhost:11211"))
    *   val requestSession = store.get[httpx.Request](id) // default views from `Buf` %> `Request` are included
    *   requestSession.onSuccess(s => log(s"Success! you were going to ${s.data.uri}"))
    *                 .onFailure(log)
    * }}}
-   * @param store finagle [[com.twitter.finagle.memcachedx.BaseClient memcachedx.BaseClient]] memcached backend
+   * @param store finagle [[com.twitter.finagle.memcached.BaseClient memcached.BaseClient]] memcached backend
    */
-  case class MemcachedStore(store: memcachedx.BaseClient[Buf])
+  case class MemcachedStore(store: memcached.BaseClient[Buf])
       extends SessionStore {
     val flag = 0 // ignored flag required by memcached api
 
@@ -67,6 +68,9 @@ object SessionStore {
      */
     def update[A](session: Session[A])(implicit ev: SessionDataEncoder[A]): Future[Unit] =
       store.set(session.id.asBase64, flag, session.id.expires, ev.encode(session.data))
+
+    def delete(key: SessionId): Future[Unit] =
+      store.delete(key.id.asBase64).map(_ => ())
   }
 
   /**
@@ -89,6 +93,12 @@ object SessionStore {
     def update[A](session: Session[A])(implicit ev: SessionDataEncoder[A]): Future[Unit] =
       if (store.add(session.map(ev.encode))) Future.Unit
       else Future.exception[Unit](new SessionStoreError(s"update failed with $session"))
+
+    def delete(key: SessionId): Future[Unit] =
+      store.find(_.id == key) match {
+        case Some(s) => Future.value(store.remove(s)).map(_ => ())
+        case None => Future.value(())
+      }
   }
 
   /*

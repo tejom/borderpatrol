@@ -3,15 +3,15 @@ package com.lookout.borderpatrol.sessionx
 import com.lookout.borderpatrol.test._
 import com.twitter.util.{Future, Await}
 import com.twitter.finagle.httpx
-import com.twitter.finagle.memcachedx
+import com.twitter.finagle.memcached
 
 class SessionStoreSpec extends BorderPatrolSuite {
   import sessionx.helpers._
 
   behavior of "SessionStore"
 
-  val sessionStore = SessionStore.InMemoryStore
-  val memcachedSessionStore = SessionStore.MemcachedStore(new memcachedx.MockClient())
+  val sessionStore = SessionStores.InMemoryStore
+  val memcachedSessionStore = SessionStores.MemcachedStore(new memcached.MockClient())
   val intSession = sessions.create(1)
   val strSession = sessions.create("hello")
   val reqSession = sessions.create(httpx.Request("localhost:8080/api/hello"))
@@ -46,6 +46,13 @@ class SessionStoreSpec extends BorderPatrolSuite {
       /* TODO: Disallow this: Int -> Buf -> String
       isThrow(store.get[Int](strSession.id)) should be(false)
       */
+    }
+
+    it should s"delete stored values in $store" in {
+      store.update(intSession)
+      store.get[Int](intSession.id).results shouldBe Some(intSession)
+      store.delete(intSession.id)
+      store.get[Int](intSession.id).results shouldBe None
     }
   }
 

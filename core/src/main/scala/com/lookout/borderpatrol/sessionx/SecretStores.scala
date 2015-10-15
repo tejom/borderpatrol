@@ -119,7 +119,7 @@ object SecretStores {
   **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
     val cacheBuffer= collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(),Secret()) )
-    var newStack = new collection.mutable.ArrayBuffer[Secret]()
+    var newBuffer = collection.mutable.ArrayBuffer[Secret]()
 
 
     def secrets: Secrets ={
@@ -130,7 +130,7 @@ object SecretStores {
 
     def find(f: Secret=>Boolean): Option[Secret] = {
       val lastSecrets = cacheBuffer.last
-      val lastNew = newStack.last
+      val lastNew = newBuffer.last
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
       else if( f(lastSecrets.previous)) Some(lastSecrets.previous)
@@ -146,13 +146,13 @@ object SecretStores {
       while(true){
         for {
           n <- pollCurrent
-        } yield ( newStack.append(n.get) )
+        } yield ( newBuffer.append(n.get) )
         Thread.sleep( poll * 1000)
       }
     }
     private def rotateSecret: Unit={
       val s = cacheBuffer.last.current
-      val n = newStack.last
+      val n = newBuffer.last
       val newSecrets = Secrets(n,s)
       cacheBuffer.append(newSecrets)
     }

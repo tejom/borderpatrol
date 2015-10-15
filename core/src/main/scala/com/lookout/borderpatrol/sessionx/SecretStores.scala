@@ -124,7 +124,7 @@ object SecretStores {
 
     def secrets: Secrets ={
       val s = cacheBuffer.last
-      if(s.current.expired) {rotateSecret; cacheBuffer.last}
+      if(s.current.expired && newBuffer.last != s.current) {rotateSecret; cacheBuffer.last}
       else s
     }
 
@@ -134,7 +134,7 @@ object SecretStores {
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
       else if( f(lastSecrets.previous)) Some(lastSecrets.previous)
-      else if( f(lastNew)) {rotateSecret; Some(lastNew)}
+      else if( f(lastNew) && lastNew!=lastSecrets.current) {rotateSecret; Some(lastNew)}
       else None
 
     }
@@ -146,7 +146,9 @@ object SecretStores {
       while(true){
         for {
           n <- pollCurrent
-        } yield ( newBuffer.append(n.get) )
+        } yield ( n match {
+            case Some(s) => newBuffer.append(s)
+          })
         Thread.sleep( poll * 1000)
       }
     }

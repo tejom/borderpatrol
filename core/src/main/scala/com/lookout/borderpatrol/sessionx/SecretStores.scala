@@ -66,8 +66,8 @@ object SecretStores {
   *consul server
   *@param poll How often in seconds to check for updated Secrets on the consul server
   **/
-  class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
-    val cache = new ConsulSecretCache(poll,consul)
+  case class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {
+    val cache = ConsulSecretCache(poll,consul)
     new Thread( cache ).start
     /**
     *Get the current secret from the cache layer
@@ -118,19 +118,19 @@ object SecretStores {
   *@param consul An instance on ConsulConnection to make connections with the consul server
   **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
-    var cacheStream: Stream[Secrets] =  Stream( Secrets(Secret(),Secret() ) )
-    var newStream: Stream[Secret] = Stream()
+    val cacheBuffer= collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(),Secret()) )
+    var newStack = new collection.mutable.ArrayBuffer[Secret]()
 
 
     def secrets: Secrets ={
-      lazy val s = cacheStream.last
-      if(s.current.expired) rotateSecret
-      else Secrets(s.current,s.previous)
+      val s = cacheBuffer.last
+      if(s.current.expired) {rotateSecret; cacheBuffer.last}
+      else s
     }
 
     def find(f: Secret=>Boolean): Option[Secret] = {
-      lazy val lastSecrets = cacheStream.last
-      val lastNew = newStream.last
+      val lastSecrets = cacheBuffer.last
+      val lastNew = newStack.last
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
       else if( f(lastSecrets.previous)) Some(lastSecrets.previous)
@@ -146,16 +146,15 @@ object SecretStores {
       while(true){
         for {
           n <- pollCurrent
-        } yield ( {newStream = newStream :+ n.get})
+        } yield ( newStack.append(n.get) )
         Thread.sleep( poll * 1000)
       }
     }
-    private def rotateSecret: Secrets ={
-      lazy val s = cacheStream.last.current
-      lazy val n = newStream.last
+    private def rotateSecret: Unit={
+      val s = cacheBuffer.last.current
+      val n = newStack.last
       val newSecrets = Secrets(n,s)
-      cacheStream = cacheStream :+ newSecrets
-      newSecrets
+      cacheBuffer.append(newSecrets)
     }
     /**
     *Get the secret at current from the consul server or returns None

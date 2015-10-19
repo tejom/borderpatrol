@@ -100,7 +100,7 @@ object SecretStores {
   **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
     val cacheBuffer= collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(),Secret()) )
-    var newBuffer = collection.mutable.ArrayBuffer[Secret]()
+    val newBuffer = collection.mutable.ArrayBuffer[Secret]()
     /**
     *Checks if the current secret is expired and if there is a new secret available and rotates the secrets.
     *Then returns the latest secret

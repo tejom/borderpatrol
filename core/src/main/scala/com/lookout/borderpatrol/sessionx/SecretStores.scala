@@ -90,6 +90,26 @@ object SecretStores {
     def find(f: Secret => Boolean): Option[Secret] = {
       cache.find(f)
     }
+
+    /**
+    *These are for testing. Going to remove them
+    *@param newSecret the new Secret to be stored on the consul server
+    **/
+    def update(newSecret: Secret): Unit ={
+      val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
+      val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
+      currentDataString match {
+        case Success(s) => consul.setValue("secretStore/previous",currentDataString.get)
+        case Failure(e) => throw new Exception(" Failed trying to get Current Secret from consul. Exception: " + e)
+      }
+      consul.setValue("secretStore/current",newEncodedSecret.nospaces)
+    }
+    def startconsul(aSecret: Secret, bSecret: Secret): Unit ={
+      val aEncodedSecret = SecretEncoder.EncodeJson.encode(aSecret)
+      val bEncodedSecret = SecretEncoder.EncodeJson.encode(bSecret)
+      consul.setValue("secretStore/current",aEncodedSecret.nospaces)
+      consul.setValue("secretStore/previous",bEncodedSecret.nospaces)
+    }
   }
   /**
   *Stores the secrets stored on the consul server.
@@ -100,7 +120,7 @@ object SecretStores {
   **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable  {
     val cacheBuffer= collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(),Secret()) )
-    val newBuffer = collection.mutable.ArrayBuffer[Secret]()
+    val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
     /**
     *Checks if the current secret is expired and if there is a new secret available and rotates the secrets.
     *Then returns the latest secret
@@ -119,7 +139,7 @@ object SecretStores {
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
       else if ( f(lastSecrets.previous)) Some(lastSecrets.previous)
-      else if ( f(lastNew) && lastNew!=lastSecrets.current) {rotateSecret; Some(lastNew)}
+      else if ( f(lastNew.current) && lastNew!=lastSecrets) {rotateSecret; Some(lastNew.current)}
       else None
 
     }
@@ -132,16 +152,13 @@ object SecretStores {
         for {
           n <- pollCurrent
         } yield ( n match {
-            case Some(s) => newBuffer.append(s)
+            case Some(s) => newBuffer.append(Secrets(s,cacheBuffer.last.current) )
           })
         Thread.sleep( poll * 1000)
       }
     }
     private def rotateSecret: Unit={
-      val s = cacheBuffer.last.current
-      val n = newBuffer.last
-      val newSecrets = Secrets(n,s)
-      cacheBuffer.append(newSecrets)
+      cacheBuffer.append(newBuffer.last)
     }
     /**
     *Get the secret at current from the consul server or returns None

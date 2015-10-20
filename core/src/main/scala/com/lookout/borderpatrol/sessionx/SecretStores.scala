@@ -127,7 +127,7 @@ object SecretStores {
     **/
     def secrets: Secrets ={
       val s = cacheBuffer.last
-      if(s.current.expired && newBuffer.last != s.current) {rotateSecret; cacheBuffer.last}
+      if(s.current.expired) rotateSecret
       else s
     }
     /**
@@ -135,11 +135,10 @@ object SecretStores {
     **/
     def find(f: Secret=>Boolean): Option[Secret] = {
       val lastSecrets = cacheBuffer.last
-      val lastNew = newBuffer.last
 
       if( f(lastSecrets.current)) Some(lastSecrets.current)
       else if ( f(lastSecrets.previous)) Some(lastSecrets.previous)
-      else if ( f(lastNew.current) && lastNew!=lastSecrets) {rotateSecret; Some(lastNew.current)}
+      else if ( f(rotateSecret.current)) Some(cacheBuffer.last.current)
       else None
 
     }
@@ -157,8 +156,15 @@ object SecretStores {
         Thread.sleep( poll * 1000)
       }
     }
-    private def rotateSecret: Unit={
-      cacheBuffer.append(newBuffer.last)
+    private def rotateSecret: Secrets={
+      if(newBuffer.last.current != cacheBuffer.last.current){
+        this.synchronized {
+          if(newBuffer.last.current != cacheBuffer.last.current){
+            cacheBuffer.append(newBuffer.last)
+          }
+        }
+      }
+      cacheBuffer.last
     }
     /**
     *Get the secret at current from the consul server or returns None

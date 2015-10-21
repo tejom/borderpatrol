@@ -31,6 +31,7 @@ trait SecretStoreApi {
  * Default implementations of [[com.lookout.borderpatrol.sessionx.SecretStoreApi SecretStoreApi]]
  */
 object SecretStores {
+  val ConsulSecretsKey = "secretStore/secrets"
 
   /**
    * A useful [[com.lookout.borderpatrol.sessionx.Secrets Secrets]] mock store for quickly testing and prototyping
@@ -106,7 +107,7 @@ object SecretStores {
     // }
     def startconsul(a: Secrets): Unit ={
       val n = SecretsEncoder.EncodeJson.encode(a)
-      consul.setValue("secretStore/current",n.nospaces)
+      consul.setValue(ConsulSecretsKey,n.nospaces)
     }
   }
   /**
@@ -168,7 +169,7 @@ object SecretStores {
     *Get the secret at current from the consul server or returns None
     **/
     private def pollSecrets: Future[Option[Secrets]] = {
-      val r = consul.getValue("/v1/kv/secretStore/current")
+      val r = consul.getValue(ConsulSecretsKey)
       r.map( {
         case Success(a) => secretTryFromString(a).toOption
         case Failure(e) => None
@@ -217,7 +218,7 @@ object SecretStores {
     *@param k the key to get the value for
     **/
     def getValue[A,B](k: String): Future[Try[String]] = {
-      val s = getConsulResponse(k)
+      val s = getConsulResponse("/v1/kv/" + k)
       val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse( List() ))
        decodedJSONList.map(a=> Try(base64Decode(a.headOption.get.Value) ) )
        //compiler warns about get here. Not sure what the best way to fail is though

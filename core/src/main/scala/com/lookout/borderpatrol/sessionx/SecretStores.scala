@@ -150,7 +150,7 @@ object SecretStores {
         for {
           n <- pollSecrets
         } yield ( n match {
-            case Some(s) => newBuffer.append( s )
+            case Some(s) => newBuffer.append(s)
           })
         Thread.sleep( poll * 1000)
       }
@@ -171,7 +171,7 @@ object SecretStores {
     private def pollSecrets: Future[Option[Secrets]] = {
       val r = consul.getValue(ConsulSecretsKey)
       r.map( {
-        case Success(a) => secretTryFromString(a).toOption
+        case Success(a) => secretsTryFromString(a).toOption
         case Failure(e) => None
       })
     }
@@ -180,7 +180,7 @@ object SecretStores {
     *
     *@param s A json string with information to create a Secret
     **/
-    private def secretTryFromString(s: String): Try[Secrets] = {
+    private def secretsTryFromString(s: String): Try[Secrets] = {
       val json: Option[Json] = Parse.parseOption(s)
       SecretsEncoder.EncodeJson.decode(json.get)
     }
@@ -219,9 +219,10 @@ object SecretStores {
     **/
     def getValue[A,B](k: String): Future[Try[String]] = {
       val s = getConsulResponse("/v1/kv/" + k)
-      val decodedJSONList = s.map(a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse( List() ))
-       decodedJSONList.map(a=> Try(base64Decode(a.headOption.get.Value) ) )
-       //compiler warns about get here. Not sure what the best way to fail is though
+      val json = s.map( Parse.decodeOption[ConsulSecretStore.ConsulResponse] )
+      json.map( {
+        case Some(s) => Success(base64Decode(s.Value))
+        case None => Failure(new Throwable("Couldnt get a value from Consul") )} )
     }
     /**
     *Set the given key to the given Value. Both are strings
@@ -249,9 +250,7 @@ object SecretStores {
       val apiUrl = s"$consulUrl:$consulPort"
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
       val consulConnection = new ConsulConnection(client,consulUrl)
-
-      val c = new ConsulSecretStore(consulConnection,poll)
-      c
+      new ConsulSecretStore(consulConnection,poll)
     }
     /**
     *Argonaut lets you use the response from consul as a class to get attributes from.

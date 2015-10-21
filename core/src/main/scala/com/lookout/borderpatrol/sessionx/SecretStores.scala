@@ -95,20 +95,18 @@ object SecretStores {
     *These are for testing. Going to remove them
     *@param newSecret the new Secret to be stored on the consul server
     **/
-    def update(newSecret: Secret): Unit ={
-      val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
-      val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
-      currentDataString match {
-        case Success(s) => consul.setValue("secretStore/previous",currentDataString.get)
-        case Failure(e) => throw new Exception(" Failed trying to get Current Secret from consul. Exception: " + e)
-      }
-      consul.setValue("secretStore/current",newEncodedSecret.nospaces)
-    }
-    def startconsul(aSecret: Secret, bSecret: Secret): Unit ={
-      val aEncodedSecret = SecretEncoder.EncodeJson.encode(aSecret)
-      val bEncodedSecret = SecretEncoder.EncodeJson.encode(bSecret)
-      consul.setValue("secretStore/current",aEncodedSecret.nospaces)
-      consul.setValue("secretStore/previous",bEncodedSecret.nospaces)
+    // def update(newSecret: Secret): Unit ={
+    //   val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
+    //   val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
+    //   currentDataString match {
+    //     case Success(s) => consul.setValue("secretStore/previous",currentDataString.get)
+    //     case Failure(e) => throw new Exception(" Failed trying to get Current Secret from consul. Exception: " + e)
+    //   }
+    //   consul.setValue("secretStore/current",newEncodedSecret.nospaces)
+    // }
+    def startconsul(a: Secrets): Unit ={
+      val n = SecretsEncoder.EncodeJson.encode(a)
+      consul.setValue("secretStore/current",n.nospaces)
     }
   }
   /**
@@ -149,9 +147,9 @@ object SecretStores {
     def run: Unit = {
       while(true){
         for {
-          n <- pollCurrent
+          n <- pollSecrets
         } yield ( n match {
-            case Some(s) => newBuffer.append(Secrets(s,cacheBuffer.last.current) )
+            case Some(s) => newBuffer.append( s )
           })
         Thread.sleep( poll * 1000)
       }
@@ -169,7 +167,7 @@ object SecretStores {
     /**
     *Get the secret at current from the consul server or returns None
     **/
-    private def pollCurrent: Future[Option[Secret]] = {
+    private def pollSecrets: Future[Option[Secrets]] = {
       val r = consul.getValue("/v1/kv/secretStore/current")
       r.map( {
         case Success(a) => secretTryFromString(a).toOption
@@ -177,23 +175,13 @@ object SecretStores {
       })
     }
     /**
-    *Get the secret at previous from the consul server or returns None
-    **/
-    private def pollPrevious: Future[Option[Secret]] = {
-      val r = consul.getValue("/v1/kv/secretStore/previous")
-      r.map({
-        case Success(a) => secretTryFromString(a).toOption
-        case Failure(e)=> None
-      })
-    }
-    /**
     *Returns a Try[Secret] from json as a [String]
     *
     *@param s A json string with information to create a Secret
     **/
-    private def secretTryFromString(s: String): Try[Secret] = {
+    private def secretTryFromString(s: String): Try[Secrets] = {
       val json: Option[Json] = Parse.parseOption(s)
-      SecretEncoder.EncodeJson.decode(json.get)
+      SecretsEncoder.EncodeJson.decode(json.get)
     }
   }
   /**
@@ -273,5 +261,6 @@ object SecretStores {
       casecodec6(ConsulResponse.apply, ConsulResponse.unapply)(
         "CreateIndex","ModifyIndex","LockIndex","Key","Flags","Value")
     }
+
   }
 }

@@ -191,7 +191,7 @@ object SecretEncoder {
   implicit object EncodeJson extends SecretEncoder[Json] {
     import argonaut._, Argonaut._
 
-    implicit lazy val SecretCodecJson: argonaut.CodecJson[Secret] =
+    implicit val SecretCodecJson: argonaut.CodecJson[Secret] =
       casecodec3(Secret.apply, Secret.unapply)("expiry", "id", "entropy")
 
     def encode(secret: Secret): Json =
@@ -210,10 +210,10 @@ object SecretEncoder {
 object SecretsEncoder {
 
   implicit object EncodeJson extends SecretsEncoder[Json] {
-    import SecretEncoder.EncodeJson._ //this is neccesary for it to compile otherwise it complains about not knowing about
-    //the implicit object
+    import SecretEncoder.EncodeJson._ //this is neccesary for it to compile otherwise it complains
+    //about not knowing about the implicit object
 
-    implicit lazy val SecretsCodecJson: argonaut.CodecJson[Secrets] =
+    implicit val SecretsCodecJson: argonaut.CodecJson[Secrets] =
       casecodec2(Secrets.apply, Secrets.unapply)("current","previous")
 
     def encode(s: Secrets): Json={
@@ -221,7 +221,7 @@ object SecretsEncoder {
     }
 
     def decode(json: Json): Try[Secrets]= {
-       Try(json.jdecode[Secrets].toOption.get)//needs to be worked on
+      Try(json.as[Secrets].toOption.get)
      }
 
 

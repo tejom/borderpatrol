@@ -150,15 +150,16 @@ object SecretStores {
         for {
           n <- pollSecrets
         } yield ( n match {
-            case Some(s) => newBuffer.append(s)
+            case Some(s) => { newBuffer.append(s)}
+            case None => {println("polling issue"); new Throwable("error with polling")}
           })
         Thread.sleep( poll * 1000)
       }
     }
     private def rotateSecret: Secrets={
-      if(newBuffer.last.current != cacheBuffer.last.current){
+      if (newBuffer.last.current != cacheBuffer.last.current){
         this.synchronized {
-          if(newBuffer.last.current != cacheBuffer.last.current){
+          if (newBuffer.last.current != cacheBuffer.last.current){
             cacheBuffer.append(newBuffer.last)
           }
         }
@@ -171,8 +172,8 @@ object SecretStores {
     private def pollSecrets: Future[Option[Secrets]] = {
       val r = consul.getValue(ConsulSecretsKey)
       r.map( {
-        case Success(a) => secretsTryFromString(a).toOption
-        case Failure(e) => None
+        case Success(a) => {secretsTryFromString(a).toOption}
+        case Failure(e) => {println(e);None}
       })
     }
     /**
@@ -181,8 +182,13 @@ object SecretStores {
     *@param s A json string with information to create a Secret
     **/
     private def secretsTryFromString(s: String): Try[Secrets] = {
-      val json: Option[Json] = Parse.parseOption(s)
-      SecretsEncoder.EncodeJson.decode(json.get)
+      import scalaz._
+      val json = Parse.parse(s)
+      json match {
+        case -\/(e) => util.Failure(new Throwable(e))
+        case \/-(j) => SecretsEncoder.EncodeJson.decode(j)
+      }
+
     }
   }
   /**
@@ -219,10 +225,11 @@ object SecretStores {
     **/
     def getValue[A,B](k: String): Future[Try[String]] = {
       val s = getConsulResponse("/v1/kv/" + k)
-      val json = s.map( Parse.decodeOption[ConsulSecretStore.ConsulResponse] )
-      json.map( {
-        case Some(s) => Success(base64Decode(s.Value))
-        case None => Failure(new Throwable("Couldnt get a value from Consul") )} )
+      val response = s.map( a => a.decodeOption[List[ConsulSecretStore.ConsulResponse]].getOrElse(Nil) )
+      response.map( {
+        case Nil => Failure(new Throwable("Error getting value from consul"))
+        case r => Try(base64Decode(r.head.Value))
+        })
     }
     /**
     *Set the given key to the given Value. Both are strings

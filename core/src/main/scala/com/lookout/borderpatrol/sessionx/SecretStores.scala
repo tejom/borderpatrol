@@ -150,8 +150,7 @@ object SecretStores {
         for {
           n <- pollSecrets
         } yield ( n match {
-            case Some(s) => { newBuffer.append(s)}
-            case None => {println("polling issue"); new Throwable("error with polling")}
+            case Some(s) => newBuffer.append(s)
           })
         Thread.sleep( poll * 1000)
       }
@@ -172,8 +171,8 @@ object SecretStores {
     private def pollSecrets: Future[Option[Secrets]] = {
       val r = consul.getValue(ConsulSecretsKey)
       r.map( {
-        case Success(a) => {secretsTryFromString(a).toOption}
-        case Failure(e) => {println(e);None}
+        case Success(a) => secretsTryFromString(a).toOption
+        case Failure(e) => None
       })
     }
     /**
@@ -262,11 +261,11 @@ object SecretStores {
     /**
     *Argonaut lets you use the response from consul as a class to get attributes from.
     **/
-    case class ConsulResponse(CreateIndex: Int, ModifyIndex: Int,LockIndex: Int,Key: String, Flags: Int, Value: String)
+    case class ConsulResponse(Flags: Int, ModifyIndex: Int, Value: String, LockIndex: Int,CreateIndex: Int,Key: String)
     object ConsulResponse {
-      implicit def ConsulResponseCodec: CodecJson[ConsulResponse] =
+      implicit val ConsulResponseCodec: CodecJson[ConsulResponse] =
       casecodec6(ConsulResponse.apply, ConsulResponse.unapply)(
-        "CreateIndex","ModifyIndex","LockIndex","Key","Flags","Value")
+        "Flags","ModifyIndex","Value","LockIndex","CreateIndex","Key")
     }
 
   }

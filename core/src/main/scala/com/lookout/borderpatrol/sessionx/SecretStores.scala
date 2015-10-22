@@ -1,6 +1,5 @@
 package com.lookout.borderpatrol.sessionx
 
-import com.twitter.finagle.Service
 import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.io.{Charsets, Buf}
 import java.nio.charset._

@@ -221,7 +221,10 @@ object SecretsEncoder {
     }
 
     def decode(json: Json): Try[Secrets]= {
-      Try(json.as[Secrets].toOption.get)
+      json.as[Secrets].toDisjunction.fold[Try[Secrets]](
+        e => Failure( new Throwable(e._1)),
+        s => Success(s)
+        )
      }
 
 

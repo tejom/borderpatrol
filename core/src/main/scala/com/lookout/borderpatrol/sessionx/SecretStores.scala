@@ -92,23 +92,6 @@ object SecretStores {
       cache.find(f)
     }
 
-    /**
-    *These are for testing. Going to remove them
-    *@param newSecret the new Secret to be stored on the consul server
-    **/
-    // def update(newSecret: Secret): Unit ={
-    //   val currentDataString = Await.result(consul.getValue("/v1/kv/secretStore/current") )
-    //   val newEncodedSecret = SecretEncoder.EncodeJson.encode(newSecret)
-    //   currentDataString match {
-    //     case Success(s) => consul.setValue("secretStore/previous",currentDataString.get)
-    //     case Failure(e) => throw new Exception(" Failed trying to get Current Secret from consul. Exception: " + e)
-    //   }
-    //   consul.setValue("secretStore/current",newEncodedSecret.nospaces)
-    // }
-    def startconsul(a: Secrets): Unit ={
-      val n = SecretsEncoder.EncodeJson.encode(a)
-      consul.setValue(ConsulSecretsKey,n.nospaces)
-    }
   }
   /**
   *Stores the secrets stored on the consul server.
@@ -196,7 +179,7 @@ object SecretStores {
   *@param consul Finagle server to send and get requests to the server
   *@param host host name of the consul server to connect to ex: "localhost"
   **/
-  class ConsulConnection(consul: Service[httpx.Request, httpx.Response],host: String) {
+  class ConsulConnection(consul: Service[httpx.Request, httpx.Response],host: String,port: String) {
     /**
     *Decode consul base64 response to a readable String
     *
@@ -239,7 +222,7 @@ object SecretStores {
     def setValue(k: String, v: String): Future[httpx.Response] = {
       val currentData = Buf.Utf8(v)
       val update :httpx.Request = httpx.RequestBuilder()
-        .url(s"http://$host:8500/v1/kv/$k")
+        .url(s"http://$host:$port/v1/kv/$k")
         .buildPut(currentData)
       consul(update)
     }
@@ -255,7 +238,7 @@ object SecretStores {
     def apply(consulUrl: String, consulPort: String,poll: Int):ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
-      val consulConnection = new ConsulConnection(client,consulUrl)
+      val consulConnection = new ConsulConnection(client,consulUrl,consulPort)
       new ConsulSecretStore(consulConnection,poll)
     }
     /**

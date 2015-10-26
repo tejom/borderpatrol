@@ -1,8 +1,6 @@
 package com.lookout.borderpatrol.sessionx
 
-import com.twitter.finagle.builder.ClientBuilder
-import com.twitter.io.Buf.Utf8
-import com.twitter.io.{Charsets, Buf}
+import com.twitter.io.Buf
 import argonaut._, Argonaut._
 import com.twitter.util._
 import com.twitter.finagle.{Httpx, Service}
@@ -57,6 +55,8 @@ object SecretStores {
       if (f(current)) Some(current)
       else if (f(previous)) Some(previous)
       else None
+
+
   }
   /**
   *A store to access the current and previous [[com.lookout.borderpatrol.sessionx.Secret]] stored in the consul server.

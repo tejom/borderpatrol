@@ -62,8 +62,8 @@ object SecretStores {
   *A store to access the current and previous [[com.lookout.borderpatrol.sessionx.Secret]] stored in the consul server.
   * It will use a in memory cache before making a request to the server
   *
-  *@param consul An instance of [[com.lookout.borderpatrol.sessionx.ConsulConnection]] to make requests to the
-  *consul server
+  *@param consul An instance of [[com.lookout.borderpatrol.sessionx.SecretStores.ConsulConnection]] to make requests
+  *to the consul server
   *@param poll How often in seconds to check for updated Secrets on the consul server
   **/
   case class ConsulSecretStore(consul: ConsulConnection ,poll: Int) extends SecretStoreApi {

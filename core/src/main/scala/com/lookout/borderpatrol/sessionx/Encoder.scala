@@ -210,22 +210,24 @@ object SecretEncoder {
 object SecretsEncoder {
 
   implicit object EncodeJson extends SecretsEncoder[Json] {
-    import SecretEncoder.EncodeJson._ //this is neccesary for it to compile otherwise it complains
+
+    import SecretEncoder.EncodeJson._
+
+    //this is neccesary for it to compile otherwise it complains
     //about not knowing about the implicit object
 
     implicit val SecretsCodecJson: argonaut.CodecJson[Secrets] =
-      casecodec2(Secrets.apply, Secrets.unapply)("current","previous")
+      casecodec2(Secrets.apply, Secrets.unapply)("current", "previous")
 
-    def encode(s: Secrets): Json={
+    def encode(s: Secrets): Json =
       s.asJson
-    }
 
-    def decode(json: Json): Try[Secrets]= {
+    def decode(json: Json): Try[Secrets] = {
       json.as[Secrets].toDisjunction.fold[Try[Secrets]](
-        e => Failure( new Throwable(e._1)),
+        e => Failure( SecretsDecodeError(e._1)),
         s => Success(s)
         )
-     }
+    }
 
   }
 

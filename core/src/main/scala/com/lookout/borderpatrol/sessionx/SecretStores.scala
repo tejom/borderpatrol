@@ -57,7 +57,6 @@ object SecretStores {
       else if (f(previous)) Some(previous)
       else None
 
-
   }
 
   /**
@@ -70,21 +69,19 @@ object SecretStores {
    **/
   case class ConsulSecretStore(consul: ConsulConnection, poll: Int) extends SecretStoreApi {
     val cache = ConsulSecretCache(poll, consul)
-    new Thread(cache).start
+    new Thread(cache).start()
 
     /**
      * Get the current secret from the cache layer
      **/
-    def current: Secret = {
+    def current: Secret =
       cache.secrets.current
-    }
 
     /**
      * Get the previous secret from the cache layer
      **/
-    def previous: Secret = {
+    def previous: Secret =
       cache.secrets.previous
-    }
 
     /**
      * Look for the Secret being checked in the function. Checks if this exists in the cache layer
@@ -92,9 +89,8 @@ object SecretStores {
      * Returning None suggests the servers are extremely out of sync with each other or the connection to consul has
      * failed
      **/
-    def find(f: Secret => Boolean): Option[Secret] = {
+    def find(f: Secret => Boolean): Option[Secret] =
       cache.find(f)
-    }
 
   }
 
@@ -106,7 +102,7 @@ object SecretStores {
    * @param consul An instance on ConsulConnection to make connections with the consul server
    **/
   case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable {
-    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(),Secret()) )
+    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(), Secret()))
     val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
 
     /**
@@ -135,7 +131,7 @@ object SecretStores {
      * Continously poll the consul server at the interval passed to the Class when it was created
      * updates the store for a possibly new Secret to be used
      **/
-    def run(): Unit = {
+    def run(): Unit =
       while (true) {
         for {
           n <- pollSecrets
@@ -145,7 +141,6 @@ object SecretStores {
         }
         Thread.sleep(poll * 1000)
       }
-    }
 
     private def needsRotation: Boolean =
       newBuffer.last.current != cacheBuffer.last.current
@@ -163,13 +158,11 @@ object SecretStores {
     /**
      * Get the secret at current from the consul server or returns None
      **/
-    private def pollSecrets: Future[Option[Secrets]] = {
-      val resValue = consul.value(ConsulSecretsKey)
-      resValue.map({
+    private def pollSecrets: Future[Option[Secrets]] =
+      consul.value(ConsulSecretsKey).map({
         case Success(a) => secretsTryFromString(a).toOption
         case Failure(e) => None
       })
-    }
 
     /**
      * Returns a Try[Secret] from json as a [String]

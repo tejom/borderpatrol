@@ -67,20 +67,20 @@ object SecretStores {
    * @param consul An instance of [[com.lookout.borderpatrol.sessionx.SecretStores.ConsulConnection]] to make requests
    *               to the consul server
    * @param poll How often in seconds to check for updated Secrets on the consul server
-   **/
+   */
   case class ConsulSecretStore(consul: ConsulClient, poll: Long) extends SecretStoreApi {
     val cache = ConsulSecretCache(poll, consul)
     new Thread(cache).start()
 
     /**
      * Get the current secret from the cache layer
-     **/
+     */
     def current: Secret =
       cache.secrets.current
 
     /**
      * Get the previous secret from the cache layer
-     **/
+     */
     def previous: Secret =
       cache.secrets.previous
 
@@ -89,14 +89,9 @@ object SecretStores {
      * If it is found only existing in consul and not in current or previous a cache rotation will be triggered
      * Returning None suggests the servers are extremely out of sync with each other or the connection to consul has
      * failed
-     **/
+     */
     def find(f: Secret => Boolean): Option[Secret] =
       cache.find(f)
-
-    def startconsul(a: Secrets): Unit ={
-      val n = SecretsEncoder.EncodeJson.encode(a)
-      consul.set(ConsulSecretsKey,n.nospaces)
-    }
 
   }
 
@@ -106,7 +101,7 @@ object SecretStores {
    *
    * @param poll How often in seconds to check for updates
    * @param consul An instance on ConsulConnection to make connections with the consul server
-   **/
+   */
   case class ConsulSecretCache(poll: Long, consul: ConsulClient) extends Runnable {
     val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(), Secret()))
     val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
@@ -114,7 +109,7 @@ object SecretStores {
     /**
      * Checks if the current secret is expired and if there is a new secret available and rotates the secrets.
      * Then returns the latest secret
-     **/
+     */
     def secrets: Secrets = {
       val s = cacheBuffer.last
       if (s.current.expired) rotateSecret
@@ -123,7 +118,7 @@ object SecretStores {
 
     /**
      * Checks if the secret is knows. Rotates if the secret is the new secret.
-     **/
+     */
     def find(f: Secret => Boolean): Option[Secret] = {
       val lastSecrets = cacheBuffer.last
 
@@ -136,7 +131,7 @@ object SecretStores {
     /**
      * Continuously poll the consul server at the interval passed to the Class when it was created
      * updates the store for a possibly new Secret to be used
-     **/
+     */
     def run(): Unit =
       while (true) {
         for {
@@ -163,7 +158,7 @@ object SecretStores {
 
     /**
      * Get the secret at current from the consul server or returns None
-     **/
+     */
     private def pollSecrets: Future[Option[Secrets]] =
       consul.value(ConsulSecretsKey).map({
         case Success(a) => secretsTryFromString(a).toOption
@@ -174,7 +169,7 @@ object SecretStores {
      * Returns a Try[Secret] from json as a [String]
      *
      * @param s A json string with information to create a Secret
-     **/
+     */
     private def secretsTryFromString(s: String): Try[Secrets] = {
       import scalaz._
       Parse.parse(s) match {
@@ -183,11 +178,14 @@ object SecretStores {
       }
     }
   }
+
+  /**
+   *Define functions for a ConsulClient connection. Used by the the ConsulConnection and MockConsulClient
+   */
   trait ConsulClient {
-    def value(k:String): Future[Try[String]]
-
-    def set(k:String, v: String): Future[httpx.Response]
-
+    def value(k: String): Future[Try[String]]
+    
+    def set(k: String, v: String): Future[httpx.Response]
   }
 
   /**
@@ -195,14 +193,15 @@ object SecretStores {
    *
    * @param consul Finagle server to send and get requests to the server
    * @param host host name of the consul server to connect to ex: "localhost"
-   **/
-  class ConsulConnection(consul: Service[httpx.Request, httpx.Response], host: String, port: String) extends ConsulClient {
+   */
+  class ConsulConnection(consul: Service[httpx.Request, httpx.Response], host: String, port: String)
+    extends ConsulClient {
 
     /**
      * Return a json String from a consul key URL
      *
      * @param k key to get a consul json response from
-     **/
+     */
     private def consulResponse(k: String): Future[Buf] = {
       val req = httpx.Request(httpx.Method.Get, k)
       req.host = host
@@ -219,7 +218,7 @@ object SecretStores {
      * use getConsulRepsonse
      *
      * @param key the key to get the value for
-     **/
+     */
     def value(key: String): Future[Try[String]] =
       consulResponse("/v1/kv/" + key) map { buf =>
         (for {
@@ -238,7 +237,7 @@ object SecretStores {
      *
      * @param k the key to set
      * @param v the value of the key
-     **/
+     */
     def set(k: String, v: String): Future[httpx.Response] = {
       val currentData = Buf.Utf8(v)
       val update: httpx.Request = httpx.RequestBuilder()
@@ -255,7 +254,7 @@ object SecretStores {
      * @param consulUrl the host name of the server
      * @param consulPort the port the kv store is listening on. Consul default is 8500
      * @param poll How often to check for updates on the consul server
-     **/
+     */
     def apply(consulUrl: String, consulPort: String, poll: Int): ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
@@ -266,7 +265,7 @@ object SecretStores {
 
   /**
    * Class to use for Argonaut json conversion
-   **/
+   */
   case class ConsulResponse(
                              flags: Int, modifyIndex: Int, value: String, lockIndex: Int, createIndex: Int, key: String)
 

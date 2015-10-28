@@ -8,9 +8,6 @@ class SecretStoresSpec extends BorderPatrolSuite {
   import sessionx.helpers.{secretStore => store, _}, secrets._
 
   behavior of "SecretStoreApi"
-  //set up
-  val consulConnection = helpers.MockConsulClient
-  val c = new ConsulSecretStore(consulConnection,10)
 
   it should "give the current and previous Secret" in {
     store.current shouldBe current
@@ -29,6 +26,10 @@ class SecretStoresSpec extends BorderPatrolSuite {
     store.find(_.id == current.id).value shouldBe current
     store.find(_.id == invalid.id) shouldBe None
   }
+
+  //set up
+  val consulConnection = helpers.MockConsulClient
+  val c = new ConsulSecretStore(consulConnection,10)
 
   it should "always return a secret" in {
     c.current should not be (null)

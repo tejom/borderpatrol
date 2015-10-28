@@ -1,11 +1,16 @@
 package com.lookout.borderpatrol.sessionx
 
+import com.lookout.borderpatrol.sessionx.SecretStores.ConsulSecretStore
 import com.lookout.borderpatrol.test._
+import com.lookout.borderpatrol.test.sessionx.helpers
 
 class SecretStoresSpec extends BorderPatrolSuite {
   import sessionx.helpers.{secretStore => store, _}, secrets._
 
   behavior of "SecretStoreApi"
+  //set up
+  val consulConnection = helpers.MockConsulClient
+  val c = new ConsulSecretStore(consulConnection,10)
 
   it should "give the current and previous Secret" in {
     store.current shouldBe current
@@ -23,5 +28,17 @@ class SecretStoresSpec extends BorderPatrolSuite {
     store.find(_.id == previous.id).value shouldBe previous
     store.find(_.id == current.id).value shouldBe current
     store.find(_.id == invalid.id) shouldBe None
+  }
+
+  it should "always return a secret" in {
+    c.current should not be (null)
+    c.previous should not be (null)
+  }
+
+  it should "rotate and return the current secret" in {
+    Thread.sleep(1000)//allows the polling function to start appending
+    c.current should( not be current)
+    c.find( _.id == current.id)
+    c.current shouldBe current
   }
 }

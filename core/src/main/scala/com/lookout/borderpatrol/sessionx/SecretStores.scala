@@ -60,14 +60,15 @@ object SecretStores {
   }
 
   /**
-   * A store to access the current and previous [[com.lookout.borderpatrol.sessionx.Secret]] stored in the consul server.
+   * A store to access the current and previous [[com.lookout.borderpatrol.sessionx.Secret]] stored in the consul
+   * server.
    * It will use a in memory cache before making a request to the server
    *
    * @param consul An instance of [[com.lookout.borderpatrol.sessionx.SecretStores.ConsulConnection]] to make requests
    *               to the consul server
    * @param poll How often in seconds to check for updated Secrets on the consul server
    **/
-  case class ConsulSecretStore(consul: ConsulConnection, poll: Int) extends SecretStoreApi {
+  case class ConsulSecretStore(consul: ConsulClient, poll: Long) extends SecretStoreApi {
     val cache = ConsulSecretCache(poll, consul)
     new Thread(cache).start()
 
@@ -92,6 +93,11 @@ object SecretStores {
     def find(f: Secret => Boolean): Option[Secret] =
       cache.find(f)
 
+    def startconsul(a: Secrets): Unit ={
+      val n = SecretsEncoder.EncodeJson.encode(a)
+      consul.set(ConsulSecretsKey,n.nospaces)
+    }
+
   }
 
   /**
@@ -101,7 +107,7 @@ object SecretStores {
    * @param poll How often in seconds to check for updates
    * @param consul An instance on ConsulConnection to make connections with the consul server
    **/
-  case class ConsulSecretCache(poll: Int, consul: ConsulConnection) extends Runnable {
+  case class ConsulSecretCache(poll: Long, consul: ConsulClient) extends Runnable {
     val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(), Secret()))
     val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
 
@@ -128,7 +134,7 @@ object SecretStores {
     }
 
     /**
-     * Continously poll the consul server at the interval passed to the Class when it was created
+     * Continuously poll the consul server at the interval passed to the Class when it was created
      * updates the store for a possibly new Secret to be used
      **/
     def run(): Unit =
@@ -139,7 +145,7 @@ object SecretStores {
           case Some(s) => newBuffer.append(s)
           case None => ()
         }
-        Thread.sleep(poll * 1000)
+        Thread.sleep(poll)
       }
 
     private def needsRotation: Boolean =
@@ -177,6 +183,12 @@ object SecretStores {
       }
     }
   }
+  trait ConsulClient {
+    def value(k:String): Future[Try[String]]
+
+    def set(k:String, v: String): Future[httpx.Response]
+
+  }
 
   /**
    * class to interface with consul kv store
@@ -184,7 +196,7 @@ object SecretStores {
    * @param consul Finagle server to send and get requests to the server
    * @param host host name of the consul server to connect to ex: "localhost"
    **/
-  class ConsulConnection(consul: Service[httpx.Request, httpx.Response], host: String, port: String) {
+  class ConsulConnection(consul: Service[httpx.Request, httpx.Response], host: String, port: String) extends ConsulClient {
 
     /**
      * Return a json String from a consul key URL
@@ -208,7 +220,7 @@ object SecretStores {
      *
      * @param key the key to get the value for
      **/
-    def value[A, B](key: String): Future[Try[String]] =
+    def value(key: String): Future[Try[String]] =
       consulResponse("/v1/kv/" + key) map { buf =>
         (for {
           body <- Buf.Utf8.unapply(buf)

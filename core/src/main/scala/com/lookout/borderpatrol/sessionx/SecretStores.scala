@@ -144,7 +144,7 @@ object SecretStores {
       }
 
     private def needsRotation: Boolean =
-      !newBuffer.isEmpty && newBuffer.last.current != cacheBuffer.last.current
+      newBuffer.nonEmpty && newBuffer.last.current != cacheBuffer.last.current
 
     private def rotateSecret: Secrets = {
       if (needsRotation) {

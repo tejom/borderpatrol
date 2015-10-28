@@ -44,9 +44,9 @@ class SecretStoresSpec extends BorderPatrolSuite {
   }
 
   it should "rotate when the secret is expiried" in {
-    val consulConnection = helpers.MockConsulClient
-    consulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(Secrets(current,previous)).nospaces)
-    val c = new ConsulSecretStore(consulConnection,10)
+    val newConsulConnection = helpers.MockConsulClient
+    newConsulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(Secrets(current,previous)).nospaces)
+    val c = new ConsulSecretStore(newConsulConnection,10)
     Thread.sleep(1000)//allows the polling function to start appending
     c.current shouldBe current
 

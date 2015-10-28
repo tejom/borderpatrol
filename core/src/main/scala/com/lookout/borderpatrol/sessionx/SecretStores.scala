@@ -103,7 +103,7 @@ object SecretStores {
    * @param consul An instance on ConsulConnection to make connections with the consul server
    */
   case class ConsulSecretCache(poll: Long, consul: ConsulClient) extends Runnable {
-    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(), Secret()))
+    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(Time.fromMilliseconds(0)), Secret()))
     val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
 
     /**
@@ -144,7 +144,7 @@ object SecretStores {
       }
 
     private def needsRotation: Boolean =
-      newBuffer.last.current != cacheBuffer.last.current
+      !newBuffer.isEmpty && newBuffer.last.current != cacheBuffer.last.current
 
     private def rotateSecret: Secrets = {
       if (needsRotation) {

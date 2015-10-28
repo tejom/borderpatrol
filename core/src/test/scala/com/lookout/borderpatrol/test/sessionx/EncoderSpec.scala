@@ -73,7 +73,7 @@ class EncoderSpec extends BorderPatrolSuite {
 
   behavior of "SecretsEncoder"
 
-  it should "Encoded then decoded Secrets should be the same" in {
+  it should "Encode then decode Secrets and they should be the same" in {
     val a1 = Secret()
     val b1 = Secret()
     val c = SecretsEncoder.EncodeJson.encode(Secrets(a1,b1))

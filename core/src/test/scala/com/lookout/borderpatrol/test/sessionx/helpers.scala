@@ -43,7 +43,7 @@ object helpers {
 
   object MockConsulClient extends ConsulClient {
     val mockRemote = collection.mutable.HashMap.empty[String,String]
-    mockRemote+=("secretStore/secrets" -> SecretsEncoder.EncodeJson.encode(secrets.secrets).nospaces)
+    //mockRemote+=("secretStore/secrets" -> SecretsEncoder.EncodeJson.encode(secrets.secrets).nospaces)
 
     override def value(key: String): Future[Try[String]] =
       Future.value(Success(mockRemote(key)))

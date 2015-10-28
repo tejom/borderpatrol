@@ -29,6 +29,7 @@ class SecretStoresSpec extends BorderPatrolSuite {
 
   //set up
   val consulConnection = helpers.MockConsulClient
+  consulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(helpers.secrets.secrets).nospaces)
   val c = new ConsulSecretStore(consulConnection,10)
 
   it should "always return a secret" in {
@@ -38,8 +39,16 @@ class SecretStoresSpec extends BorderPatrolSuite {
 
   it should "rotate and return the current secret" in {
     Thread.sleep(1000)//allows the polling function to start appending
-    c.current should( not be current)
     c.find( _.id == current.id)
     c.current shouldBe current
+  }
+
+  it should "rotate when the secret is expiried" in {
+    val consulConnection = helpers.MockConsulClient
+    consulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(Secrets(current,previous)).nospaces)
+    val c = new ConsulSecretStore(consulConnection,10)
+    Thread.sleep(1000)//allows the polling function to start appending
+    c.current shouldBe current
+
   }
 }

@@ -184,7 +184,7 @@ object SecretStores {
    */
   trait ConsulClient {
     def value(k: String): Future[Try[String]]
-    
+
     def set(k: String, v: String): Future[httpx.Response]
   }
 

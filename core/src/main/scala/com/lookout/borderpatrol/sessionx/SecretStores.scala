@@ -68,8 +68,8 @@ object SecretStores {
    *               to the consul server
    * @param poll How often in seconds to check for updated Secrets on the consul server
    */
-  case class ConsulSecretStore(consul: ConsulClient, poll: Long) extends SecretStoreApi {
-    val cache = ConsulSecretCache(poll, consul)
+  case class ConsulSecretStore(consul: ConsulClient, poll: Long, secretsStart: Secrets) extends SecretStoreApi {
+    val cache = ConsulSecretCache(poll, consul, secretsStart)
     new Thread(cache).start()
 
     /**
@@ -102,8 +102,8 @@ object SecretStores {
    * @param poll How often in seconds to check for updates
    * @param consul An instance on ConsulConnection to make connections with the consul server
    */
-  case class ConsulSecretCache(poll: Long, consul: ConsulClient) extends Runnable {
-    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( Secrets(Secret(Time.fromMilliseconds(0)), Secret()))
+  case class ConsulSecretCache(poll: Long, consul: ConsulClient, secretsStart: Secrets) extends Runnable {
+    val cacheBuffer = collection.mutable.ArrayBuffer[Secrets]( secretsStart)
     val newBuffer = collection.mutable.ArrayBuffer[Secrets]()
 
     /**
@@ -259,7 +259,22 @@ object SecretStores {
       val apiUrl = s"$consulUrl:$consulPort"
       val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
       val consulConnection = new ConsulConnection(client, consulUrl, consulPort)
-      new ConsulSecretStore(consulConnection, poll)
+      val secretsDefault = Secrets(Secret(Time.fromMilliseconds(0)), Secret())
+      new ConsulSecretStore(consulConnection, poll,secretsDefault)
+    }
+    /**
+     * A constructor to define the starting secrets. Create a ConsulSecretStore to use.
+     *
+     * @param consulUrl the host name of the server
+     * @param consulPort the port the kv store is listening on. Consul default is 8500
+     * @param poll How often to check for updates on the consul server
+     * @param secrets Initial secrets in the cache
+     */
+    def apply(consulUrl: String, consulPort: String, poll: Int, secrets: Secrets): ConsulSecretStore = {
+      val apiUrl = s"$consulUrl:$consulPort"
+      val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
+      val consulConnection = new ConsulConnection(client, consulUrl, consulPort)
+      new ConsulSecretStore(consulConnection, poll, secrets)
     }
   }
 

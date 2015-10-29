@@ -3,7 +3,6 @@ package com.lookout.borderpatrol.test.sessionx
 import com.lookout.borderpatrol.sessionx.SecretStores.{ConsulClient, ConsulConnection, InMemorySecretStore}
 import com.twitter.util.{Future, Await, Time}
 import com.twitter.finagle.{Httpx, httpx, Service}
-import org.jboss.netty.handler.codec.http.HttpResponse
 
 import scala.util.{Success, Try}
 
@@ -43,7 +42,6 @@ object helpers {
 
   object MockConsulClient extends ConsulClient {
     val mockRemote = collection.mutable.HashMap.empty[String,String]
-    //mockRemote+=("secretStore/secrets" -> SecretsEncoder.EncodeJson.encode(secrets.secrets).nospaces)
 
     override def value(key: String): Future[Try[String]] =
       Future.value(Success(mockRemote(key)))

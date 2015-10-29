@@ -257,10 +257,10 @@ object SecretStores {
      */
     def apply(consulUrl: String, consulPort: String, poll: Int): ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
-      val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
+      val client = Httpx.newService(apiUrl)
       val consulConnection = new ConsulConnection(client, consulUrl, consulPort)
       val secretsDefault = Secrets(Secret(Time.fromMilliseconds(0)), Secret())
-      new ConsulSecretStore(consulConnection, poll,secretsDefault)
+      new ConsulSecretStore(consulConnection, poll, secretsDefault)
     }
     /**
      * A constructor to define the starting secrets. Create a ConsulSecretStore to use.
@@ -272,7 +272,7 @@ object SecretStores {
      */
     def apply(consulUrl: String, consulPort: String, poll: Int, secrets: Secrets): ConsulSecretStore = {
       val apiUrl = s"$consulUrl:$consulPort"
-      val client: Service[httpx.Request, httpx.Response] = Httpx.newService(apiUrl)
+      val client = Httpx.newService(apiUrl)
       val consulConnection = new ConsulConnection(client, consulUrl, consulPort)
       new ConsulSecretStore(consulConnection, poll, secrets)
     }

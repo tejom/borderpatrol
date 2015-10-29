@@ -27,28 +27,29 @@ class SecretStoresSpec extends BorderPatrolSuite {
     store.find(_.id == invalid.id) shouldBe None
   }
 
-  //set up
-  val consulConnection = helpers.MockConsulClient
-  consulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(helpers.secrets.secrets).nospaces)
-  val c = new ConsulSecretStore(consulConnection,10)
-
+  val secretsJsonString = SecretsEncoder.EncodeJson.encode(helpers.secrets.secrets).nospaces
   it should "always return a secret" in {
-    c.current should not be (null)
-    c.previous should not be (null)
+    val consulConnection = helpers.MockConsulClient
+    consulConnection.set("secretStore/secrets",secretsJsonString)
+    val c = new ConsulSecretStore(consulConnection,10,helpers.secrets.secrets)
+    c.current should not be null
+    c.previous should not be null
   }
 
-  it should "rotate and return the current secret" in {
+  it should "rotate and return the current secret after finding a new current secret" in {
+    val newConsulConnection = helpers.MockConsulClient
+    newConsulConnection.set("secretStore/secrets",secretsJsonString)
+    val c = new ConsulSecretStore(newConsulConnection,10,Secrets(previous,previous))
     Thread.sleep(1000)//allows the polling function to start appending
     c.find( _.id == current.id)
     c.current shouldBe current
   }
 
-  it should "rotate when the secret is expiried" in {
+  it should "rotate when the secret is expired" in {
     val newConsulConnection = helpers.MockConsulClient
-    newConsulConnection.set("secretStore/secrets",SecretsEncoder.EncodeJson.encode(Secrets(current,previous)).nospaces)
-    val c = new ConsulSecretStore(newConsulConnection,10)
+    newConsulConnection.set("secretStore/secrets",secretsJsonString)
+    val c = new ConsulSecretStore(newConsulConnection,10,Secrets(previous,previous))
     Thread.sleep(1000)//allows the polling function to start appending
     c.current shouldBe current
-
   }
 }

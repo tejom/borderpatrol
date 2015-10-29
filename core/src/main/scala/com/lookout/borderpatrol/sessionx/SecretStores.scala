@@ -180,7 +180,7 @@ object SecretStores {
   }
 
   /**
-   *Define functions for a ConsulClient connection. Used by the the ConsulConnection and MockConsulClient
+   * Define functions for a ConsulClient connection. Used by the the ConsulConnection and MockConsulClient
    */
   trait ConsulClient {
     def value(k: String): Future[Try[String]]
@@ -262,6 +262,7 @@ object SecretStores {
       val secretsDefault = Secrets(Secret(Time.fromMilliseconds(0)), Secret())
       new ConsulSecretStore(consulConnection, poll, secretsDefault)
     }
+
     /**
      * A constructor to define the starting secrets. Create a ConsulSecretStore to use.
      *

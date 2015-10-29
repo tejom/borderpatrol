@@ -41,13 +41,13 @@ object helpers {
    }
 
   object MockConsulClient extends ConsulClient {
-    val mockRemote = collection.mutable.HashMap.empty[String,String]
+    val mockRemote = collection.mutable.HashMap.empty[String, String]
 
     override def value(key: String): Future[Try[String]] =
       Future.value(Success(mockRemote(key)))
 
     override def set(k: String, v: String): Future[httpx.Response] = {
-      mockRemote+=(k -> v)
+      mockRemote += (k -> v)
       Future.value(httpx.Response(httpx.Status.Ok))
     }
 

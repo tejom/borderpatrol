@@ -1,7 +1,10 @@
 package com.lookout.borderpatrol.test.sessionx
 
-import com.lookout.borderpatrol.sessionx.SecretStores.InMemorySecretStore
-import com.twitter.util.{Await, Time}
+import com.lookout.borderpatrol.sessionx.SecretStores.{ConsulClient, ConsulConnection, InMemorySecretStore}
+import com.twitter.util.{Future, Await, Time}
+import com.twitter.finagle.{Httpx, httpx, Service}
+
+import scala.util.{Success, Try}
 
 object helpers {
   import com.lookout.borderpatrol.sessionx._
@@ -36,4 +39,17 @@ object helpers {
      def create[A](a: A): Session[A] =
        Session(sessionid.next, a)
    }
+
+  object MockConsulClient extends ConsulClient {
+    val mockRemote = collection.mutable.HashMap.empty[String, String]
+
+    override def value(key: String): Future[Try[String]] =
+      Future.value(Success(mockRemote(key)))
+
+    override def set(k: String, v: String): Future[httpx.Response] = {
+      mockRemote += (k -> v)
+      Future.value(httpx.Response(httpx.Status.Ok))
+    }
+
+  }
  }
